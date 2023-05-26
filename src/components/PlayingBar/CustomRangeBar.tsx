@@ -6,15 +6,17 @@ interface CustomRangeBarProps {
   id: string;
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function CustomRangeBar({
   id,
   progress,
   setProgress,
+  isDragging,
+  setIsDragging,
 }: CustomRangeBarProps) {
-  const [isDragging, setIsDragging] = useState(false);
-
   const handleBarUpdate = (e: MouseEvent, container: HTMLDivElement) => {
     e.preventDefault();
     if ((e.buttons & 1) !== 1) return; //if not left mouse

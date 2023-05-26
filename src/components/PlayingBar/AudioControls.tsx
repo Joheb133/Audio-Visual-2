@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import { FiVolumeX, FiVolume1, FiVolume2 } from "react-icons/fi";
 //audio controls located right side of bar
@@ -6,6 +6,8 @@ import { FiVolumeX, FiVolume1, FiVolume2 } from "react-icons/fi";
 export default function AudioControls() {
   const id = "volume";
   const [volume, setVolume] = useState(0.5);
+  const [volumeSave, setVolumeSave] = useState(volume);
+  const [isDragging, setIsDragging] = useState(false);
 
   let icon;
   if (volume === 0) {
@@ -16,18 +18,28 @@ export default function AudioControls() {
     icon = <FiVolume2 size="22" />;
   }
 
+  useEffect(() => {
+    if (volume !== 0 && !isDragging) setVolumeSave(volume);
+  }, [volume, isDragging]);
+
   return (
     <div className="flex justify-end flex-grow min-w-[200px] w-1/3">
       <div className="flex justify-end items-center w-40">
         <button
           className="cursor-default opacity-50 hover:opacity-100 hover:scale-105"
           onClick={() => {
-            setVolume(0);
+            volume === 0 ? setVolume(volumeSave) : setVolume(0);
           }}
         >
           {icon}
         </button>
-        <CustomRangeBar id={id} progress={volume} setProgress={setVolume} />
+        <CustomRangeBar
+          id={id}
+          progress={volume}
+          setProgress={setVolume}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
+        />
       </div>
     </div>
   );

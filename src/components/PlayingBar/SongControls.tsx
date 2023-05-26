@@ -8,6 +8,7 @@ import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
 export default function SongControls() {
   const id = "playback";
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [playback, setPlayback] = useState(0);
 
   return (
@@ -28,7 +29,13 @@ export default function SongControls() {
           <BsFillSkipEndFill size="24" />
         </button>
       </div>
-      <CustomRangeBar id={id} progress={playback} setProgress={setPlayback} />
+      <CustomRangeBar
+        id={id}
+        progress={playback}
+        setProgress={setPlayback}
+        isDragging={isDragging}
+        setIsDragging={setIsDragging}
+      />
     </div>
   );
 }

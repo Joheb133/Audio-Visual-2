@@ -5,7 +5,11 @@ import { FiVolumeX, FiVolume1, FiVolume2 } from "react-icons/fi";
 
 export default function AudioControls() {
   const id = "volume";
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(() => {
+    //check for save volume default to 0.35
+    const storedVolume = localStorage.getItem("volume");
+    return storedVolume ? parseFloat(storedVolume) : 0.35;
+  });
   const [volumeSave, setVolumeSave] = useState(volume);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -19,7 +23,10 @@ export default function AudioControls() {
   }
 
   useEffect(() => {
-    if (volume !== 0 && !isDragging) setVolumeSave(volume);
+    if (volume !== 0 && !isDragging) {
+      setVolumeSave(volume);
+      localStorage.setItem("volume", volume.toString());
+    }
   }, [volume, isDragging]);
 
   return (

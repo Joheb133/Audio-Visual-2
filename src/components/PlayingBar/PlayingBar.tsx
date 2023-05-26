@@ -6,8 +6,8 @@ import AudioControls from "./AudioControls";
 
 export default function PlayingBar() {
   return (
-    <div className="fixed bottom-0 w-screen h-fit bg-neutral-900">
-      <div className="flex m-2 text-white items-center">
+    <div className="flex items-center justify-center fixed bottom-0 w-screen h-20 bg-neutral-900">
+      <div className="flex text-white w-full">
         <SongInfo />
         <SongControls />
         <AudioControls />

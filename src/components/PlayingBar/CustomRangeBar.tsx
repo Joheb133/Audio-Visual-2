@@ -57,7 +57,7 @@ export default function CustomRangeBar({ id }: CustomRangeBarProps) {
       >
         <div className="absolute top-[50%] translate-y-[-50%] bg-neutral-400 rounded-md h-1 w-full overflow-hidden">
           <div
-            className="bg-purple-50 h-1 rounded-md"
+            className="bg-neutral-400-50 h-1 rounded-md"
             style={{ transform: `translateX(${(-1 + progress) * 100}%)` }}
           />
         </div>

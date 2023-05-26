@@ -4,10 +4,15 @@ import { useState, useEffect } from "react";
 
 interface CustomRangeBarProps {
   id: string;
+  progress: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CustomRangeBar({ id }: CustomRangeBarProps) {
-  const [progress, setProgress] = useState(0);
+export default function CustomRangeBar({
+  id,
+  progress,
+  setProgress,
+}: CustomRangeBarProps) {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleBarUpdate = (e: MouseEvent, container: HTMLDivElement) => {
@@ -48,7 +53,6 @@ export default function CustomRangeBar({ id }: CustomRangeBarProps) {
   return (
     <>
       <div
-        data-progress={progress}
         className={`custom-range-bar-${id} relative w-full h-4 mx-2 group`}
         onMouseDown={(e) => {
           setIsDragging(true);
@@ -57,7 +61,7 @@ export default function CustomRangeBar({ id }: CustomRangeBarProps) {
       >
         <div className="absolute top-[50%] translate-y-[-50%] bg-neutral-400 rounded-md h-1 w-full overflow-hidden">
           <div
-            className="bg-neutral-400-50 h-1 rounded-md"
+            className="bg-purple-600 h-1 rounded-md"
             style={{ transform: `translateX(${(-1 + progress) * 100}%)` }}
           />
         </div>

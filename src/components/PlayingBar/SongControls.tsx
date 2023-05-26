@@ -6,11 +6,13 @@ import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
 //playback/progress song controls
 
 export default function SongControls() {
+  const id = "playback";
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playback, setPlayback] = useState(0);
 
   return (
     <div className="flex flex-col items-center justify-center min-w-[300px] max-w-[600px] w-2/5">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mb-2">
         <button className="cursor-default opacity-70 hover:opacity-100">
           <BsFillSkipStartFill size="24" />
         </button>
@@ -26,7 +28,7 @@ export default function SongControls() {
           <BsFillSkipEndFill size="24" />
         </button>
       </div>
-      <CustomRangeBar id="playback" />
+      <CustomRangeBar id={id} progress={playback} setProgress={setPlayback} />
     </div>
   );
 }

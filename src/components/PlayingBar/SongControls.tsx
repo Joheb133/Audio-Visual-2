@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";

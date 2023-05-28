@@ -9,6 +9,7 @@ import { AudioSettingsProp } from "../../App";
 interface PlayingBarProp {
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  audioSettings: AudioSettingsProp | null;
 }
 
 export default function PlayingBar({

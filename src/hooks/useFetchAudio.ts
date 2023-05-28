@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 
 export default function useFetchAudio(url: string) {
-    const [data, setData] = useState<any | null>(null);
+    const [audioData, setAudioData] = useState<any | null>(null);
     const [error, setError] = useState(null);
     const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
+        const audioCtx = new AudioContext()
         const abortCtrl = new AbortController();
 
         fetch(url, { signal: abortCtrl.signal })
@@ -13,8 +14,11 @@ export default function useFetchAudio(url: string) {
                 if (!res.ok) throw Error("Failed to fetch data")
                 return res.arrayBuffer()
             })
-            .then(data => {
-                setData(data)
+            .then((arrayBuffer) => audioCtx.decodeAudioData(arrayBuffer), (error) => {
+                console.log('Error couldnt decode audio', error)
+            })
+            .then(audioBuffer => {
+                setAudioData(audioBuffer)
                 setIsPending(false)
                 setError(null)
             })
@@ -25,8 +29,11 @@ export default function useFetchAudio(url: string) {
                 }
             })
 
-        return () => abortCtrl.abort()
+        return () => {
+            abortCtrl.abort()
+            audioCtx.close()
+        }
     }, [url])
 
-    return { data, error, isPending }
+    return { audioData, error, isPending }
 }

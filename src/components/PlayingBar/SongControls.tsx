@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
 
 //playback/progress song controls
 
-export default function SongControls() {
+interface SongControlsProp {
+  isPlaying: boolean;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function SongControls({
+  isPlaying,
+  setIsPlaying,
+}: SongControlsProp) {
   const id = "playback";
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [playback, setPlayback] = useState(0);
 

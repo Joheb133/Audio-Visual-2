@@ -3,7 +3,11 @@ import CustomRangeBar from "./CustomRangeBar";
 import { FiVolumeX, FiVolume1, FiVolume2 } from "react-icons/fi";
 //audio controls located right side of bar
 
-export default function AudioControls() {
+interface AudioControlsProps {
+  volumeControls: GainNode | undefined;
+}
+
+export default function AudioControls({ volumeControls }: AudioControlsProps) {
   const id = "volume";
   const [volume, setVolume] = useState(() => {
     //check for save volume default to 0.35
@@ -27,7 +31,13 @@ export default function AudioControls() {
       setVolumeSave(volume);
       localStorage.setItem("volume", volume.toString());
     }
-  }, [volume, isDragging]);
+  }, [isDragging]);
+
+  useEffect(() => {
+    if (volumeControls) {
+      volumeControls.gain.value = volume;
+    }
+  }, [volume, volumeControls]);
 
   return (
     <div className="flex justify-end flex-grow min-w-[200px] w-1/3">

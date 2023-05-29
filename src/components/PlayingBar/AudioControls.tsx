@@ -10,13 +10,15 @@ interface AudioControlsProps {
 export default function AudioControls({ volumeControls }: AudioControlsProps) {
   const id = "volume";
   const [volume, setVolume] = useState(() => {
-    //check for save volume default to 0.35
+    //check for save volume, default to 0.35
     const storedVolume = localStorage.getItem("volume");
     return storedVolume ? parseFloat(storedVolume) : 0.35;
   });
   const [volumeSave, setVolumeSave] = useState(volume);
   const [isDragging, setIsDragging] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
+  //set volume icon
   let icon;
   if (volume === 0) {
     icon = <FiVolumeX size="22" />;
@@ -26,6 +28,8 @@ export default function AudioControls({ volumeControls }: AudioControlsProps) {
     icon = <FiVolume2 size="22" />;
   }
 
+  //set & save volume value before dragging
+  //if user drags to 0 unmuting will use save value
   useEffect(() => {
     if (volume !== 0 && !isDragging) {
       setVolumeSave(volume);
@@ -33,6 +37,7 @@ export default function AudioControls({ volumeControls }: AudioControlsProps) {
     }
   }, [isDragging]);
 
+  //change gain
   useEffect(() => {
     if (volumeControls) {
       volumeControls.gain.value = volume;
@@ -43,10 +48,15 @@ export default function AudioControls({ volumeControls }: AudioControlsProps) {
     <div className="flex justify-end flex-grow min-w-[200px] w-1/3">
       <div className="flex justify-end items-center w-40">
         <button
-          className="cursor-default opacity-50 hover:opacity-100 hover:scale-105"
-          onClick={() => {
+          className={`${
+            isClicked ? "" : "hover:opacity-100"
+          } cursor-default opacity-50`}
+          onMouseDown={() => setIsClicked(true)}
+          onMouseUp={() => {
+            setIsClicked(false);
             volume === 0 ? setVolume(volumeSave) : setVolume(0);
           }}
+          onMouseLeave={() => setIsClicked(false)}
         >
           {icon}
         </button>

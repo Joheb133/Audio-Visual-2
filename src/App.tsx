@@ -18,7 +18,7 @@ export default function App() {
   );
   const { audioData } = useFetchAudio(audioList[queueIndex]);
 
-  // //init web audio API stuff
+  //init web audio API stuff
   useEffect(() => {
     const audioCtx = new AudioContext();
     audioCtx.suspend();
@@ -29,7 +29,7 @@ export default function App() {
     setAudioSettings({ audioCtx, gainNode });
   }, []);
 
-  // //decode audio when given data
+  //decode audio when given data
   useEffect(() => {
     if (!audioData || !audioSettings) return;
 
@@ -43,13 +43,16 @@ export default function App() {
     //setup new AudioBufferSourceNode
     const source = audioCtx.createBufferSource();
     source.connect(gainNode);
+
+    //start audio
+    source.buffer = audioData;
+    source.start(audioCtx.currentTime, 0, audioData.duration);
+
+    //store source reference
     setAudioSettings((prevSettings) => ({
       ...(prevSettings as AudioSettingsProp),
       source: source,
     }));
-
-    source.buffer = audioData;
-    source.start(audioCtx.currentTime, 0, audioData.duration);
   }, [audioData]);
 
   //listen for playing

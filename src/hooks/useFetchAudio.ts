@@ -35,7 +35,7 @@ export default function useFetchAudio(url: string) {
             abortCtrl.abort()
             audioCtx.close()
         }
-    }, [])
+    }, [url])
 
     return { audioData, error, isPending }
 }

@@ -19,29 +19,25 @@ export default function App() {
   const [isUserGesture, setIsUserGesture] = useState(false);
   const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
 
-  //init web audio API stuff
-  useEffect(() => {
-    if (!isUserGesture) return;
-    const audioCtx = new AudioContext();
-    audioCtx.suspend();
-    const gainNode = audioCtx.createGain();
-
-    gainNode.connect(audioCtx.destination);
-
-    setAudioSettings({ audioCtx, gainNode });
-  }, [isUserGesture]);
-
   //listen for user gesture
   useEffect(() => {
     const handlePointerEvent = () => {
       setIsUserGesture(true);
+      //init web audio API stuff
+      const audioCtx = new AudioContext();
+      audioCtx.suspend();
+      const gainNode = audioCtx.createGain();
+
+      gainNode.connect(audioCtx.destination);
+
+      setAudioSettings({ audioCtx, gainNode });
       window.removeEventListener("pointerdown", handlePointerEvent, true);
     };
 
     window.addEventListener("pointerdown", handlePointerEvent, true);
   }, []);
 
-  //decode audio when given data
+  //set audio source when given data
   useEffect(() => {
     if (!audioData || !audioSettings) return;
 

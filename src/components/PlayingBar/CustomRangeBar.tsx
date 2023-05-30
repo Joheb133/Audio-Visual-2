@@ -17,6 +17,7 @@ export default function CustomRangeBar({
   isDragging,
   setIsDragging,
 }: CustomRangeBarProps) {
+  //handle moving bar
   const handleBarUpdate = (e: MouseEvent, container: HTMLDivElement) => {
     e.preventDefault();
     if ((e.buttons & 1) !== 1) return; //if not left mouse
@@ -30,6 +31,7 @@ export default function CustomRangeBar({
     );
   };
 
+  //listen for dragging bar
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
@@ -61,12 +63,14 @@ export default function CustomRangeBar({
           handleBarUpdate(e.nativeEvent, e.currentTarget as HTMLDivElement);
         }}
       >
+        {/* Grey & purple bar */}
         <div className="absolute top-[50%] translate-y-[-50%] bg-neutral-400 rounded-md h-1 w-full overflow-hidden">
           <div
             className="bg-purple-600 h-1 rounded-md"
             style={{ transform: `translateX(${(-1 + progress) * 100}%)` }}
           />
         </div>
+        {/* Circle */}
         <div
           className={`thumb-indicator absolute top-[50%] left-0 bg-purple-900 rounded-full w-2 h-2 scale-0 translate-x-[-50%]
         translate-y-[-50%] group-hover:scale-150 ${

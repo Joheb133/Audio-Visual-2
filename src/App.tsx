@@ -16,10 +16,12 @@ export default function App() {
   const [audioSettings, setAudioSettings] = useState<AudioSettingsProp | null>(
     null
   );
-  const { audioData } = useFetchAudio(audioList[queueIndex]);
+  const [isUserGesture, setIsUserGesture] = useState(false);
+  const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
 
   //init web audio API stuff
   useEffect(() => {
+    if (!isUserGesture) return;
     const audioCtx = new AudioContext();
     audioCtx.suspend();
     const gainNode = audioCtx.createGain();
@@ -27,6 +29,16 @@ export default function App() {
     gainNode.connect(audioCtx.destination);
 
     setAudioSettings({ audioCtx, gainNode });
+  }, [isUserGesture]);
+
+  //listen for user gesture
+  useEffect(() => {
+    const handlePointerEvent = () => {
+      setIsUserGesture(true);
+      window.removeEventListener("pointerdown", handlePointerEvent, true);
+    };
+
+    window.addEventListener("pointerdown", handlePointerEvent, true);
   }, []);
 
   //decode audio when given data
@@ -57,7 +69,7 @@ export default function App() {
 
   //listen for playing
   useEffect(() => {
-    if (!audioSettings?.audioCtx) return;
+    if (!audioSettings?.audioCtx || !audioSettings.source) return;
 
     isPlaying
       ? audioSettings.audioCtx.resume()
@@ -66,14 +78,12 @@ export default function App() {
 
   return (
     <>
-      {
-        <PlayingBar
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          setQueueIndex={setQueueIndex}
-          audioSettings={audioSettings}
-        />
-      }
+      <PlayingBar
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        setQueueIndex={setQueueIndex}
+        audioSettings={audioSettings}
+      />
     </>
   );
 }

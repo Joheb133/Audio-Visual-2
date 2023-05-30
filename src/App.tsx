@@ -79,8 +79,7 @@ export default function App() {
   return (
     <>
       <PlayingBar
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
+        {...{ isPlaying, setIsPlaying }}
         setQueueIndex={setQueueIndex}
         audioSettings={audioSettings}
       />

@@ -7,12 +7,16 @@ import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
 
 interface SongControlsProp {
   isPlaying: boolean;
+  isAudioContext: AudioContext | undefined;
+  isSource: AudioBufferSourceNode | undefined;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SongControls({
   isPlaying,
+  isAudioContext,
+  isSource,
   setIsPlaying,
   setQueueIndex,
 }: SongControlsProp) {
@@ -34,6 +38,7 @@ export default function SongControls({
           onMouseDown={() => setIsClickedPrev(true)}
           onMouseUp={() => {
             setIsClickedPrev(false);
+            if (!isAudioContext || !isSource) return;
             setQueueIndex((currentIndex) => currentIndex - 1);
           }}
           onMouseLeave={() => setIsClickedPrev(false)}
@@ -49,6 +54,7 @@ export default function SongControls({
           onMouseDown={() => setIsClickedPlayPause(true)}
           onMouseUp={() => {
             setIsClickedPlayPause(false);
+            if (!isAudioContext || !isSource) return;
             setIsPlaying(!isPlaying);
           }}
           onMouseLeave={() => setIsClickedPlayPause(false)}
@@ -64,6 +70,7 @@ export default function SongControls({
           onMouseDown={() => setIsClickedNext(true)}
           onMouseUp={() => {
             setIsClickedNext(false);
+            if (!isAudioContext || !isSource) return;
             setQueueIndex((currentIndex) => currentIndex + 1);
           }}
           onMouseLeave={() => setIsClickedNext(false)}

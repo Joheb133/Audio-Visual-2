@@ -24,9 +24,10 @@ export default function PlayingBar({
       <div className="flex text-white w-full">
         <SongInfo />
         <SongControls
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
+          {...{ isPlaying, setIsPlaying }}
           setQueueIndex={setQueueIndex}
+          isAudioContext={audioSettings?.audioCtx}
+          isSource={audioSettings?.source}
         />
         <AudioControls volumeControls={audioSettings?.gainNode} />
       </div>

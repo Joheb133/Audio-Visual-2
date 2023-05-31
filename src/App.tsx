@@ -18,6 +18,7 @@ export default function App() {
   );
   const [isUserGesture, setIsUserGesture] = useState(false);
   const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
+  const [songDuration, setSongDuration] = useState(undefined);
 
   //listen for user gesture
   useEffect(() => {
@@ -48,6 +49,9 @@ export default function App() {
       oldSource.stop();
     }
 
+    //store song duration
+    setSongDuration(audioData.duration);
+
     //setup new AudioBufferSourceNode
     const source = audioCtx.createBufferSource();
     source.connect(gainNode);
@@ -72,12 +76,15 @@ export default function App() {
       : audioSettings.audioCtx.suspend();
   }, [isPlaying]);
 
+  //track time elapsed
+
   return (
     <>
       <PlayingBar
         {...{ isPlaying, setIsPlaying }}
         setQueueIndex={setQueueIndex}
         audioSettings={audioSettings}
+        songDuration={songDuration}
       />
     </>
   );

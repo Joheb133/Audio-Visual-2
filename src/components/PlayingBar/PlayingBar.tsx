@@ -11,6 +11,7 @@ interface PlayingBarProp {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
   audioSettings: AudioSettingsProp | null;
+  songDuration: number | undefined;
 }
 
 export default function PlayingBar({
@@ -18,6 +19,7 @@ export default function PlayingBar({
   setIsPlaying,
   setQueueIndex,
   audioSettings,
+  songDuration,
 }: PlayingBarProp) {
   return (
     <div className="flex items-center justify-center fixed bottom-0 w-screen h-20 bg-neutral-900">
@@ -27,6 +29,7 @@ export default function PlayingBar({
           {...{ isPlaying, setIsPlaying }}
           setQueueIndex={setQueueIndex}
           audioSettings={audioSettings}
+          songDuration={songDuration}
         />
         <AudioControls volumeControls={audioSettings?.gainNode} />
       </div>

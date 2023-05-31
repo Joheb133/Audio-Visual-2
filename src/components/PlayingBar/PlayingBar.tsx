@@ -26,8 +26,7 @@ export default function PlayingBar({
         <SongControls
           {...{ isPlaying, setIsPlaying }}
           setQueueIndex={setQueueIndex}
-          isAudioContext={audioSettings?.audioCtx}
-          isSource={audioSettings?.source}
+          audioSettings={audioSettings}
         />
         <AudioControls volumeControls={audioSettings?.gainNode} />
       </div>

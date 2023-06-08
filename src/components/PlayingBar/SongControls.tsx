@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import SongControlsButtons from "./SongControlsButtons";
 import { AudioSettingsProp } from "../../App";
@@ -10,7 +10,8 @@ interface SongControlsProp {
   audioSettings: AudioSettingsProp | null;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
-  songDuration: number | undefined;
+  songDuration: number;
+  songCurrentTime: number;
 }
 
 export default function SongControls({
@@ -19,6 +20,7 @@ export default function SongControls({
   setIsPlaying,
   setQueueIndex,
   songDuration,
+  songCurrentTime,
 }: SongControlsProp) {
   const id = "playback";
   const [isDragging, setIsDragging] = useState(false);
@@ -28,21 +30,25 @@ export default function SongControls({
 
   //temp set song time
   useEffect(() => {
-    if (!songDuration) return;
+    if (songDuration === 0) return;
     setSongTimeEl(0);
   }, [songDuration]);
 
   //update seeking bar
-  useEffect(() => {
-    if (songTimeEl === undefined || songDuration === undefined) return;
-    setPlayback(Math.floor(songTime / songDuration));
-  }, [songTime]);
+  // useEffect(() => {
+  //   if (songTimeEl === undefined || songDuration === 0) return;
+  //   setPlayback(Math.floor(songTime / songDuration));
+  // }, [songTime]);
 
   //update song time element
   useEffect(() => {
-    if (!songDuration) return;
+    if (songDuration === 0) return;
     setSongTimeEl(playback * songDuration);
   }, [playback]);
+
+  useEffect(() => {
+    setSongTimeEl(songCurrentTime);
+  }, [songCurrentTime]);
 
   //format seconds to 0:00
   function formatSeconds(seconds: number) {
@@ -70,14 +76,13 @@ export default function SongControls({
         </span>
         <CustomRangeBar
           id={id}
+          roundTo={songDuration !== undefined ? Math.floor(songDuration) : 0}
           progress={playback}
           setProgress={setPlayback}
           isDragging={isDragging}
           setIsDragging={setIsDragging}
         />
-        <span>
-          {songDuration !== undefined ? formatSeconds(songDuration) : "-:--"}
-        </span>
+        <span>{songDuration !== 0 ? formatSeconds(songDuration) : "-:--"}</span>
       </div>
     </div>
   );

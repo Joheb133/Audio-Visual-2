@@ -62,6 +62,7 @@ export default function AudioControls({ volumeControls }: AudioControlsProps) {
         </button>
         <CustomRangeBar
           id={id}
+          roundTo={2}
           progress={volume}
           setProgress={setVolume}
           isDragging={isDragging}

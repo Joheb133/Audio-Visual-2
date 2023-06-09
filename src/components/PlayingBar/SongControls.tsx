@@ -37,7 +37,10 @@ export default function SongControls({
   useEffect(() => {
     if (isDragging) return;
     setSongTimeEl(songTime);
-    setPlayback(round(songTime / songDuration, Math.floor(songDuration)));
+
+    //song time goes from 1 to duration (e.g 180 [seconds])
+    //1 / duration is like saying the 1th step of the range bar
+    setPlayback(songTime / Math.floor(songDuration));
   }, [songTime]);
 
   //format seconds to 0:00

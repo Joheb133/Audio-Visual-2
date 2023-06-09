@@ -1,6 +1,6 @@
 //round floats
 
-const roundFloat = (num: number, decimals?: number) => {
+export const roundFloat = (num: number, decimals?: number) => {
     if (!decimals) decimals = 2
 
     return parseFloat(num.toLocaleString('en-US', {
@@ -9,8 +9,6 @@ const roundFloat = (num: number, decimals?: number) => {
     }))
 };
 
-const round = (num: number, decimals: number) => {
+export const round = (num: number, decimals: number) => {
     return Math.round((num + Number.EPSILON) * 10 ** decimals) / 10 ** decimals;
 };
-
-export default round

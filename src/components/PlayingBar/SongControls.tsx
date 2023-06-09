@@ -1,7 +1,8 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import SongControlsButtons from "./SongControlsButtons";
 import { AudioSettingsProp } from "../../App";
+import { round } from "../../helpers/round";
 
 //playback/progress song controls
 
@@ -11,7 +12,7 @@ interface SongControlsProp {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
   songDuration: number;
-  songCurrentTime: number;
+  songTime: number;
 }
 
 export default function SongControls({
@@ -20,25 +21,12 @@ export default function SongControls({
   setIsPlaying,
   setQueueIndex,
   songDuration,
-  songCurrentTime,
+  songTime,
 }: SongControlsProp) {
   const id = "playback";
   const [isDragging, setIsDragging] = useState(false);
   const [playback, setPlayback] = useState(0);
   const [songTimeEl, setSongTimeEl] = useState<number | undefined>(undefined);
-  const [songTime, setSongTime] = useState(0);
-
-  //temp set song time
-  useEffect(() => {
-    if (songDuration === 0) return;
-    setSongTimeEl(0);
-  }, [songDuration]);
-
-  //update seeking bar
-  // useEffect(() => {
-  //   if (songTimeEl === undefined || songDuration === 0) return;
-  //   setPlayback(Math.floor(songTime / songDuration));
-  // }, [songTime]);
 
   //update song time element
   useEffect(() => {
@@ -47,8 +35,10 @@ export default function SongControls({
   }, [playback]);
 
   useEffect(() => {
-    setSongTimeEl(songCurrentTime);
-  }, [songCurrentTime]);
+    if (isDragging) return;
+    setSongTimeEl(songTime);
+    setPlayback(round(songTime / songDuration, Math.floor(songDuration)));
+  }, [songTime]);
 
   //format seconds to 0:00
   function formatSeconds(seconds: number) {
@@ -76,7 +66,7 @@ export default function SongControls({
         </span>
         <CustomRangeBar
           id={id}
-          roundTo={songDuration !== undefined ? Math.floor(songDuration) : 0}
+          steps={songDuration !== undefined ? Math.floor(songDuration) : 0}
           progress={playback}
           setProgress={setPlayback}
           isDragging={isDragging}

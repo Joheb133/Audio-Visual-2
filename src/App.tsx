@@ -121,7 +121,7 @@ export default function App() {
             setQueueIndex={setQueueIndex}
             audioSettings={audioSettings}
             songDuration={songDuration}
-            songCurrentTime={currentTime}
+            songTime={currentTime}
           />
           <AudioControls volumeControls={audioSettings?.gainNode} />
         </div>

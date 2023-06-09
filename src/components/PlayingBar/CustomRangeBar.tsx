@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import round from "../../helpers/round";
+import { round } from "../../helpers/round";
 
 //blueprint for playback and audio control
 
 interface CustomRangeBarProps {
   id: string;
-  roundTo: number;
+  steps: number;
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   isDragging: boolean;
@@ -14,7 +14,7 @@ interface CustomRangeBarProps {
 
 export default function CustomRangeBar({
   id,
-  roundTo,
+  steps,
   progress,
   setProgress,
   isDragging,
@@ -28,7 +28,7 @@ export default function CustomRangeBar({
     setProgress(
       round(
         Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width,
-        roundTo
+        Math.log10(steps)
       )
     );
   };

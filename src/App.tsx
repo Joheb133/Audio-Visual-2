@@ -31,7 +31,7 @@ export default function App() {
   const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
 
   //code to play audio using bufferSourceNode
-  const initSong = (offset: number) => {
+  const initSong = (songStartTime: number) => {
     if (!audioData || !audioSettings) return;
 
     const { audioCtx, gainNode, source: oldSource } = audioSettings;
@@ -51,10 +51,11 @@ export default function App() {
 
     //start audio
     source.buffer = audioData;
-    source.start(audioCtx.currentTime, offset, audioData.duration);
+    source.start(audioCtx.currentTime, songStartTime, audioData.duration);
 
     //store start time
     startTime.current = audioCtx.currentTime;
+    songOffset.current = songStartTime;
 
     //store source reference
     setAudioSettings((prevSettings) => ({
@@ -96,7 +97,9 @@ export default function App() {
     const startInterval = () => {
       timeInterval = setInterval(() => {
         let calCurrentTime = Math.floor(
-          audioSettings.audioCtx.currentTime - startTime.current
+          audioSettings.audioCtx.currentTime +
+            songOffset.current -
+            startTime.current
         );
 
         if (calCurrentTime !== currentTimeRef.current) {
@@ -130,8 +133,7 @@ export default function App() {
 
     if (!isSeeking && isSeekingRef.current) {
       const currentSeekTime = Math.floor(playback * songDuration);
-      songOffset.current = currentSeekTime - currentTime;
-      initSong(songOffset.current);
+      initSong(currentSeekTime);
 
       isSeekingRef.current = false;
       console.log("play at: " + currentSeekTime);

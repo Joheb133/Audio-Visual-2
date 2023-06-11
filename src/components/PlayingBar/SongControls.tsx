@@ -2,30 +2,35 @@ import { useEffect, useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import SongControlsButtons from "./SongControlsButtons";
 import { AudioSettingsProp } from "../../App";
-import { round } from "../../helpers/round";
 
 //playback/progress song controls
 
 interface SongControlsProp {
   isPlaying: boolean;
-  audioSettings: AudioSettingsProp | null;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
-  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  playback: number;
+  setPlayback: React.Dispatch<React.SetStateAction<number>>;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+  audioSettings: AudioSettingsProp | null;
   songDuration: number;
   songTime: number;
+  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SongControls({
   isPlaying,
-  audioSettings,
   setIsPlaying,
-  setQueueIndex,
+  playback,
+  setPlayback,
+  isDragging,
+  setIsDragging,
+  audioSettings,
   songDuration,
   songTime,
+  setQueueIndex,
 }: SongControlsProp) {
   const id = "playback";
-  const [isDragging, setIsDragging] = useState(false);
-  const [playback, setPlayback] = useState(0);
   const [songTimeEl, setSongTimeEl] = useState<number | undefined>(undefined);
 
   //update song time element

@@ -17,14 +17,51 @@ export default function App() {
     null
   );
   const [isUserGesture, setIsUserGesture] = useState(false);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [playback, setPlayback] = useState(0);
+  const isSeekingRef = useRef(false);
+  const songOffset = useRef(0);
 
   const [songDuration, setSongDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const currentTimeRef = useRef(0);
   const startTime = useRef(0);
-  const timeElapsedRef = useRef<number | null>(null);
+  const timeIntervalRef = useRef<number | null>(null);
 
   const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
+
+  //code to play audio using bufferSourceNode
+  const initSong = (offset: number) => {
+    if (!audioData || !audioSettings) return;
+
+    const { audioCtx, gainNode, source: oldSource } = audioSettings;
+
+    //store song duration
+    setSongDuration(audioData.duration);
+
+    //setup new AudioBufferSourceNode
+    const source = audioCtx.createBufferSource();
+    source.connect(gainNode);
+
+    //clean old AudioBufferSourceNode
+    if (oldSource) {
+      oldSource.stop();
+      oldSource.disconnect();
+    }
+
+    //start audio
+    source.buffer = audioData;
+    source.start(audioCtx.currentTime, offset, audioData.duration);
+
+    //store start time
+    startTime.current = audioCtx.currentTime;
+
+    //store source reference
+    setAudioSettings((prevSettings) => ({
+      ...(prevSettings as AudioSettingsProp),
+      source: source,
+    }));
+  };
 
   //listen for user gesture
   useEffect(() => {
@@ -45,35 +82,9 @@ export default function App() {
   }, []);
 
   //set audio source when given data
+  //this is the first time when playing the song
   useEffect(() => {
-    if (!audioData || !audioSettings) return;
-
-    const { audioCtx, gainNode, source: oldSource } = audioSettings;
-
-    //clean old AudioBufferSourceNode
-    if (oldSource) {
-      oldSource.stop();
-    }
-
-    //store song duration
-    setSongDuration(audioData.duration);
-
-    //setup new AudioBufferSourceNode
-    const source = audioCtx.createBufferSource();
-    source.connect(gainNode);
-
-    //start audio
-    source.buffer = audioData;
-    source.start(audioCtx.currentTime, 0, audioData.duration);
-
-    //store start time
-    startTime.current = audioCtx.currentTime;
-
-    //store source reference
-    setAudioSettings((prevSettings) => ({
-      ...(prevSettings as AudioSettingsProp),
-      source: source,
-    }));
+    initSong(0);
   }, [audioData]);
 
   //listen for playing + track elapsed time
@@ -81,9 +92,9 @@ export default function App() {
     if (!audioSettings?.audioCtx || !audioSettings.source) return;
 
     //update time elapsed
-    let timeElapsed = timeElapsedRef.current;
+    let timeInterval = timeIntervalRef.current;
     const startInterval = () => {
-      timeElapsed = setInterval(() => {
+      timeInterval = setInterval(() => {
         let calCurrentTime = Math.floor(
           audioSettings.audioCtx.currentTime - startTime.current
         );
@@ -98,18 +109,34 @@ export default function App() {
     //listen for playing
     if (isPlaying) {
       audioSettings.audioCtx.resume();
-      if (!timeElapsed) startInterval();
+      if (!timeInterval) startInterval();
     } else {
       audioSettings.audioCtx.suspend();
-      if (timeElapsed) {
-        clearInterval(timeElapsed);
-        timeElapsed = null;
+      if (timeInterval) {
+        clearInterval(timeInterval);
+        timeInterval = null;
       }
     }
 
-    //update timeElapsedRef
-    timeElapsedRef.current = timeElapsed;
+    //update timeIntervalRef
+    timeIntervalRef.current = timeInterval;
   }, [isPlaying]);
+
+  //handle seeking
+  useEffect(() => {
+    if (isSeeking) {
+      isSeekingRef.current = true;
+    }
+
+    if (!isSeeking && isSeekingRef.current) {
+      const currentSeekTime = Math.floor(playback * songDuration);
+      songOffset.current = currentSeekTime - currentTime;
+      initSong(songOffset.current);
+
+      isSeekingRef.current = false;
+      console.log("play at: " + currentSeekTime);
+    }
+  }, [isSeeking]);
 
   return (
     <>
@@ -117,11 +144,18 @@ export default function App() {
         <div className="flex text-white w-full">
           <SongInfo />
           <SongControls
-            {...{ isPlaying, setIsPlaying }}
-            setQueueIndex={setQueueIndex}
-            audioSettings={audioSettings}
-            songDuration={songDuration}
-            songTime={currentTime}
+            {...{
+              isPlaying,
+              setIsPlaying,
+              isDragging: isSeeking,
+              setIsDragging: setIsSeeking,
+              playback,
+              setPlayback,
+              setQueueIndex,
+              audioSettings,
+              songDuration,
+              songTime: currentTime,
+            }}
           />
           <AudioControls volumeControls={audioSettings?.gainNode} />
         </div>

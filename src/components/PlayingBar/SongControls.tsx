@@ -1,90 +1,87 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
-import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
-import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
+import SongControlsButtons from "./SongControlsButtons";
+import { AudioSettingsProp } from "../../App";
 
 //playback/progress song controls
 
 interface SongControlsProp {
   isPlaying: boolean;
-  isAudioContext: AudioContext | undefined;
-  isSource: AudioBufferSourceNode | undefined;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  playback: number;
+  setPlayback: React.Dispatch<React.SetStateAction<number>>;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+  audioSettings: AudioSettingsProp | null;
+  songDuration: number;
+  songTime: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SongControls({
   isPlaying,
-  isAudioContext,
-  isSource,
   setIsPlaying,
+  playback,
+  setPlayback,
+  isDragging,
+  setIsDragging,
+  audioSettings,
+  songDuration,
+  songTime,
   setQueueIndex,
 }: SongControlsProp) {
   const id = "playback";
-  const [isDragging, setIsDragging] = useState(false);
-  const [playback, setPlayback] = useState(0);
-  const [isClickedPrev, setIsClickedPrev] = useState(false);
-  const [isClickedPlayPause, setIsClickedPlayPause] = useState(false);
-  const [isClickedNext, setIsClickedNext] = useState(false);
+  const [songTimeEl, setSongTimeEl] = useState<number | undefined>(undefined);
+
+  //update song time element
+  useEffect(() => {
+    if (songDuration === 0) return;
+    setSongTimeEl(playback * songDuration);
+  }, [playback]);
+
+  useEffect(() => {
+    if (isDragging) return;
+    setSongTimeEl(songTime);
+
+    //song time goes from 1 to duration (e.g 180 [seconds])
+    //1 / duration is like saying the 1th step of the range bar
+    setPlayback(songTime / Math.floor(songDuration));
+  }, [songTime]);
+
+  //format seconds to 0:00
+  function formatSeconds(seconds: number) {
+    const mins = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+
+    const formatedTime = s < 10 ? `${mins}:0${s}` : `${mins}:${s}`;
+
+    return formatedTime;
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center min-w-[300px] max-w-[600px] w-2/5">
+    <div className="flex flex-col items-center justify-center min-w-[300px] max-w-[620px] w-2/5">
       <div className="flex items-center gap-4 mb-2">
-        {/* Prev button */}
-        <button
-          className={`cursor-default opacity-70 ${
-            isClickedPrev ? "" : "hover:opacity-100"
-          }`}
-          onMouseDown={() => setIsClickedPrev(true)}
-          onMouseUp={() => {
-            setIsClickedPrev(false);
-            if (!isAudioContext || !isSource) return;
-            setQueueIndex((currentIndex) => currentIndex - 1);
-          }}
-          onMouseLeave={() => setIsClickedPrev(false)}
-        >
-          <BsFillSkipStartFill size="24" />
-        </button>
-
-        {/* Play/pause button */}
-        <button
-          className={`cursor-default ${
-            isClickedPlayPause ? "" : "hover:scale-105"
-          }`}
-          onMouseDown={() => setIsClickedPlayPause(true)}
-          onMouseUp={() => {
-            setIsClickedPlayPause(false);
-            if (!isAudioContext || !isSource) return;
-            setIsPlaying(!isPlaying);
-          }}
-          onMouseLeave={() => setIsClickedPlayPause(false)}
-        >
-          {isPlaying ? <FaPauseCircle size="32" /> : <FaPlayCircle size="32" />}
-        </button>
-
-        {/* Next button */}
-        <button
-          className={`cursor-default opacity-70 ${
-            isClickedNext ? "" : "hover:opacity-100"
-          }`}
-          onMouseDown={() => setIsClickedNext(true)}
-          onMouseUp={() => {
-            setIsClickedNext(false);
-            if (!isAudioContext || !isSource) return;
-            setQueueIndex((currentIndex) => currentIndex + 1);
-          }}
-          onMouseLeave={() => setIsClickedNext(false)}
-        >
-          <BsFillSkipEndFill size="24" />
-        </button>
+        <SongControlsButtons
+          {...{ isPlaying, setIsPlaying }}
+          isAudioContext={audioSettings?.audioCtx}
+          isSource={audioSettings?.source}
+          setQueueIndex={setQueueIndex}
+        />
       </div>
-      <CustomRangeBar
-        id={id}
-        progress={playback}
-        setProgress={setPlayback}
-        isDragging={isDragging}
-        setIsDragging={setIsDragging}
-      />
+      <div className="flex w-full text-xs whitespace-nowrap">
+        <span>
+          {songTimeEl !== undefined ? formatSeconds(songTimeEl) : "-:--"}
+        </span>
+        <CustomRangeBar
+          id={id}
+          steps={songDuration !== undefined ? Math.floor(songDuration) : 0}
+          progress={playback}
+          setProgress={setPlayback}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
+        />
+        <span>{songDuration !== 0 ? formatSeconds(songDuration) : "-:--"}</span>
+      </div>
     </div>
   );
 }

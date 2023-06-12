@@ -136,7 +136,6 @@ export default function App() {
       initSong(currentSeekTime);
 
       isSeekingRef.current = false;
-      console.log("play at: " + currentSeekTime);
     }
   }, [isSeeking]);
 

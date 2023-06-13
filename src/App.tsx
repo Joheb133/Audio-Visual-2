@@ -3,10 +3,12 @@ import { useEffect, useState, useRef } from "react";
 import useFetchAudio from "./hooks/useFetchAudio";
 import audioList from "./audioList";
 import { AudioControls, SongControls, SongInfo } from "./components/PlayingBar";
+import Visualiser from "./components/Visualiser/Visualiser";
 
 export interface AudioSettingsProp {
   audioCtx: AudioContext;
   gainNode: GainNode;
+  analyser: AnalyserNode;
   source?: AudioBufferSourceNode;
 }
 
@@ -34,7 +36,7 @@ export default function App() {
   const initSong = (songStartTime: number) => {
     if (!audioData || !audioSettings) return;
 
-    const { audioCtx, gainNode, source: oldSource } = audioSettings;
+    const { audioCtx, gainNode, analyser, source: oldSource } = audioSettings;
 
     //store song duration
     setSongDuration(audioData.duration);
@@ -42,6 +44,7 @@ export default function App() {
     //setup new AudioBufferSourceNode
     const source = audioCtx.createBufferSource();
     source.connect(gainNode);
+    source.connect(analyser);
 
     //clean old AudioBufferSourceNode
     if (oldSource) {
@@ -72,10 +75,11 @@ export default function App() {
       const audioCtx = new AudioContext();
       audioCtx.suspend();
       const gainNode = audioCtx.createGain();
+      const analyser = new AnalyserNode(audioCtx, { fftSize: 1024 });
 
       gainNode.connect(audioCtx.destination);
 
-      setAudioSettings({ audioCtx, gainNode });
+      setAudioSettings({ audioCtx, gainNode, analyser });
       window.removeEventListener("pointerdown", handlePointerEvent, true);
     };
 
@@ -141,24 +145,27 @@ export default function App() {
 
   return (
     <>
-      <div className="now-playing-bar flex items-center justify-center fixed bottom-0 w-screen h-20 bg-neutral-900">
-        <div className="flex text-white w-full">
-          <SongInfo />
-          <SongControls
-            {...{
-              isPlaying,
-              setIsPlaying,
-              isDragging: isSeeking,
-              setIsDragging: setIsSeeking,
-              playback,
-              setPlayback,
-              setQueueIndex,
-              audioSettings,
-              songDuration,
-              songTime: currentTime,
-            }}
-          />
-          <AudioControls volumeControls={audioSettings?.gainNode} />
+      <div className="flex flex-col min-h-screen">
+        <Visualiser analyser={audioSettings?.analyser} />
+        <div className="now-playing-bar flex items-center justify-center w-screen h-20 bg-neutral-900">
+          <div className="flex text-white w-full">
+            <SongInfo />
+            <SongControls
+              {...{
+                isPlaying,
+                setIsPlaying,
+                isDragging: isSeeking,
+                setIsDragging: setIsSeeking,
+                playback,
+                setPlayback,
+                setQueueIndex,
+                audioSettings,
+                songDuration,
+                songTime: currentTime,
+              }}
+            />
+            <AudioControls volumeControls={audioSettings?.gainNode} />
+          </div>
         </div>
       </div>
     </>

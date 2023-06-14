@@ -1,8 +1,8 @@
 export class Bar {
     constructor(private canvas: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
-        private width: number,
-        private height: number) {
+        private width: number = 2,
+        private height: number = 2) {
 
         this.canvas = canvas
         this.analyser = analyser

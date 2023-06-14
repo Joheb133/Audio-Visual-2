@@ -18,19 +18,16 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
     if (!ctx || !vContainer) return;
 
-    canvas.width = vContainer.clientWidth;
-    canvas.height = vContainer.clientHeight;
+    const bar = new Bar(ctx, analyser);
 
-    const bar = new Bar(ctx, analyser, canvas.width, canvas.height);
-
-    //resize
-    const resize = () => {
-      canvas.width = vContainer.clientWidth;
-      canvas.height = vContainer.clientHeight;
+    //resize canvas
+    const canvasResize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
       bar.update(canvas.width, canvas.height);
     };
-    resize();
-    vContainer.addEventListener("resize", resize);
+    canvasResize();
+    window.addEventListener("resize", canvasResize);
 
     //draw
     const animator = () => {
@@ -42,8 +39,8 @@ export default function Visualiser({ analyser }: VisualiserProp) {
   }, [analyser]);
 
   return (
-    <div className="visualiser-container flex-grow">
-      <canvas ref={canvasRef}></canvas>
+    <div className="visualiser-container flex-grow bg-neutral-900 relative">
+      <canvas ref={canvasRef} className="w-full h-full absolute"></canvas>
     </div>
   );
 }

@@ -39,7 +39,7 @@ export default function Visualiser({ analyser }: VisualiserProp) {
   }, [analyser]);
 
   return (
-    <div className="visualiser-container flex-grow bg-neutral-900 relative">
+    <div className="visualiser-container bg-neutral-900 relative rounded-md flex-grow ml-2">
       <canvas ref={canvasRef} className="w-full h-full absolute"></canvas>
     </div>
   );

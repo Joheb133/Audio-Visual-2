@@ -5,7 +5,7 @@ export default function SongInfo() {
     <div className="flex-grow min-w-[200px] w-1/3">
       <div className="flex justify-start">
         <img
-          className="rounded-md w-14 h-14 ml-2"
+          className="rounded-md w-14 h-14"
           src="placeholder.jpg"
           alt="placeholder"
         />

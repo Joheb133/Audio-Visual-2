@@ -4,6 +4,7 @@ import useFetchAudio from "./hooks/useFetchAudio";
 import audioList from "./audioList";
 import { AudioControls, SongControls, SongInfo } from "./components/PlayingBar";
 import Visualiser from "./components/Visualiser/Visualiser";
+import SideBar from "./components/SideBar/SideBar";
 
 export interface AudioSettingsProp {
   audioCtx: AudioContext;
@@ -75,7 +76,7 @@ export default function App() {
       const audioCtx = new AudioContext();
       audioCtx.suspend();
       const gainNode = audioCtx.createGain();
-      const analyser = new AnalyserNode(audioCtx, { fftSize: 1024 });
+      const analyser = new AnalyserNode(audioCtx);
 
       gainNode.connect(audioCtx.destination);
 
@@ -145,9 +146,12 @@ export default function App() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen min-w-[700px]">
-        <Visualiser analyser={audioSettings?.analyser} />
-        <div className="now-playing-bar flex items-center justify-center w-screen h-20 bg-neutral-950">
+      <div className="flex flex-col min-h-screen min-w-[700px] px-2 pt-2 bg-neutral-950">
+        <div className="flex flex-row flex-grow">
+          <SideBar />
+          <Visualiser analyser={audioSettings?.analyser} />
+        </div>
+        <div className="now-playing-bar flex items-center justify-center h-20 bg-neutral-950">
           <div className="flex text-white w-full">
             <SongInfo />
             <SongControls

@@ -6,7 +6,7 @@ export class Bar {
 
         this.ctx = ctx;
         this.analyser = analyser;
-        this.analyser.fftSize = 2048;
+        this.analyser.fftSize = 1024;
         this.width = width;
         this.height = height;
     }

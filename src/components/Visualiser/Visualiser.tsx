@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Bar } from "./2D_Visualisations/Bar";
+import { Bar, Circle } from "./2D_Visualisations";
 
 interface VisualiserProp {
   analyser: AnalyserNode | undefined;

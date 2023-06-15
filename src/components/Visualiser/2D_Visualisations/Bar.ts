@@ -1,23 +1,23 @@
 export class Bar {
-    constructor(private canvas: CanvasRenderingContext2D,
+    constructor(private ctx: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
         private width: number = 2,
         private height: number = 2) {
 
-        this.canvas = canvas
-        this.analyser = analyser
-        this.analyser.fftSize = 2048
-        this.width = width
-        this.height = height
+        this.ctx = ctx;
+        this.analyser = analyser;
+        this.analyser.fftSize = 2048;
+        this.width = width;
+        this.height = height;
     }
     update(width: number, height: number) {
         this.width = width;
         this.height = height;
     }
     draw() {
-        const canvas = this.canvas;
-        const height = this.height
-        const width = this.width
+        const ctx = this.ctx;
+        const width = this.width;
+        const height = this.height;
 
         const bufferLength = this.analyser.frequencyBinCount;
         const barWidth = this.width / bufferLength;
@@ -28,15 +28,14 @@ export class Bar {
             const x = barWidth * index;
             const y = item / 255 * this.height / 2;
 
-            //this.canvas.fillStyle = `hsl(271, 95%, 50%)`;
             if (Math.abs(index % 2) === 1) {
-                canvas.fillRect((width / 2) - x, (height / 2) - y / 2, barWidth, y);//top left
-                canvas.fillRect((width / 2) + x, (height / 2) - y / 2, barWidth, y);//top right
-                canvas.fillStyle = `hsl(271, 95%, 50%)`;
+                ctx.fillRect((width / 2) - x, (height / 2) - y / 2, barWidth, y);//top left
+                ctx.fillRect((width / 2) + x, (height / 2) - y / 2, barWidth, y);//top right
+                ctx.fillStyle = `hsl(271, 95%, 50%)`;
             } else if (index % 2 === 0) {
-                canvas.fillRect((width / 2) + x, (height / 2) + y / 2, barWidth, -y);//bottom right
-                canvas.fillRect((width / 2) - x, (height / 2) + y / 2, barWidth, -y);//bottom left
-                canvas.fillStyle = `hsl(271, 95%, 25%)`;
+                ctx.fillRect((width / 2) + x, (height / 2) + y / 2, barWidth, -y);//bottom right
+                ctx.fillRect((width / 2) - x, (height / 2) + y / 2, barWidth, -y);//bottom left
+                ctx.fillStyle = `hsl(271, 95%, 25%)`;
             }
         });
     }

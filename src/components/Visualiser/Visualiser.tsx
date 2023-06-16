@@ -45,7 +45,6 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     animator();
 
     return () => {
-      console.log(1);
       window.removeEventListener("resize", canvasResize);
       cancelAnimationFrame(animationFrameId);
     };

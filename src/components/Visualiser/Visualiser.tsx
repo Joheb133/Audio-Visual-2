@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Bar, Circle } from "./2D_Visualisations";
+import VisualSelector from "./VisualSelector";
 
 interface VisualiserProp {
   analyser: AnalyserNode | undefined;
@@ -42,7 +43,6 @@ export default function Visualiser({ analyser }: VisualiserProp) {
       gif: "gif/bar.gif",
     },
   };
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (!analyser || !canvasRef.current) return;
@@ -81,24 +81,22 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     };
   }, [analyser, visual]);
 
+  //generate visual selectors
+  const VisualSelectorList = Object.entries(visualData).map(([key, value]) => (
+    <VisualSelector
+      key={key}
+      name={key}
+      setVisual={setVisual}
+      defaultImgUrl={value.img.default}
+      gifUrl={value.gif}
+    />
+  ));
+
   return (
     <div className="visualiser-container bg-neutral-900 relative rounded-md flex-grow ml-2">
       <canvas ref={canvasRef} className="w-full h-full absolute"></canvas>
       <div className="visual-selector-wrap w-full h-28 box-border flex absolute bottom-0 gap-4 items-center justify-center">
-        <div
-          className="w-32 h-16 left-1/2 hover:cursor-pointer border rounded-lg"
-          onClick={() => {
-            setVisual("Bar");
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <img
-            src={isHovered ? visualData.Bar.gif : visualData.Bar.img.default}
-            alt=""
-            className="w-full h-full rounded-lg"
-          />
-        </div>
+        {VisualSelectorList}
       </div>
     </div>
   );

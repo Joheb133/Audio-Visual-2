@@ -60,7 +60,7 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     const canvasResize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
-      visualisation.update(canvas.width, canvas.height);
+      visualisation.updateSize(canvas.width, canvas.height);
     };
     canvasResize();
     window.addEventListener("resize", canvasResize);
@@ -69,7 +69,6 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     let animationFrameId: number;
 
     const animator = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
       visualisation.draw();
       animationFrameId = requestAnimationFrame(animator);
     };

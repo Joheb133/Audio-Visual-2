@@ -1,5 +1,6 @@
 export class Circle {
-    constructor(private ctx: CanvasRenderingContext2D,
+    constructor(
+        private ctx: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
         private width: number = 2,
         private height: number = 2) {
@@ -10,7 +11,7 @@ export class Circle {
         this.width = width;
         this.height = height;
     }
-    update(width: number, height: number) {
+    updateSize(width: number, height: number) {
         this.width = width;
         this.height = height;
     }
@@ -18,6 +19,8 @@ export class Circle {
         const ctx = this.ctx;
         const width = this.width;
         const height = this.height;
+
+        ctx.clearRect(0, 0, width, height);
 
         const bufferLength = this.analyser.frequencyBinCount;
         const dataArray = new Uint8Array(bufferLength);
@@ -39,5 +42,6 @@ export class Circle {
             ctx.fill()
             ctx.fillStyle = "white";
         }
+
     }
 }

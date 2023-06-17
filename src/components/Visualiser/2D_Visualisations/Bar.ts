@@ -1,5 +1,6 @@
 export class Bar {
-    constructor(private ctx: CanvasRenderingContext2D,
+    constructor(
+        private ctx: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
         private width: number = 2,
         private height: number = 2) {
@@ -10,7 +11,7 @@ export class Bar {
         this.width = width;
         this.height = height;
     }
-    update(width: number, height: number) {
+    updateSize(width: number, height: number) {
         this.width = width;
         this.height = height;
 
@@ -29,15 +30,16 @@ export class Bar {
         const ctx = this.ctx;
         const width = this.width;
         const height = this.height;
+        ctx.clearRect(0, 0, width, height);
 
         const bufferLength = this.analyser.frequencyBinCount;
-        const barWidth = this.width / bufferLength;
+        const barWidth = width / bufferLength;
         const dataArray = new Uint8Array(bufferLength);
         this.analyser.getByteFrequencyData(dataArray);
 
         dataArray.forEach((item, index) => {
             const x = barWidth * index;
-            const y = item / 255 * this.height / 2;
+            const y = item / 255 * height / 2;
 
             if (Math.abs(index % 2) === 1) {
                 ctx.fillRect((width / 2) - x, (height / 2) - y / 2, barWidth, y + 1);//top left

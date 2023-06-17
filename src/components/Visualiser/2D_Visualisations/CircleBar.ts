@@ -1,5 +1,5 @@
-//A circle of tiny circles
-export class Circle {
+//A circle made with rectangles
+export class CircleBar {
     constructor(
         private ctx: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
@@ -28,23 +28,33 @@ export class Circle {
         this.analyser.getByteFrequencyData(dataArray);
 
         const maxRadius = width < height ? width : height //get smallest dimension
-        const scalingFactor = (32 / (bufferLength * 4)) * 32 //scale based on fttSize
-        const radius = scalingFactor * (maxRadius * 0.001) //use scale & dimension
 
         const centerX = width / 2;
         const centerY = height / 2;
+        const barWidth = width / bufferLength;
+        const angleIncrement = (2 * Math.PI) / dataArray.length;
 
-        for (let i = 0; i < dataArray.length; i++) {
-            const element = dataArray[i];
+        for (let i = 0; i < dataArray.length / 2 + 1; i++) {
+            drawCircle(i, 1)
+        }
 
-            const radian = (Math.PI * 2) / bufferLength
-            const x = centerX - Math.cos(radian * i) * ((maxRadius / 3) + (element / 2))
-            const y = centerY - Math.sin(radian * i) * ((maxRadius / 3) + (element / 2))
+        for (let i = 0; i < dataArray.length / 2; i++) {
+            drawCircle(i, -1)
+        }
 
-            ctx.beginPath()
-            ctx.arc(x, y, radius, 0, Math.PI * 2)
-            ctx.fill()
-            ctx.fillStyle = "white";
+        function drawCircle(i: number, toggleSign: number) {
+            const element = dataArray[i]
+            const angle = i * (angleIncrement * toggleSign) + (Math.PI / 2);
+            const x = centerX + (maxRadius / 4) * Math.cos(angle);
+            const y = centerY + (maxRadius / 4) * Math.sin(angle);
+            const rotation = angle - Math.PI / 2;
+
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+
+            ctx.fillRect(-barWidth / 2, 0, barWidth, element / 2 + 5);
+            ctx.restore();
         }
 
     }

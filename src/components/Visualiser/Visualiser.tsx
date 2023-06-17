@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Bar, Circle } from "./2D_Visualisations";
+import { Bar, CircleBar } from "./2D_Visualisations";
 import VisualSelector from "./VisualSelector";
 
 interface VisualiserProp {
@@ -24,7 +24,7 @@ type VisualisationObject = {
 
 export default function Visualiser({ analyser }: VisualiserProp) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [visual, setVisual] = useState("Bar");
+  const [visual, setVisual] = useState("Circle");
   const visualData: VisualisationObject = {
     Bar: {
       code: Bar,
@@ -35,7 +35,7 @@ export default function Visualiser({ analyser }: VisualiserProp) {
       gif: "gif/bar.gif",
     },
     Circle: {
-      code: Circle,
+      code: CircleBar,
       img: {
         default: "img/bar_default.png",
         large: "img/bar_large.png",

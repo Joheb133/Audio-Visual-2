@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Bar, CircleBar } from "./2D_Visualisations";
+import { Bar, CircleRoundBar } from "./2D_Visualisations";
 import VisualSelector from "./VisualSelector";
 
 interface VisualiserProp {
@@ -35,7 +35,7 @@ export default function Visualiser({ analyser }: VisualiserProp) {
       gif: "gif/bar.gif",
     },
     Circle: {
-      code: CircleBar,
+      code: CircleRoundBar,
       img: {
         default: "img/bar_default.png",
         large: "img/bar_large.png",

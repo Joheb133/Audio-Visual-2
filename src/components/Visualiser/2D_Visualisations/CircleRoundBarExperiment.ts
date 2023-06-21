@@ -1,12 +1,12 @@
-//A circle made with round rectangles
+//An experimental circle made with round rectangles
 export class CircleRoundBar {
     private colorRotation: number = 1
 
     constructor(
         private ctx: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
-        private width: number = 2,
-        private height: number = 2) {
+        private width: number = 120,
+        private height: number = 120) {
 
         this.ctx = ctx;
         this.analyser = analyser;

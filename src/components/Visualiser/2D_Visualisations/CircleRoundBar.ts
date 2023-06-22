@@ -1,7 +1,5 @@
 //A circle made with round rectangles
 export class CircleRoundBar {
-    private colorRotation: number = 1
-
     constructor(
         private ctx: CanvasRenderingContext2D,
         private analyser: AnalyserNode,
@@ -10,7 +8,7 @@ export class CircleRoundBar {
 
         this.ctx = ctx;
         this.analyser = analyser;
-        this.analyser.fftSize = 256;
+        this.analyser.fftSize = 512;
         this.width = width;
         this.height = height;
     }
@@ -22,7 +20,6 @@ export class CircleRoundBar {
         const ctx = this.ctx;
         const width = this.width;
         const height = this.height;
-        const colorRotation = this.colorRotation
 
         ctx.clearRect(0, 0, width, height);
 
@@ -32,6 +29,10 @@ export class CircleRoundBar {
 
         const maxRadius = width < height ? width : height //get smallest dimension
 
+        //bass
+        const bassBins = dataArray.slice(0, 2)
+        const bassAmp = bassBins.reduce((sum, value) => sum + value, 0) / bassBins.length
+
         const centerX = width / 2;
         const centerY = height / 2;
         const barWidth = width / bufferLength;
@@ -39,8 +40,8 @@ export class CircleRoundBar {
 
         function drawCircle(i: number, toggleSign: number) {
             const element = dataArray[i]
-            const angle = i * (angleIncrement * toggleSign) + (Math.PI / 2);
-            const x = centerX + (maxRadius / 4) * Math.cos(angle + (colorRotation));
+            const angle = (i + 1 / 2) * (angleIncrement * toggleSign) + (Math.PI / 2)
+            const x = centerX + (maxRadius / 4) * Math.cos(angle);
             const y = centerY + (maxRadius / 4) * Math.sin(angle);
             const rotation = angle - Math.PI / 2;
 
@@ -49,21 +50,21 @@ export class CircleRoundBar {
             ctx.rotate(rotation);
 
             ctx.beginPath();
-            ctx.roundRect(-barWidth / 2, 0, barWidth / 2, (element / 2) + (barWidth / 2), [barWidth]);
-            ctx.fillStyle = `hsl(${10 * i}, 90%, 65%)`
+            ctx.roundRect(-barWidth / 2, bassAmp / 10, barWidth / 2, (element / 2) + (barWidth / 2), [barWidth]);
+            ctx.closePath()
+            //ctx.fillStyle = `hsl(${10 * i}, 100%, 70%)`
+            ctx.fillStyle = `hsl(271, 80%, ${i % 2 === 0 ? 50 : 60}%)`
             ctx.fill();
             ctx.restore();
         }
 
-        for (let i = 0; i < dataArray.length / 2 + 1; i++) {
+        for (let i = 0; i < dataArray.length / 2; i++) {
             drawCircle(i, 1)
         }
 
-        for (let i = 1; i < dataArray.length / 2; i++) {
+        for (let i = 0; i < dataArray.length / 2; i++) {
             drawCircle(i, -1)
         }
 
-        //setup idle animation
-        this.colorRotation += 0.001
     }
 }

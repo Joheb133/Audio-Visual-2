@@ -33,7 +33,7 @@ export const visualData: VisualisationObject = {
             default: "img/circle-bar_default.png",
             large: "img/circle-bar_large.png",
         },
-        gif: "gif/circle-bar.mp4",
+        gif: "gif/bar.gif",
     },
     CRBExperiment: {
         code: CRBExperiment,

@@ -60,9 +60,7 @@ export default function Visualiser({ analyser }: VisualiserProp) {
   return (
     <div className="visualiser-container bg-neutral-900 relative rounded-md flex-grow ml-2">
       <canvas ref={canvasRef} className="w-full h-full absolute"></canvas>
-      <div className="visual-selector-wrap w-full h-28 box-border flex absolute bottom-0 gap-4 items-center justify-center">
-        {VisualSelectorList}
-      </div>
+      <div className="selector-container">{VisualSelectorList}</div>
     </div>
   );
 }

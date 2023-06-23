@@ -46,6 +46,19 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     };
   }, [analyser, visual]);
 
+  useEffect(() => {
+    //show selector when first load
+    const selector = document.querySelector(
+      ".selector-container"
+    ) as HTMLDivElement;
+    selector.style.opacity = "1";
+    selector.style.transform = "translate(-50%, 0)";
+    setTimeout(() => {
+      selector.style.opacity = "";
+      selector.style.transform = "";
+    }, 1000);
+  }, []);
+
   //generate visual selectors
   const VisualSelectorList = Object.entries(visualData).map(([key, value]) => (
     <VisualSelector

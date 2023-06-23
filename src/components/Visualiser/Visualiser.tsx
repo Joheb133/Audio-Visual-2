@@ -1,48 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Bar, CircleRoundBar } from "./2D_Visualisations";
 import VisualSelector from "./VisualSelector";
+import { visualData } from "./2D_Visualisations";
 
 interface VisualiserProp {
   analyser: AnalyserNode | undefined;
 }
 
-type VisualisationObject = {
-  [key: string]: {
-    code: new (
-      ctx: CanvasRenderingContext2D,
-      analyser: AnalyserNode,
-      width?: number,
-      height?: number
-    ) => any;
-    img: {
-      default: string;
-      large: string;
-    };
-    gif: string;
-  };
-};
-
 export default function Visualiser({ analyser }: VisualiserProp) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [visual, setVisual] = useState("Circle");
-  const visualData: VisualisationObject = {
-    Bar: {
-      code: Bar,
-      img: {
-        default: "img/bar_default.png",
-        large: "img/bar_large.png",
-      },
-      gif: "gif/bar.gif",
-    },
-    Circle: {
-      code: CircleRoundBar,
-      img: {
-        default: "img/bar_default.png",
-        large: "img/bar_large.png",
-      },
-      gif: "gif/bar.gif",
-    },
-  };
+  const [visual, setVisual] = useState("CircleRoundBar");
 
   useEffect(() => {
     if (!analyser || !canvasRef.current) return;

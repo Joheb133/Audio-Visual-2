@@ -1,5 +1,5 @@
 //An experimental circle made with round rectangles
-export class CircleRoundBar {
+export class CRBExperiment {
     private colorRotation: number = 1
 
     constructor(

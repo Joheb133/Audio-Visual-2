@@ -29,7 +29,7 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const currentTimeRef = useRef(0);
   const startTime = useRef(0);
-  const timeIntervalRef = useRef<number | null>(null);
+  const timeIntervalRef = useRef<any>(null);
 
   const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
 

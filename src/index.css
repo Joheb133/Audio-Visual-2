@@ -13,4 +13,26 @@ body {
         translate-y-5 opacity-0 transition duration-300
         hover:translate-y-0 hover:opacity-100 hover:transition hover:duration-500;
   }
+
+  .gradient-mask {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gradient-mask::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0,
+      #00000000 calc(100% - 20px),
+      #0a0a0a calc(100%),
+      transparent
+    );
+  }
 }

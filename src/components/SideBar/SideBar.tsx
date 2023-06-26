@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 
 interface SideBarProp {

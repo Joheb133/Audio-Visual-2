@@ -19,13 +19,13 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
           src={img ? img.url : "placeholder.jpg"}
           alt="placeholder"
         />
-        <div className="flex flex-col justify-center">
-          <span className="mx-2 text-sm">
+        <div className="flex flex-col justify-center overflow-hidden mr-4">
+          <span className="mx-2 text-sm whitespace-nowrap gradient-mask">
             <a href={videoUrl ? videoUrl : ""} target="_blank">
               {title ? title : "Song Title"}
             </a>
           </span>
-          <span className="mx-2 text-xs opacity-75">
+          <span className="mx-2 text-xs opacity-75 whitespace-nowrap">
             {channel ? channel : "Channel"}
           </span>
         </div>

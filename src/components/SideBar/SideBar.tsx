@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import audioList from "../../audioList";
+import useFetchAudio from "../../hooks/useFetchAudio";
 
 interface SideBarProp {
   setSongInfo: React.Dispatch<null>;
@@ -8,15 +10,20 @@ interface SideBarProp {
 export default function SideBar({ setSongInfo }: SideBarProp) {
   const searchBarRef = useRef<HTMLInputElement>(null);
 
-  function getAudioInfo(input: string) {
-    return fetch(`/api/info?v=${input}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch info");
-        }
-        return res.json();
-      })
-      .catch((err) => console.log(err));
+  async function getAudioInfo(input: string) {
+    try {
+      const res = await fetch(`/api/info?v=${input}`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch info");
+      }
+      return await res.json();
+    } catch (err) {
+      return console.log(err);
+    }
+  }
+
+  function getAudio(input: string) {
+    audioList.unshift(`/api/audio?v=${input}`);
   }
 
   function searchID() {
@@ -24,6 +31,7 @@ export default function SideBar({ setSongInfo }: SideBarProp) {
     const input = searchBar?.value;
     if (!input) return;
 
+    getAudio(input);
     getAudioInfo(input).then((res) => {
       setSongInfo(res);
     });

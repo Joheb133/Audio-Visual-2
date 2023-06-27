@@ -17,7 +17,6 @@ body {
   .gradient-mask {
     display: inline-block;
     position: relative;
-    overflow: hidden;
   }
 
   .gradient-mask::after {

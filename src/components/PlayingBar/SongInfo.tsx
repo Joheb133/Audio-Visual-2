@@ -1,56 +1,85 @@
-//music info
-
+// music info
 import { useEffect, useRef } from "react";
 
 interface SongInfoProp {
   songInfo: any;
 }
 
+interface ElementWithAnimation {
+  element: HTMLElement | null;
+  animation: Animation | null;
+}
+
 export default function SongInfo({ songInfo }: SongInfoProp) {
-  const titleRef = useRef<HTMLElement>(null);
-  const animationRef = useRef<any>(null);
+  const titleRef = useRef<ElementWithAnimation>({
+    element: null,
+    animation: null,
+  });
+  const channelRef = useRef<ElementWithAnimation>({
+    element: null,
+    animation: null,
+  });
+
   let { title, channel, videoUrl, img }: any = {};
 
   if (songInfo) {
     ({ title, channel, videoUrl, img } = songInfo.video);
   }
 
-  function overflowText() {
+  function overflowText(elementWithAnimation: ElementWithAnimation) {
     //apply stuff for overflowing text
+    const { element, animation } = elementWithAnimation;
 
-    if (!titleRef.current) return;
+    if (!element) return;
 
-    const title = titleRef.current as HTMLElement;
-    const child = title.children[0] as HTMLElement;
-    const titleWidth = title.clientWidth;
+    const parent = element as HTMLElement;
+    const child = parent.children[0] as HTMLElement;
+    const parentWidth = parent.clientWidth;
     const childWidth = child.offsetWidth;
 
-    //remove old animation class
-    if (animationRef.current) {
-      animationRef.current.cancel();
-      animationRef.current = null;
-    }
+    cancelAnimation(animation);
 
-    if (childWidth > titleWidth) {
+    if (childWidth > parentWidth) {
       //handle animation
-      const difference = titleWidth - childWidth;
-      const duration = Math.abs(difference / 25);
-      animationRef.current = child.animate(
+      const difference = parentWidth - childWidth;
+      const duration = Math.abs(difference / 5);
+      const newAnimation = child.animate(
         [
           { transform: "translateX(0)" },
           { transform: `translateX(${difference - 2}px)`, offset: 0.45 },
           { transform: `translateX(${difference - 2}px)`, offset: 0.55 },
           { transform: "translateX(0)" },
         ],
-        duration * 1000
+        { delay: 1000, duration: duration * 1000 }
       );
+
+      elementWithAnimation.animation = newAnimation;
+    }
+  }
+
+  function cancelAnimation(animation: Animation | null) {
+    if (animation) {
+      animation.cancel();
+      animation = null;
     }
   }
 
   useEffect(() => {
     if (!songInfo) return;
 
-    overflowText();
+    const titleElement = titleRef.current.element;
+    const channelElement = channelRef.current.element;
+
+    titleElement && overflowText(titleRef.current);
+    channelElement && overflowText(channelRef.current);
+
+    function handleResize() {
+      cancelAnimation(titleRef.current.animation);
+      cancelAnimation(channelRef.current.animation);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [songInfo]);
 
   return (
@@ -61,15 +90,21 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
           src={img ? img.url : "placeholder.jpg"}
           alt="placeholder"
         />
-        <div className="flex flex-col justify-center mx-2">
-          <span ref={titleRef} className="text-sm whitespace-nowrap">
+        <div className="flex flex-col justify-center mx-2 overflow-hidden">
+          <span
+            ref={(ref) => (titleRef.current.element = ref)}
+            className="text-sm whitespace-nowrap"
+          >
             <span className="inline-block">
               <a href={videoUrl ? videoUrl : ""} target="_blank">
                 {title ? title : "Song Title"}
               </a>
             </span>
           </span>
-          <span className="text-xs opacity-75 whitespace-nowrap">
+          <span
+            ref={(ref) => (channelRef.current.element = ref)}
+            className="text-xs opacity-75 whitespace-nowrap"
+          >
             <span className="inline-block">
               {channel ? channel : "Channel"}
             </span>

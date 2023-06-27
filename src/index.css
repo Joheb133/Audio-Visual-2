@@ -17,6 +17,7 @@ body {
   .gradient-mask {
     display: inline-block;
     position: relative;
+    overflow: hidden;
   }
 
   .gradient-mask::after {
@@ -34,16 +35,5 @@ body {
       transparent
     );
     pointer-events: none;
-  }
-
-  @keyframes scroll {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    40%,
-    60% {
-      transform: translateX(-50%);
-    }
   }
 }

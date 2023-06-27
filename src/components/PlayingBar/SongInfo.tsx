@@ -25,16 +25,13 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
     const titleWidth = title.clientWidth;
     const childWidth = child.offsetWidth;
 
-    //remove old gradient class
-    child.classList.remove("gradient-mask");
+    //remove old animation class
     if (animationRef.current) {
       animationRef.current.cancel();
       animationRef.current = null;
     }
 
     if (childWidth > titleWidth) {
-      title.classList.add(`gradient-mask`);
-
       //handle animation
       const difference = titleWidth - childWidth;
       const duration = Math.abs(difference / 25);
@@ -57,14 +54,14 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
   }, [songInfo]);
 
   return (
-    <div className="flex-grow min-w-[200px] w-1/3">
+    <div className="flex-grow min-w-[200px] w-1/3 gradient-mask">
       <div className="flex justify-start">
         <img
           className="rounded-md w-14 h-14 object-cover"
           src={img ? img.url : "placeholder.jpg"}
           alt="placeholder"
         />
-        <div className="flex flex-col justify-center mx-2 overflow-hidden">
+        <div className="flex flex-col justify-center mx-2">
           <span ref={titleRef} className="text-sm whitespace-nowrap">
             <span className="inline-block">
               <a href={videoUrl ? videoUrl : ""} target="_blank">

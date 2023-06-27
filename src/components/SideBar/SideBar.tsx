@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import audioList from "../../audioList";
-import useFetchAudio from "../../hooks/useFetchAudio";
 
 interface SideBarProp {
   setSongInfo: React.Dispatch<null>;

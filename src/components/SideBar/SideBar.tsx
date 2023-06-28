@@ -12,38 +12,43 @@ export default function SideBar({ setSongInfo }: SideBarProp) {
   const dictionary = {
     library: "",
     search: <SearchBar setSongInfo={setSongInfo} />,
-    localMusic: "",
+    dropMusic: "",
   };
   const [sideBarComponent, setSideBarComponent] = useState<any>(
     dictionary.search
   );
 
   return (
-    <div className="sidebar w-[380px] bg-neutral-900 rounded-md">
-      <div className="flex items-center w-full h-20 rounded-t-md text-white">
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center w-full h-20 rounded-md text-white">
         <button
-          className="sidebar-buttons rounded-tl-md group"
+          className="sidebar-buttons group"
           onClick={() => setSideBarComponent(dictionary.library)}
         >
           <VscLibrary size="38" className="sidebar-buttons-svg" />
+          <span className="sidebar-buttons-tooltip">Library</span>
         </button>
         <button
           className="sidebar-buttons group"
           onClick={() => setSideBarComponent(dictionary.search)}
         >
           <AiOutlineSearch size="36" className="sidebar-buttons-svg" />
+          <span className="sidebar-buttons-tooltip">Search Music</span>
         </button>
         <button
-          className="sidebar-buttons rounded-tr-md group"
-          onClick={() => setSideBarComponent(dictionary.localMusic)}
+          className="sidebar-buttons group"
+          onClick={() => setSideBarComponent(dictionary.dropMusic)}
         >
           <BsFillFileEarmarkMusicFill
             size="30"
             className="sidebar-buttons-svg"
           />
+          <span className="sidebar-buttons-tooltip">Drop music</span>
         </button>
       </div>
-      {sideBarComponent}
+      <div className="w-[380px] grow bg-neutral-900 rounded-md">
+        {sideBarComponent}
+      </div>
     </div>
   );
 }

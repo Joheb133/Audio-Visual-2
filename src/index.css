@@ -15,11 +15,17 @@ body {
   }
 
   .sidebar-buttons {
-    @apply w-full h-full bg-neutral-800 hover:bg-neutral-900 duration-500;
+    @apply relative w-full h-full bg-neutral-900 first:rounded-l-md last:rounded-r-md
+    hover:bg-neutral-800 duration-500;
   }
 
   .sidebar-buttons-svg {
     @apply mx-auto opacity-40 group-hover:opacity-70 duration-200;
+  }
+
+  .sidebar-buttons-tooltip {
+    @apply absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 text-sm bg-neutral-900 px-2 py-1 rounded-md min-w-max scale-0
+    group-hover:scale-100 transition-all duration-200 origin-bottom;
   }
 
   .gradient-mask {

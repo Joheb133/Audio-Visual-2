@@ -1,54 +1,49 @@
-import { useRef } from "react";
+import SearchBar from "./SearchBar";
+import { VscLibrary } from "react-icons/vsc";
 import { AiOutlineSearch } from "react-icons/ai";
-import audioList from "../../audioList";
+import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
+import { useState } from "react";
 
 interface SideBarProp {
   setSongInfo: React.Dispatch<null>;
 }
 
 export default function SideBar({ setSongInfo }: SideBarProp) {
-  const searchBarRef = useRef<HTMLInputElement>(null);
-
-  async function getAudioInfo(input: string) {
-    try {
-      const res = await fetch(`/api/info?v=${input}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch info");
-      }
-      return await res.json();
-    } catch (err) {
-      return console.log(err);
-    }
-  }
-
-  function getAudio(input: string) {
-    audioList.unshift(`/api/audio?v=${input}`);
-  }
-
-  function searchID() {
-    const searchBar = searchBarRef.current;
-    const input = searchBar?.value;
-    if (!input) return;
-
-    getAudio(input);
-    getAudioInfo(input).then((res) => {
-      setSongInfo(res);
-    });
-    searchBar.value = "";
-  }
+  const dictionary = {
+    library: "",
+    search: <SearchBar setSongInfo={setSongInfo} />,
+    localMusic: "",
+  };
+  const [sideBarComponent, setSideBarComponent] = useState<any>(
+    dictionary.search
+  );
 
   return (
     <div className="sidebar w-[380px] bg-neutral-900 rounded-md">
-      <div className="search-container p-3 gap-2 w-full flex text-white">
-        <input
-          ref={searchBarRef}
-          type="text"
-          className="search-bar w-full h-6 bg-neutral-700 py-4 px-2 rounded-md outline-none text-xs"
-        />
-        <button className="opacity-70 hover:opacity-100" onClick={searchID}>
-          <AiOutlineSearch size="24" />
+      <div className="flex items-center w-full h-20 rounded-t-md text-white">
+        <button
+          className="sidebar-buttons rounded-tl-md group"
+          onClick={() => setSideBarComponent(dictionary.library)}
+        >
+          <VscLibrary size="38" className="sidebar-buttons-svg" />
+        </button>
+        <button
+          className="sidebar-buttons group"
+          onClick={() => setSideBarComponent(dictionary.search)}
+        >
+          <AiOutlineSearch size="36" className="sidebar-buttons-svg" />
+        </button>
+        <button
+          className="sidebar-buttons rounded-tr-md group"
+          onClick={() => setSideBarComponent(dictionary.localMusic)}
+        >
+          <BsFillFileEarmarkMusicFill
+            size="30"
+            className="sidebar-buttons-svg"
+          />
         </button>
       </div>
+      {sideBarComponent}
     </div>
   );
 }

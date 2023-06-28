@@ -14,6 +14,14 @@ body {
         hover:translate-y-0 hover:opacity-100 hover:transition hover:duration-500;
   }
 
+  .sidebar-buttons {
+    @apply w-full h-full bg-neutral-800 hover:bg-neutral-900 duration-500;
+  }
+
+  .sidebar-buttons-svg {
+    @apply mx-auto opacity-40 group-hover:opacity-70 duration-200;
+  }
+
   .gradient-mask {
     display: inline-block;
     position: relative;

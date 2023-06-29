@@ -71,6 +71,24 @@ export default function PlayingBar({
     }));
   };
 
+  //handle song ended
+  function handleAudioEnded() {
+    setIsPlaying(false);
+    const list = audioList;
+    const currentIndex = queueIndex;
+    console.log("ended");
+
+    if (currentIndex < list.length) {
+      //play next song
+      setQueueIndex((currentIndex) => currentIndex + 1);
+      setIsPlaying(true);
+    } else {
+      //restart & pause current song
+      setIsPlaying(false);
+      initSong(0);
+    }
+  }
+
   //set audio source when given data
   //this is the first time when playing the song
   useEffect(() => {
@@ -83,17 +101,24 @@ export default function PlayingBar({
 
     //update time elapsed
     let timeInterval = timeIntervalRef.current;
+    let songEnded = false;
     const startInterval = () => {
       timeInterval = setInterval(() => {
-        let calCurrentTime = Math.floor(
+        let calCurrentTime =
           audioSettings.audioCtx.currentTime +
-            songOffset.current -
-            startTime.current
-        );
+          songOffset.current -
+          startTime.current;
 
-        if (calCurrentTime !== currentTimeRef.current) {
-          currentTimeRef.current = calCurrentTime;
+        //Has atleast 1s elapsed
+        if (Math.floor(calCurrentTime) !== currentTimeRef.current) {
+          currentTimeRef.current = Math.floor(calCurrentTime);
           setCurrentTime(currentTimeRef.current);
+        }
+
+        //Has song ended?
+        if (calCurrentTime >= songDuration && !songEnded) {
+          songEnded = true;
+          handleAudioEnded();
         }
       }, 50);
     };

@@ -38,7 +38,7 @@ export default function SearchBar({ setSongInfo }: SearchBarProp) {
   }
 
   return (
-    <div className="search-container p-3 gap-2 w-full flex text-white">
+    <div className="search-container gap-2 w-full flex text-white">
       <input
         ref={searchBarRef}
         type="text"

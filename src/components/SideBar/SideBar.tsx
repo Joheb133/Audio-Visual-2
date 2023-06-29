@@ -26,14 +26,12 @@ export default function SideBar({ setSongInfo }: SideBarProp) {
           onClick={() => setSideBarComponent(dictionary.library)}
         >
           <VscLibrary size="38" className="sidebar-buttons-svg" />
-          <span className="sidebar-buttons-tooltip">Library</span>
         </button>
         <button
           className="sidebar-buttons group"
           onClick={() => setSideBarComponent(dictionary.search)}
         >
           <AiOutlineSearch size="36" className="sidebar-buttons-svg" />
-          <span className="sidebar-buttons-tooltip">Search Music</span>
         </button>
         <button
           className="sidebar-buttons group"
@@ -43,10 +41,9 @@ export default function SideBar({ setSongInfo }: SideBarProp) {
             size="30"
             className="sidebar-buttons-svg"
           />
-          <span className="sidebar-buttons-tooltip">Drop music</span>
         </button>
       </div>
-      <div className="w-[380px] grow bg-neutral-900 rounded-md">
+      <div className="w-[380px] p-3 grow bg-neutral-900 rounded-md">
         {sideBarComponent}
       </div>
     </div>

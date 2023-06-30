@@ -30,7 +30,7 @@ export class CircleRoundBar {
         const maxRadius = width < height ? width : height //get smallest dimension
 
         //bass
-        const bassBins = dataArray.slice(0, dataArray.length / 2)
+        const bassBins = dataArray.slice(0, dataArray.length / 4)
         const bassAmp = bassBins.reduce((sum, value) => sum + value, 0) / bassBins.length
 
         const centerX = width / 2;

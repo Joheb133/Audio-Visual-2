@@ -23,9 +23,6 @@ export default function PlayingBar({
 }: PlayingBarProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [queueIndex, setQueueIndex] = useState(0);
-  const [isSeeking, setIsSeeking] = useState(false);
-  const [playback, setPlayback] = useState(0);
-  const isSeekingRef = useRef(false);
   const songOffset = useRef(0);
 
   const [songDuration, setSongDuration] = useState(0);
@@ -144,20 +141,6 @@ export default function PlayingBar({
     timeIntervalRef.current = timeInterval;
   }, [isPlaying]);
 
-  //handle seeking
-  useEffect(() => {
-    if (isSeeking) {
-      isSeekingRef.current = true;
-    }
-
-    if (!isSeeking && isSeekingRef.current) {
-      const currentSeekTime = Math.floor(playback * songDuration);
-      initSong(currentSeekTime);
-
-      isSeekingRef.current = false;
-    }
-  }, [isSeeking]);
-
   return (
     <div className="now-playing-bar flex items-center justify-center h-20 bg-neutral-950">
       <div className="flex text-white w-full">
@@ -166,14 +149,11 @@ export default function PlayingBar({
           {...{
             isPlaying,
             setIsPlaying,
-            isDragging: isSeeking,
-            setIsDragging: setIsSeeking,
-            playback,
-            setPlayback,
             setQueueIndex,
             audioSettings,
-            songDuration,
+            songDuration: songDurationRef.current,
             songTime: currentTime,
+            initSong,
           }}
         />
         <AudioControls volumeControls={audioSettings?.gainNode} />

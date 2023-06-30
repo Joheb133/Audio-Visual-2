@@ -8,6 +8,8 @@ interface SongControlsButtonsProps {
   isSource: AudioBufferSourceNode | undefined;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  songTime: number;
+  initSong: (number: number) => void;
 }
 
 export default function SongControlsButtons({
@@ -16,6 +18,8 @@ export default function SongControlsButtons({
   isSource,
   setIsPlaying,
   setQueueIndex,
+  songTime,
+  initSong,
 }: SongControlsButtonsProps) {
   const [isClickedPrev, setIsClickedPrev] = useState(false);
   const [isClickedPlayPause, setIsClickedPlayPause] = useState(false);
@@ -32,7 +36,11 @@ export default function SongControlsButtons({
         onMouseUp={() => {
           setIsClickedPrev(false);
           if (!isAudioContext || !isSource) return;
-          setQueueIndex((currentIndex) => currentIndex - 1);
+          if (songTime > 1) {
+            initSong(0);
+          } else {
+            setQueueIndex((currentIndex) => currentIndex - 1);
+          }
         }}
         onMouseLeave={() => setIsClickedPrev(false)}
       >

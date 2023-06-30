@@ -30,6 +30,7 @@ export default function PlayingBar({
 
   const [songDuration, setSongDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const songDurationRef = useRef(0);
   const currentTimeRef = useRef(0);
   const startTime = useRef(0);
   const timeIntervalRef = useRef<any>(null);
@@ -44,6 +45,7 @@ export default function PlayingBar({
 
     //store song duration
     setSongDuration(audioData.duration);
+    songDurationRef.current = audioData.duration;
 
     //setup new AudioBufferSourceNode
     const source = audioCtx.createBufferSource();
@@ -73,15 +75,12 @@ export default function PlayingBar({
 
   //handle song ended
   function handleAudioEnded() {
-    setIsPlaying(false);
     const list = audioList;
     const currentIndex = queueIndex;
-    console.log("ended");
 
     if (currentIndex < list.length) {
       //play next song
       setQueueIndex((currentIndex) => currentIndex + 1);
-      setIsPlaying(true);
     } else {
       //restart & pause current song
       setIsPlaying(false);
@@ -104,21 +103,27 @@ export default function PlayingBar({
     let songEnded = false;
     const startInterval = () => {
       timeInterval = setInterval(() => {
-        let calCurrentTime =
+        let preciseCurrentTime =
           audioSettings.audioCtx.currentTime +
           songOffset.current -
           startTime.current;
 
+        // round to 1s
+        let roundedCurrentTime = Math.floor(preciseCurrentTime);
+
         //Has atleast 1s elapsed
-        if (Math.floor(calCurrentTime) !== currentTimeRef.current) {
-          currentTimeRef.current = Math.floor(calCurrentTime);
+        if (
+          roundedCurrentTime !== currentTimeRef.current &&
+          preciseCurrentTime <= songDurationRef.current
+        ) {
+          currentTimeRef.current = roundedCurrentTime;
           setCurrentTime(currentTimeRef.current);
         }
 
         //Has song ended?
-        if (calCurrentTime >= songDuration && !songEnded) {
-          songEnded = true;
+        if (preciseCurrentTime >= songDuration && !songEnded) {
           handleAudioEnded();
+          songEnded = true;
         }
       }, 50);
     };

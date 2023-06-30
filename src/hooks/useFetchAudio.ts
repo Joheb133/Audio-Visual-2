@@ -3,12 +3,13 @@ import { useState, useEffect } from "react"
 export default function useFetchAudio(url: string, shouldFetch: boolean) {
     const [audioData, setAudioData] = useState<any | null>(null);
     const [error, setError] = useState(null);
-    const [isPending, setIsPending] = useState(true);
+    const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
         if (!shouldFetch) return
         const audioCtx = new AudioContext()
         const abortCtrl = new AbortController();
+        setIsPending(true)
 
         fetch(url, { signal: abortCtrl.signal })
             .then(res => {

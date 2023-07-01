@@ -3,10 +3,10 @@ import { AiOutlineSearch } from "react-icons/ai";
 import audioList from "../../audioList";
 
 interface SearchBarProp {
-  setSongInfo: React.Dispatch<null>;
+  songInfoRef: React.MutableRefObject<any>;
 }
 
-export default function SearchBar({ setSongInfo }: SearchBarProp) {
+export default function SearchBar({ songInfoRef }: SearchBarProp) {
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   async function getAudioInfo(input: string) {
@@ -32,7 +32,8 @@ export default function SearchBar({ setSongInfo }: SearchBarProp) {
 
     getAudio(input);
     getAudioInfo(input).then((res) => {
-      setSongInfo(res);
+      // setSongInfo(res);
+      songInfoRef.current = res;
     });
     searchBar.value = "";
   }

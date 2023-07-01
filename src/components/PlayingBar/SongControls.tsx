@@ -25,20 +25,20 @@ export default function SongControls({
   initSong,
 }: SongControlsProp) {
   const id = "playback";
-  const [songTimeEl, setSongTimeEl] = useState<number | undefined>(undefined);
   const [isSeeking, setIsSeeking] = useState(false);
   const [playback, setPlayback] = useState(0);
+  const songTimeRef = useRef(0);
   const isSeekingRef = useRef(false);
 
   //update song time element
   useEffect(() => {
     if (songDuration === 0) return;
-    setSongTimeEl(playback * songDuration);
+    songTimeRef.current = playback * songDuration;
   }, [playback]);
 
   useEffect(() => {
     if (isSeeking) return;
-    setSongTimeEl(songTime);
+    songTimeRef.current = songTime;
 
     //song time goes from 1 to duration (e.g 180 [seconds])
     //1 / duration is like saying the 1th step of the range bar
@@ -75,7 +75,6 @@ export default function SongControls({
         <SongControlsButtons
           {...{ isPlaying, setIsPlaying }}
           isAudioContext={audioSettings?.audioCtx}
-          isSource={audioSettings?.source}
           setQueueIndex={setQueueIndex}
           songTime={songTime}
           initSong={initSong}
@@ -83,7 +82,9 @@ export default function SongControls({
       </div>
       <div className="flex w-full text-xs whitespace-nowrap">
         <span>
-          {songTimeEl !== undefined ? formatSeconds(songTimeEl) : "-:--"}
+          {songTimeRef.current !== undefined
+            ? formatSeconds(songTimeRef.current)
+            : "-:--"}
         </span>
         <CustomRangeBar
           id={id}

@@ -1,5 +1,5 @@
 export default [
-    "/music/4rif - August (Lyric Video) prod. Wonderlust.mp3",
+    "music/4rif - August (Lyric Video) prod. Wonderlust.mp3",
     "music/d4vd - Poetic Vulgarity (Official Audio).mp3",
     "music/FKJ - Just Piano (In partnership with Calm).mp3",
     "/test.mp3",

@@ -5,13 +5,13 @@ import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
 import { useState } from "react";
 
 interface SideBarProp {
-  setSongInfo: React.Dispatch<null>;
+  songInfoRef: React.MutableRefObject<any>;
 }
 
-export default function SideBar({ setSongInfo }: SideBarProp) {
+export default function SideBar({ songInfoRef }: SideBarProp) {
   const dictionary = {
     library: "",
-    search: <SearchBar setSongInfo={setSongInfo} />,
+    search: <SearchBar songInfoRef={songInfoRef} />,
     dropMusic: "",
   };
   const [sideBarComponent, setSideBarComponent] = useState<any>(

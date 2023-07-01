@@ -1,5 +1,5 @@
 import "./index.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Visualiser from "./components/Visualiser/Visualiser";
 import SideBar from "./components/SideBar/SideBar";
 import PlayingBar from "./components/PlayingBar/PlayingBar";
@@ -16,7 +16,7 @@ export default function App() {
     null
   );
   const [isUserGesture, setIsUserGesture] = useState(false);
-  const [songInfo, setSongInfo] = useState<any>();
+  const songInfoRef = useRef(null);
 
   //listen for user gesture
   useEffect(() => {
@@ -41,14 +41,14 @@ export default function App() {
     <>
       <div className="flex flex-col min-h-screen min-w-[700px] px-2 pt-2 bg-neutral-950">
         <div className="flex flex-row flex-grow">
-          <SideBar setSongInfo={setSongInfo} />
+          <SideBar songInfoRef={songInfoRef} />
           <Visualiser analyser={audioSettings?.analyser} />
         </div>
         <PlayingBar
           audioSettings={audioSettings}
           setAudioSettings={setAudioSettings}
           isUserGesture={isUserGesture}
-          songInfo={songInfo}
+          songInfo={songInfoRef.current}
         />
       </div>
     </>

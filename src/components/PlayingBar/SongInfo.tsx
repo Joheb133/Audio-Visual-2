@@ -26,6 +26,13 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
     ({ title, channel, videoUrl, img } = songInfo.video);
   }
 
+  function cancelAnimation(animation: Animation | null) {
+    if (animation) {
+      animation.cancel();
+      animation = null;
+    }
+  }
+
   function overflowText(elementWithAnimation: ElementWithAnimation) {
     //apply stuff for overflowing text
     const { element, animation } = elementWithAnimation;
@@ -54,13 +61,6 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
       );
 
       elementWithAnimation.animation = newAnimation;
-    }
-  }
-
-  function cancelAnimation(animation: Animation | null) {
-    if (animation) {
-      animation.cancel();
-      animation = null;
     }
   }
 

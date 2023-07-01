@@ -23,9 +23,9 @@ export default function PlayingBar({
 }: PlayingBarProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [queueIndex, setQueueIndex] = useState(0);
-  const songOffset = useRef(0);
-
   const [currentTime, setCurrentTime] = useState(0);
+
+  const songOffsetRef = useRef(0);
   const songDurationRef = useRef(0);
   const currentTimeRef = useRef(0);
   const startTime = useRef(0);
@@ -59,7 +59,7 @@ export default function PlayingBar({
 
     //store start time
     startTime.current = audioCtx.currentTime;
-    songOffset.current = songStartTime;
+    songOffsetRef.current = songStartTime;
 
     //store source reference
     setAudioSettings((prevSettings) => ({
@@ -100,7 +100,7 @@ export default function PlayingBar({
       timeInterval = setInterval(() => {
         let preciseCurrentTime =
           audioSettings.audioCtx.currentTime +
-          songOffset.current -
+          songOffsetRef.current -
           startTime.current;
 
         // round to 1s

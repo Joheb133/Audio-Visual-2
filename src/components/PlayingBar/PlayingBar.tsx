@@ -25,7 +25,6 @@ export default function PlayingBar({
   const [queueIndex, setQueueIndex] = useState(0);
   const songOffset = useRef(0);
 
-  const [songDuration, setSongDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const songDurationRef = useRef(0);
   const currentTimeRef = useRef(0);
@@ -41,7 +40,6 @@ export default function PlayingBar({
     const { audioCtx, gainNode, analyser, source: oldSource } = audioSettings;
 
     //store song duration
-    setSongDuration(audioData.duration);
     songDurationRef.current = audioData.duration;
 
     //setup new AudioBufferSourceNode
@@ -118,7 +116,7 @@ export default function PlayingBar({
         }
 
         //Has song ended?
-        if (preciseCurrentTime >= songDuration && !songEnded) {
+        if (preciseCurrentTime >= songDurationRef.current && !songEnded) {
           handleAudioEnded();
           songEnded = true;
         }

@@ -36,7 +36,7 @@ export default function SongControlsButtons({
         onMouseUp={() => {
           setIsClickedPrev(false);
           if (!isAudioContext || !isSource) return;
-          if (songTime > 1) {
+          if (songTime > 3) {
             initSong(0);
           } else {
             setQueueIndex((currentIndex) => currentIndex - 1);

@@ -8,7 +8,6 @@ interface AudioControlsProps {
 }
 
 export default function AudioControls({ volumeControls }: AudioControlsProps) {
-  const id = "volume";
   const [volume, setVolume] = useState(() => {
     //check for save volume, default to 0.35
     const storedVolume = localStorage.getItem("volume");
@@ -61,7 +60,6 @@ export default function AudioControls({ volumeControls }: AudioControlsProps) {
           {icon}
         </button>
         <CustomRangeBar
-          id={id}
           steps={100}
           progress={volume}
           setProgress={setVolume}

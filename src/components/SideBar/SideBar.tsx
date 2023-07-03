@@ -1,4 +1,6 @@
-import SearchBar from "./SearchBar";
+import Search from "./Search";
+import DropMusic from "./DropMusic";
+import Library from "./Library";
 import { VscLibrary } from "react-icons/vsc";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
@@ -10,9 +12,9 @@ interface SideBarProp {
 
 export default function SideBar({ songInfoRef }: SideBarProp) {
   const dictionary = {
-    library: "",
-    search: <SearchBar songInfoRef={songInfoRef} />,
-    dropMusic: "",
+    library: <Library />,
+    search: <Search songInfoRef={songInfoRef} />,
+    dropMusic: <DropMusic />,
   };
   const [sideBarComponent, setSideBarComponent] = useState<any>(
     dictionary.search
@@ -20,7 +22,7 @@ export default function SideBar({ songInfoRef }: SideBarProp) {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center w-full h-20 rounded-md text-white">
+      <div className="flex w-full h-20 rounded-md overflow-hidden text-white">
         <button
           className="sidebar-buttons group"
           onClick={() => setSideBarComponent(dictionary.library)}
@@ -43,7 +45,7 @@ export default function SideBar({ songInfoRef }: SideBarProp) {
           />
         </button>
       </div>
-      <div className="w-[380px] p-3 grow bg-neutral-900 rounded-md">
+      <div className="w-[380px] p-4 grow bg-neutral-900 rounded-md">
         {sideBarComponent}
       </div>
     </div>

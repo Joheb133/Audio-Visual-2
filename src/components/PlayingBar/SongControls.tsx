@@ -24,7 +24,6 @@ export default function SongControls({
   setQueueIndex,
   initSong,
 }: SongControlsProp) {
-  const id = "playback";
   const [isSeeking, setIsSeeking] = useState(false);
   const [playback, setPlayback] = useState(0);
   const songTimeRef = useRef(0);
@@ -87,7 +86,6 @@ export default function SongControls({
             : "-:--"}
         </span>
         <CustomRangeBar
-          id={id}
           steps={songDuration !== undefined ? Math.floor(songDuration) : 0}
           progress={playback}
           setProgress={setPlayback}

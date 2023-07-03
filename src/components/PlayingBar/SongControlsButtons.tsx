@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
 
@@ -19,20 +19,20 @@ export default function SongControlsButtons({
   songTime,
   initSong,
 }: SongControlsButtonsProps) {
-  const isClickedPrev = useRef(false);
-  const isClickedPlayPause = useRef(false);
-  const isClickedNext = useRef(false);
+  const [isClickedPrev, setIsClickedPrev] = useState(false);
+  const [isClickedPlayPause, setIsClickedPlayPause] = useState(false);
+  const [isClickedNext, setIsClickedNext] = useState(false);
 
   return (
     <>
       {/* Prev button */}
       <button
         className={`cursor-default opacity-70 ${
-          isClickedPrev.current ? "" : "hover:opacity-100"
+          isClickedPrev ? "" : "hover:opacity-100"
         }`}
-        onMouseDown={() => (isClickedPrev.current = true)}
+        onMouseDown={() => setIsClickedPrev(true)}
         onMouseUp={() => {
-          isClickedPrev.current = false;
+          setIsClickedPrev(false);
           if (!isAudioContext) return;
           if (songTime > 3) {
             initSong(0);
@@ -40,7 +40,7 @@ export default function SongControlsButtons({
             setQueueIndex((currentIndex) => currentIndex - 1);
           }
         }}
-        onMouseLeave={() => (isClickedPrev.current = false)}
+        onMouseLeave={() => setIsClickedPrev(false)}
       >
         <BsFillSkipStartFill size="24" />
       </button>
@@ -48,15 +48,15 @@ export default function SongControlsButtons({
       {/* Play/pause button */}
       <button
         className={`cursor-default ${
-          isClickedPlayPause.current ? "" : "hover:scale-105"
+          isClickedPlayPause ? "" : "hover:scale-105"
         }`}
-        onMouseDown={() => (isClickedPlayPause.current = true)}
+        onMouseDown={() => setIsClickedPlayPause(true)}
         onMouseUp={() => {
-          isClickedPlayPause.current = false;
+          setIsClickedPlayPause(false);
           if (!isAudioContext) return;
           setIsPlaying(!isPlaying);
         }}
-        onMouseLeave={() => (isClickedPlayPause.current = false)}
+        onMouseLeave={() => setIsClickedPlayPause(false)}
       >
         {isPlaying ? <FaPauseCircle size="32" /> : <FaPlayCircle size="32" />}
       </button>
@@ -64,15 +64,15 @@ export default function SongControlsButtons({
       {/* Next button */}
       <button
         className={`cursor-default opacity-70 ${
-          isClickedNext.current ? "" : "hover:opacity-100"
+          isClickedNext ? "" : "hover:opacity-100"
         }`}
-        onMouseDown={() => (isClickedNext.current = true)}
+        onMouseDown={() => setIsClickedNext(true)}
         onMouseUp={() => {
-          isClickedNext.current = false;
+          setIsClickedNext(false);
           if (!isAudioContext) return;
           setQueueIndex((currentIndex) => currentIndex + 1);
         }}
-        onMouseLeave={() => (isClickedNext.current = false)}
+        onMouseLeave={() => setIsClickedNext(false)}
       >
         <BsFillSkipEndFill size="24" />
       </button>

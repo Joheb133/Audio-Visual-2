@@ -87,7 +87,7 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
       <div className="flex justify-start">
         <img
           className="rounded-md w-14 h-14 object-cover"
-          src={img ? img.url : "placeholder.jpg"}
+          src={img ? img.url : "placeholder.png"}
           alt="placeholder"
         />
         <div className="flex flex-col justify-center mx-2 overflow-hidden">

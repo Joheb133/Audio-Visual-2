@@ -15,12 +15,16 @@ body {
   }
 
   .sidebar-buttons {
-    @apply relative w-full h-full bg-neutral-900 first:rounded-l-md last:rounded-r-md
-    hover:bg-neutral-800 duration-500;
+    @apply w-full h-full bg-neutral-900
+    hover:bg-neutral-800 duration-300;
   }
 
   .sidebar-buttons-svg {
     @apply mx-auto opacity-40 group-hover:opacity-70 duration-200;
+  }
+
+  .sidebar-component-title {
+    @apply text-xl font-medium text-neutral-500;
   }
 
   .gradient-mask {

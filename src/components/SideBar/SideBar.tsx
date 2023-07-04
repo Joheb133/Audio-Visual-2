@@ -1,5 +1,5 @@
 import Search from "./Search";
-import DropMusic from "./DropMusic";
+import DropMusic from "./DropMusic/DropMusic";
 import Library from "./Library";
 import { VscLibrary } from "react-icons/vsc";
 import { AiOutlineSearch } from "react-icons/ai";

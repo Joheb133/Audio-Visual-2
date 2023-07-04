@@ -9,7 +9,8 @@
 
 export type songDataType = {
     title: string;
-    path: string
+    path?: string
+    audioBuffer?: AudioBuffer
 }
 
 export const songDataList: songDataType[] = [

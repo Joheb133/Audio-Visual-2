@@ -26,13 +26,33 @@ export default function AudioUploader({
   }
 
   function handleAudioFile(file: File) {
-    // Handle the audio file
-    const newSong = {
-      title: file.name,
-      path: "",
+    const audioContext = new AudioContext();
+    const fileReader = new FileReader();
+    // Handle parsing file data
+    fileReader.onload = function (e: ProgressEvent<FileReader>) {
+      const arrayBuffer = e.target?.result;
+
+      if (arrayBuffer instanceof ArrayBuffer) {
+        audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
+          // Handle long audio file
+          if (buffer.duration > 480) {
+            console.log("Audio duration exceeds 8 minute limit");
+            return;
+          }
+
+          // Handle the audio file
+          const newSong = {
+            title: file.name,
+            audioBuffer: buffer,
+          };
+          setSongList((prevSongList) => [...prevSongList.slice(0, 3), newSong]);
+        });
+      } else {
+        console.log("Failed to decode file");
+      }
     };
 
-    setSongList((prevSongList) => [...prevSongList, newSong]);
+    fileReader.readAsArrayBuffer(file);
   }
 
   return (

@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import audioList from "../../audioList";
+import audioList from "../../../audioList";
 
 interface SearchBarProp {
   songInfoRef: React.MutableRefObject<any>;
 }
 
-export default function Search({ songInfoRef }: SearchBarProp) {
+export default function SearchBar({ songInfoRef }: SearchBarProp) {
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   async function getAudioInfo(input: string) {
@@ -39,18 +39,15 @@ export default function Search({ songInfoRef }: SearchBarProp) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <span className="sidebar-component-title">Search</span>
-      <div className="search-bar gap-2 w-full flex text-white">
-        <input
-          ref={searchBarRef}
-          type="text"
-          className="search-bar w-full h-6 bg-neutral-700 py-4 px-2 rounded-md outline-none text-xs"
-        />
-        <button className="opacity-70 hover:opacity-100" onClick={searchID}>
-          <AiOutlineSearch size="24" />
-        </button>
-      </div>
+    <div className="gap-2 w-full flex text-white">
+      <input
+        ref={searchBarRef}
+        type="text"
+        className="w-full h-6 bg-neutral-700 py-4 px-2 rounded-md outline-none text-xs"
+      />
+      <button className="opacity-70 hover:opacity-100" onClick={searchID}>
+        <AiOutlineSearch size="24" />
+      </button>
     </div>
   );
 }

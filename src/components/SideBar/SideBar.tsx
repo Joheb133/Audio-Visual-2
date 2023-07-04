@@ -1,4 +1,4 @@
-import Search from "./Search";
+import Search from "./Search/Search";
 import DropMusic from "./DropMusic/DropMusic";
 import Library from "./Library";
 import { VscLibrary } from "react-icons/vsc";

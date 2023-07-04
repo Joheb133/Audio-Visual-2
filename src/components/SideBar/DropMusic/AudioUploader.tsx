@@ -13,12 +13,20 @@ export default function AudioUploader({
     e.preventDefault();
     setDragging(false);
     const file = e.dataTransfer.files[0];
-    // Handle the dropped file, e.g., pass it to a function for further processing
-    handleAudioFile(file);
+
+    //check file type
+    const allowedTypes = ["audio/mpeg", "audio/wav", "audio/ogg"];
+    const fileType = file.type;
+
+    if (allowedTypes.includes(fileType)) {
+      handleAudioFile(file);
+    } else {
+      console.log("File type not supported:", fileType);
+    }
   }
 
   function handleAudioFile(file: File) {
-    // Handle the audio file, e.g., upload it, process it, etc.
+    // Handle the audio file
     const newSong = {
       title: file.name,
       path: "",

@@ -1,5 +1,5 @@
-import Search from "./Search/Search";
-import DropMusic from "./DropMusic/DropMusic";
+import Search from "./Search";
+import DropMusic from "./DropMusic";
 import Library from "./Library";
 import { VscLibrary } from "react-icons/vsc";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -17,7 +17,7 @@ export default function SideBar({ songInfoRef }: SideBarProp) {
     dropMusic: <DropMusic />,
   };
   const [sideBarComponent, setSideBarComponent] = useState<any>(
-    dictionary.search
+    dictionary.dropMusic
   );
 
   return (

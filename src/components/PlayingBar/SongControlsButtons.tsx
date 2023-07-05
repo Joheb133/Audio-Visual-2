@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
+import { AudioSettingsProp } from "../../App";
 
 interface SongControlsButtonsProps {
   isPlaying: boolean;
-  isAudioContext: AudioContext | undefined;
+  audioSettings: AudioSettingsProp | null;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
   songTime: number;
@@ -13,7 +14,7 @@ interface SongControlsButtonsProps {
 
 export default function SongControlsButtons({
   isPlaying,
-  isAudioContext,
+  audioSettings,
   setIsPlaying,
   setQueueIndex,
   songTime,
@@ -33,7 +34,7 @@ export default function SongControlsButtons({
         onMouseDown={() => setIsClickedPrev(true)}
         onMouseUp={() => {
           setIsClickedPrev(false);
-          if (!isAudioContext) return;
+          if (!audioSettings?.audioCtx || !audioSettings.source) return;
           if (songTime > 3) {
             initSong(0);
           } else {
@@ -53,7 +54,7 @@ export default function SongControlsButtons({
         onMouseDown={() => setIsClickedPlayPause(true)}
         onMouseUp={() => {
           setIsClickedPlayPause(false);
-          if (!isAudioContext) return;
+          if (!audioSettings?.audioCtx || !audioSettings.source) return;
           setIsPlaying(!isPlaying);
         }}
         onMouseLeave={() => setIsClickedPlayPause(false)}
@@ -69,7 +70,7 @@ export default function SongControlsButtons({
         onMouseDown={() => setIsClickedNext(true)}
         onMouseUp={() => {
           setIsClickedNext(false);
-          if (!isAudioContext) return;
+          if (!audioSettings?.audioCtx || !audioSettings.source) return;
           setQueueIndex((currentIndex) => currentIndex + 1);
         }}
         onMouseLeave={() => setIsClickedNext(false)}

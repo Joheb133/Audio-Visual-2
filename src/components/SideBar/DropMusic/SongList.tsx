@@ -1,10 +1,32 @@
+import { useState } from "react";
 import { songDataType } from "./songDataList";
+import { FaPause, FaPlay } from "react-icons/fa";
+import { AudioSettingsProp } from "../../../App";
 
-export default function SongList({ songsInfo }: { songsInfo: songDataType[] }) {
+interface SongListProp {
+  songsInfo: songDataType[];
+  isPlaying: boolean;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  audioSettings: AudioSettingsProp | null;
+}
+
+export default function SongList({
+  songsInfo,
+  isPlaying,
+  setIsPlaying,
+  audioSettings,
+}: SongListProp) {
   return (
     <div className="h-full">
       {songsInfo.map((song, index) => (
-        <SongBox key={index} index={index + 1} title={song.title} />
+        <SongBox
+          key={index}
+          index={index + 1}
+          title={song.title}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          audioSettings={audioSettings}
+        />
       ))}
     </div>
   );
@@ -13,16 +35,45 @@ export default function SongList({ songsInfo }: { songsInfo: songDataType[] }) {
 interface SongBoxProp {
   index: number;
   title: string;
+  isPlaying: boolean;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  audioSettings: AudioSettingsProp | null;
 }
 
-function SongBox({ index, title }: SongBoxProp) {
+function SongBox({
+  index,
+  title,
+  isPlaying,
+  setIsPlaying,
+  audioSettings,
+}: SongBoxProp) {
+  const [isHover, setIsHover] = useState(false);
+
   return (
-    <div className="flex gap-2 items-center px-4 w-full h-12 bg-neutral-900 rounded-md hover:bg-neutral-800">
-      <div>
-        <span className="pointer-events-none text-neutral-400">{index}</span>
+    <div
+      className="flex gap-2 items-center px-2 w-full h-12 bg-neutral-900 
+      rounded-md cursor-default hover:bg-neutral-800"
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
+      <div className="w-6 h-6 flex justify-center items-center">
+        {isHover ? (
+          <button
+            className="text-white cursor-default"
+            onMouseDown={() => {
+              if (!audioSettings?.audioCtx || !audioSettings?.source) return;
+
+              setIsPlaying(!isPlaying);
+            }}
+          >
+            {isPlaying ? <FaPause size="12" /> : <FaPlay size="12" />}
+          </button>
+        ) : (
+          <span className="text-neutral-400">{index}</span>
+        )}
       </div>
       <div>
-        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-64 block pointer-events-none text-white">
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-white">
           {title}
         </span>
       </div>

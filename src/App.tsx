@@ -15,6 +15,7 @@ export default function App() {
   const [audioSettings, setAudioSettings] = useState<AudioSettingsProp | null>(
     null
   );
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isUserGesture, setIsUserGesture] = useState(false);
   const songInfoRef = useRef(null);
 
@@ -41,7 +42,12 @@ export default function App() {
     <>
       <div className="flex flex-col min-h-screen min-w-[700px] px-2 pt-2 bg-neutral-950">
         <div className="flex flex-row flex-grow">
-          <SideBar songInfoRef={songInfoRef} />
+          <SideBar
+            songInfoRef={songInfoRef}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            audioSettings={audioSettings}
+          />
           <Visualiser analyser={audioSettings?.analyser} />
         </div>
         <PlayingBar
@@ -49,6 +55,8 @@ export default function App() {
           setAudioSettings={setAudioSettings}
           isUserGesture={isUserGesture}
           songInfo={songInfoRef.current}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
         />
       </div>
     </>

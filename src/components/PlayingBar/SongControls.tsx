@@ -73,7 +73,7 @@ export default function SongControls({
       <div className="flex items-center gap-4 mb-2">
         <SongControlsButtons
           {...{ isPlaying, setIsPlaying }}
-          isAudioContext={audioSettings?.audioCtx}
+          audioSettings={audioSettings}
           setQueueIndex={setQueueIndex}
           songTime={songTime}
           initSong={initSong}

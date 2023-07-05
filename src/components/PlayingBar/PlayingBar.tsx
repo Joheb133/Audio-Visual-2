@@ -13,6 +13,8 @@ interface PlayingBarProps {
   >;
   isUserGesture: boolean;
   songInfo: any;
+  isPlaying: boolean;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PlayingBar({
@@ -20,10 +22,12 @@ export default function PlayingBar({
   setAudioSettings,
   isUserGesture,
   songInfo,
+  isPlaying,
+  setIsPlaying,
 }: PlayingBarProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [queueIndex, setQueueIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  // const [queue, setQueue] = useState<any>();
 
   const songOffsetRef = useRef(0);
   const songDurationRef = useRef(0);
@@ -91,7 +95,10 @@ export default function PlayingBar({
 
   //listen for playing + track elapsed time
   useEffect(() => {
-    if (!audioSettings?.audioCtx || !audioSettings.source) return;
+    if (!audioSettings?.audioCtx) return;
+    // Keep checking for a source
+    if (!audioSettings.source) {
+    }
 
     //update time elapsed
     let timeInterval = timeIntervalRef.current;

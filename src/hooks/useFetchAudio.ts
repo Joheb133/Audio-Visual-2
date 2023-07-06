@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react"
 
-export default function useFetchAudio(url: string, shouldFetch: boolean) {
-    const [audioData, setAudioData] = useState<any | null>(null);
+export default function useFetchAudio(url: string | undefined, shouldFetch: boolean) {
+    const [audioData, setAudioData] = useState<AudioBuffer | ArrayBuffer | undefined>(undefined);
     const [error, setError] = useState(null);
     const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
         if (!shouldFetch) return
+
+        if (!url) {
+            setAudioData(undefined)
+            return
+        }
         const audioCtx = new AudioContext()
         const abortCtrl = new AbortController();
         setIsPending(true)
@@ -20,7 +25,8 @@ export default function useFetchAudio(url: string, shouldFetch: boolean) {
                 if (error.message !== 'The user aborted a request.') throw error
             })
             .then(audioBuffer => {
-                setAudioData(audioBuffer)
+                const buffer = audioBuffer as AudioBuffer
+                setAudioData(buffer)
                 setIsPending(false)
                 setError(null)
             })
@@ -39,5 +45,5 @@ export default function useFetchAudio(url: string, shouldFetch: boolean) {
         }
     }, [url, shouldFetch])
 
-    return { audioData, error, isPending }
+    return audioData as AudioBuffer | undefined
 }

@@ -5,6 +5,7 @@ import SongInfo from "./SongInfo";
 import AudioControls from "./AudioControls";
 import { AudioSettingsProp } from "../../App";
 import audioList from "../../audioList";
+import { audioDataType } from "../../types";
 
 interface PlayingBarProps {
   audioSettings: AudioSettingsProp | null;
@@ -15,6 +16,7 @@ interface PlayingBarProps {
   songInfo: any;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  queue: audioDataType[];
 }
 
 export default function PlayingBar({
@@ -24,10 +26,11 @@ export default function PlayingBar({
   songInfo,
   isPlaying,
   setIsPlaying,
+  queue,
 }: PlayingBarProps) {
   const [queueIndex, setQueueIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  // const [queue, setQueue] = useState<any>();
+  const [audioBuffer, setAudioBuffer] = useState<AudioBuffer>();
 
   const songOffsetRef = useRef(0);
   const songDurationRef = useRef(0);
@@ -35,16 +38,38 @@ export default function PlayingBar({
   const startTime = useRef(0);
   const timeIntervalRef = useRef<any>(null);
 
-  const { audioData } = useFetchAudio(audioList[queueIndex], isUserGesture);
+  const audioData = useFetchAudio(
+    queue[queueIndex]?.audioData.path,
+    isUserGesture
+  );
+
+  useEffect(() => {
+    const buffer = queue[queueIndex]?.audioData.buffer;
+    console.log(buffer);
+
+    if (audioData) {
+      setAudioBuffer(audioData);
+      console.log("path");
+    } else if (buffer) {
+      setAudioBuffer(buffer);
+      console.log("buffer");
+    } else {
+      console.log("No source");
+    }
+  }, [audioData, queueIndex]);
+
+  useEffect(() => {
+    initSong(0);
+  }, [audioBuffer]);
 
   //code to play audio using bufferSourceNode
   const initSong = (songStartTime: number) => {
-    if (!audioData || !audioSettings) return;
+    if (!audioBuffer || !audioSettings) return;
 
     const { audioCtx, gainNode, analyser, source: oldSource } = audioSettings;
 
     //store song duration
-    songDurationRef.current = audioData.duration;
+    songDurationRef.current = audioBuffer.duration;
 
     //setup new AudioBufferSourceNode
     const source = audioCtx.createBufferSource();
@@ -58,8 +83,8 @@ export default function PlayingBar({
     }
 
     //start audio
-    source.buffer = audioData;
-    source.start(audioCtx.currentTime, songStartTime, audioData.duration);
+    source.buffer = audioBuffer;
+    source.start(audioCtx.currentTime, songStartTime, audioBuffer.duration);
 
     //store start time
     startTime.current = audioCtx.currentTime;
@@ -87,18 +112,9 @@ export default function PlayingBar({
     }
   }
 
-  //set audio source when given data
-  //this is the first time when playing the song
-  useEffect(() => {
-    initSong(0);
-  }, [audioData]);
-
   //listen for playing + track elapsed time
   useEffect(() => {
-    if (!audioSettings?.audioCtx) return;
-    // Keep checking for a source
-    if (!audioSettings.source) {
-    }
+    if (!audioSettings?.audioCtx || !audioSettings.source) return;
 
     //update time elapsed
     let timeInterval = timeIntervalRef.current;

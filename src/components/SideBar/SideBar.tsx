@@ -6,12 +6,15 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
 import { useState } from "react";
 import { AudioSettingsProp } from "../../App";
+import { audioDataType } from "../../types";
 
 interface SideBarProp {
   songInfoRef: React.MutableRefObject<any>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
+  queue: audioDataType[];
+  setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }
 
 export default function SideBar({
@@ -19,6 +22,8 @@ export default function SideBar({
   isPlaying,
   setIsPlaying,
   audioSettings,
+  queue,
+  setQueue,
 }: SideBarProp) {
   const [selectedCompoenent, setselectedCompoenent] = useState("dropMusic");
 
@@ -34,6 +39,8 @@ export default function SideBar({
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}
+            queue={queue}
+            setQueue={setQueue}
           />
         );
     }

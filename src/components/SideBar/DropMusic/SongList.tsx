@@ -1,31 +1,38 @@
 import { useState } from "react";
-import { songDataType } from "./songDataList";
+import { audioDataType } from "../../../types";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { AudioSettingsProp } from "../../../App";
 
 interface SongListProp {
-  songsInfo: songDataType[];
+  songList: audioDataType[];
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
+  queue: audioDataType[];
+  setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }
 
 export default function SongList({
-  songsInfo,
+  songList,
   isPlaying,
   setIsPlaying,
   audioSettings,
+  queue,
+  setQueue,
 }: SongListProp) {
   return (
     <div className="h-full">
-      {songsInfo.map((song, index) => (
+      {songList.map((song, index) => (
         <SongBox
           key={index}
           index={index + 1}
-          title={song.title}
+          title={song.metaData.title}
+          songList={songList}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           audioSettings={audioSettings}
+          queue={queue}
+          setQueue={setQueue}
         />
       ))}
     </div>
@@ -35,17 +42,23 @@ export default function SongList({
 interface SongBoxProp {
   index: number;
   title: string;
+  songList: audioDataType[];
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
+  queue: audioDataType[];
+  setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }
 
 function SongBox({
   index,
   title,
+  songList,
   isPlaying,
   setIsPlaying,
   audioSettings,
+  queue,
+  setQueue,
 }: SongBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
@@ -61,8 +74,11 @@ function SongBox({
           <button
             className="text-white cursor-default"
             onMouseDown={() => {
+              if (queue.length < 1) {
+                setQueue(songList);
+                console.log("Playing from drop music");
+              }
               if (!audioSettings?.audioCtx || !audioSettings?.source) return;
-
               setIsPlaying(!isPlaying);
             }}
           >

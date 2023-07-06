@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { BsMusicNoteBeamed } from "react-icons/bs";
-import { songDataType } from "./songDataList";
+import { audioDataType } from "../../../types";
 
 export default function AudioUploader({
   setSongList,
 }: {
-  setSongList: React.Dispatch<React.SetStateAction<songDataType[]>>;
+  setSongList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }) {
   const [dragging, setDragging] = useState(false);
 
@@ -42,8 +42,13 @@ export default function AudioUploader({
 
           // Handle the audio file
           const newSong = {
-            title: file.name,
-            audioBuffer: buffer,
+            audioData: {
+              buffer,
+            },
+            metaData: {
+              title: file.name,
+              duration: buffer.duration,
+            },
           };
           setSongList((prevSongList) => [...prevSongList.slice(0, 3), newSong]);
         });

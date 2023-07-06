@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import Visualiser from "./components/Visualiser/Visualiser";
 import SideBar from "./components/SideBar/SideBar";
 import PlayingBar from "./components/PlayingBar/PlayingBar";
+import { audioDataType } from "./types";
 
 export interface AudioSettingsProp {
   audioCtx: AudioContext;
@@ -17,6 +18,7 @@ export default function App() {
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [isUserGesture, setIsUserGesture] = useState(false);
+  const [queue, setQueue] = useState<audioDataType[]>([]);
   const songInfoRef = useRef(null);
 
   //listen for user gesture
@@ -47,6 +49,8 @@ export default function App() {
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}
+            queue={queue}
+            setQueue={setQueue}
           />
           <Visualiser analyser={audioSettings?.analyser} />
         </div>
@@ -57,6 +61,7 @@ export default function App() {
           songInfo={songInfoRef.current}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
+          queue={queue}
         />
       </div>
     </>

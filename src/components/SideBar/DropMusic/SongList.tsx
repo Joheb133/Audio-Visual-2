@@ -67,7 +67,7 @@ function SongBox({
   queueIndex,
   setQueueIndex,
 }: SongBoxProp) {
-  const [isHover, setIsHover] = useState(true);
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <div

@@ -53,6 +53,8 @@ export default function PlayingBar({
     } else {
       console.log("No source");
     }
+
+    if ((!isPlaying && audioData) || (!isPlaying && buffer)) setIsPlaying(true);
   }, [audioData, queue]);
 
   useEffect(() => {
@@ -111,8 +113,7 @@ export default function PlayingBar({
 
   //listen for playing + track elapsed time
   useEffect(() => {
-    if (!audioSettings?.audioCtx || !audioSettings.source) return;
-
+    if (!audioSettings?.audioCtx) return;
     //update time elapsed
     let timeInterval = timeIntervalRef.current;
     let songEnded = false;

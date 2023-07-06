@@ -84,6 +84,7 @@ function SongBox({
               //set queue
               if (!isQueue) {
                 setIsQueue(true);
+                setQueueIndex(index);
                 console.log("Playing from drop music");
               }
 

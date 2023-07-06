@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react"
 
-export default function useFetchAudio(url: string | undefined, shouldFetch: boolean) {
-    const [audioData, setAudioData] = useState<AudioBuffer | ArrayBuffer | undefined>(undefined);
+interface FetchAudioResult {
+    audioData?: AudioBuffer;
+    error: any;
+    isPending: boolean;
+}
+
+export default function useFetchAudio(url: string | undefined): FetchAudioResult {
+    const [audioData, setAudioData] = useState<AudioBuffer | undefined>();
     const [error, setError] = useState(null);
     const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
-        if (!shouldFetch) return
-
         if (!url) {
             setAudioData(undefined)
             return
@@ -43,7 +47,11 @@ export default function useFetchAudio(url: string | undefined, shouldFetch: bool
             abortCtrl.abort()
             audioCtx.close()
         }
-    }, [url, shouldFetch])
+    }, [url])
 
-    return audioData as AudioBuffer | undefined
+    return {
+        audioData,
+        error,
+        isPending
+    }
 }

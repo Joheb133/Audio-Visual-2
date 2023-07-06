@@ -12,7 +12,6 @@ interface PlayingBarProps {
   setAudioSettings: React.Dispatch<
     React.SetStateAction<AudioSettingsProp | null>
   >;
-  isUserGesture: boolean;
   songInfo: any;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +21,6 @@ interface PlayingBarProps {
 export default function PlayingBar({
   audioSettings,
   setAudioSettings,
-  isUserGesture,
   songInfo,
   isPlaying,
   setIsPlaying,
@@ -38,14 +36,10 @@ export default function PlayingBar({
   const startTime = useRef(0);
   const timeIntervalRef = useRef<any>(null);
 
-  const audioData = useFetchAudio(
-    queue[queueIndex]?.audioData.path,
-    isUserGesture
-  );
+  const { audioData } = useFetchAudio(queue[queueIndex]?.audioData.path);
 
   useEffect(() => {
     const buffer = queue[queueIndex]?.audioData.buffer;
-    console.log(buffer);
 
     if (audioData) {
       setAudioBuffer(audioData);
@@ -56,7 +50,7 @@ export default function PlayingBar({
     } else {
       console.log("No source");
     }
-  }, [audioData, queueIndex]);
+  }, [audioData, queue]);
 
   useEffect(() => {
     initSong(0);

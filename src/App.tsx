@@ -17,14 +17,12 @@ export default function App() {
     null
   );
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isUserGesture, setIsUserGesture] = useState(false);
   const [queue, setQueue] = useState<audioDataType[]>([]);
   const songInfoRef = useRef(null);
 
   //listen for user gesture
   useEffect(() => {
     const handlePointerEvent = () => {
-      setIsUserGesture(true);
       //init web audio API stuff
       const audioCtx = new AudioContext();
       audioCtx.suspend();
@@ -57,7 +55,6 @@ export default function App() {
         <PlayingBar
           audioSettings={audioSettings}
           setAudioSettings={setAudioSettings}
-          isUserGesture={isUserGesture}
           songInfo={songInfoRef.current}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}

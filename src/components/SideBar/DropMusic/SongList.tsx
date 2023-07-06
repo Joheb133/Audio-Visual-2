@@ -10,6 +10,8 @@ interface SongListProp {
   audioSettings: AudioSettingsProp | null;
   isQueue: boolean;
   setIsQueue: React.Dispatch<React.SetStateAction<boolean>>;
+  queueIndex: number;
+  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SongList({
@@ -19,19 +21,23 @@ export default function SongList({
   audioSettings,
   isQueue,
   setIsQueue,
+  queueIndex,
+  setQueueIndex,
 }: SongListProp) {
   return (
     <div className="h-full">
       {songList.map((song, index) => (
         <SongBox
           key={index}
-          index={index + 1}
+          index={index}
           title={song.metaData.title}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           audioSettings={audioSettings}
           isQueue={isQueue}
           setIsQueue={setIsQueue}
+          queueIndex={queueIndex}
+          setQueueIndex={setQueueIndex}
         />
       ))}
     </div>
@@ -46,6 +52,8 @@ interface SongBoxProp {
   audioSettings: AudioSettingsProp | null;
   isQueue: boolean;
   setIsQueue: React.Dispatch<React.SetStateAction<boolean>>;
+  queueIndex: number;
+  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function SongBox({
@@ -56,6 +64,8 @@ function SongBox({
   audioSettings,
   isQueue,
   setIsQueue,
+  queueIndex,
+  setQueueIndex,
 }: SongBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
@@ -82,11 +92,14 @@ function SongBox({
             {isPlaying ? <FaPause size="12" /> : <FaPlay size="12" />}
           </button>
         ) : (
-          <span className="text-neutral-400">{index}</span>
+          <span className="text-neutral-400">{index + 1}</span>
         )}
       </div>
       <div>
-        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-white">
+        <span
+          className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block 
+        ${index === queueIndex && isQueue ? "text-purple-500" : "text-white"}`}
+        >
           {title}
         </span>
       </div>

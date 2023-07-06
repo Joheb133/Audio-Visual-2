@@ -18,6 +18,7 @@ export default function App() {
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [queue, setQueue] = useState<audioDataType[]>([]);
+  const [queueIndex, setQueueIndex] = useState(0);
   const songInfoRef = useRef(null);
 
   //listen for user gesture
@@ -49,6 +50,8 @@ export default function App() {
             audioSettings={audioSettings}
             queue={queue}
             setQueue={setQueue}
+            queueIndex={queueIndex}
+            setQueueIndex={setQueueIndex}
           />
           <Visualiser analyser={audioSettings?.analyser} />
         </div>
@@ -59,6 +62,8 @@ export default function App() {
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           queue={queue}
+          queueIndex={queueIndex}
+          setQueueIndex={setQueueIndex}
         />
       </div>
     </>

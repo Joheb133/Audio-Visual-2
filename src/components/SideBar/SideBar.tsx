@@ -15,6 +15,8 @@ interface SideBarProp {
   audioSettings: AudioSettingsProp | null;
   queue: audioDataType[];
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  queueIndex: number;
+  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SideBar({
@@ -24,6 +26,8 @@ export default function SideBar({
   audioSettings,
   queue,
   setQueue,
+  queueIndex,
+  setQueueIndex,
 }: SideBarProp) {
   const [selectedCompoenent, setselectedCompoenent] = useState("dropMusic");
 
@@ -42,6 +46,8 @@ export default function SideBar({
             queue={queue}
             setQueue={setQueue}
             selectedComponent={selectedCompoenent}
+            queueIndex={queueIndex}
+            setQueueIndex={setQueueIndex}
           />
         );
     }

@@ -16,6 +16,8 @@ interface PlayingBarProps {
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   queue: audioDataType[];
+  queueIndex: number;
+  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function PlayingBar({
@@ -25,8 +27,9 @@ export default function PlayingBar({
   isPlaying,
   setIsPlaying,
   queue,
+  queueIndex,
+  setQueueIndex,
 }: PlayingBarProps) {
-  const [queueIndex, setQueueIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer>();
 

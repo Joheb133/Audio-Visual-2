@@ -11,6 +11,8 @@ interface SongControlsProp {
   audioSettings: AudioSettingsProp | null;
   songDuration: number;
   songTime: number;
+  queueIndex: number;
+  maxQueueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
   initSong: (number: number) => void;
 }
@@ -21,6 +23,8 @@ export default function SongControls({
   audioSettings,
   songDuration,
   songTime,
+  queueIndex,
+  maxQueueIndex,
   setQueueIndex,
   initSong,
 }: SongControlsProp) {
@@ -74,6 +78,8 @@ export default function SongControls({
         <SongControlsButtons
           {...{ isPlaying, setIsPlaying }}
           audioSettings={audioSettings}
+          queueIndex={queueIndex}
+          maxQueueIndex={maxQueueIndex}
           setQueueIndex={setQueueIndex}
           songTime={songTime}
           initSong={initSong}

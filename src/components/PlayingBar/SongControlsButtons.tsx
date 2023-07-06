@@ -7,6 +7,8 @@ interface SongControlsButtonsProps {
   isPlaying: boolean;
   audioSettings: AudioSettingsProp | null;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  queueIndex: number;
+  maxQueueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
   songTime: number;
   initSong: (number: number) => void;
@@ -16,6 +18,8 @@ export default function SongControlsButtons({
   isPlaying,
   audioSettings,
   setIsPlaying,
+  queueIndex,
+  maxQueueIndex,
   setQueueIndex,
   songTime,
   initSong,
@@ -35,9 +39,9 @@ export default function SongControlsButtons({
         onMouseUp={() => {
           setIsClickedPrev(false);
           if (!audioSettings?.audioCtx || !audioSettings.source) return;
-          if (songTime > 3) {
+          if (songTime > 3 || queueIndex === 0) {
             initSong(0);
-          } else {
+          } else if (queueIndex > 0) {
             setQueueIndex((currentIndex) => currentIndex - 1);
           }
         }}
@@ -71,7 +75,9 @@ export default function SongControlsButtons({
         onMouseUp={() => {
           setIsClickedNext(false);
           if (!audioSettings?.audioCtx || !audioSettings.source) return;
-          setQueueIndex((currentIndex) => currentIndex + 1);
+          if (queueIndex < maxQueueIndex) {
+            setQueueIndex((currentIndex) => currentIndex + 1);
+          }
         }}
         onMouseLeave={() => setIsClickedNext(false)}
       >

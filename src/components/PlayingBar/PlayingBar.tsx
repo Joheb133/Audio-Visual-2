@@ -170,6 +170,8 @@ export default function PlayingBar({
           {...{
             isPlaying,
             setIsPlaying,
+            queueIndex,
+            maxQueueIndex: queue.length - 1,
             setQueueIndex,
             audioSettings,
             songDuration: songDurationRef.current,

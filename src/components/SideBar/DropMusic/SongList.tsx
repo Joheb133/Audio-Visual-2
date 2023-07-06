@@ -8,8 +8,8 @@ interface SongListProp {
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
-  queue: audioDataType[];
-  setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  isQueue: boolean;
+  setIsQueue: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SongList({
@@ -17,8 +17,8 @@ export default function SongList({
   isPlaying,
   setIsPlaying,
   audioSettings,
-  queue,
-  setQueue,
+  isQueue,
+  setIsQueue,
 }: SongListProp) {
   return (
     <div className="h-full">
@@ -27,12 +27,11 @@ export default function SongList({
           key={index}
           index={index + 1}
           title={song.metaData.title}
-          songList={songList}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           audioSettings={audioSettings}
-          queue={queue}
-          setQueue={setQueue}
+          isQueue={isQueue}
+          setIsQueue={setIsQueue}
         />
       ))}
     </div>
@@ -42,23 +41,21 @@ export default function SongList({
 interface SongBoxProp {
   index: number;
   title: string;
-  songList: audioDataType[];
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
-  queue: audioDataType[];
-  setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  isQueue: boolean;
+  setIsQueue: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SongBox({
   index,
   title,
-  songList,
   isPlaying,
   setIsPlaying,
   audioSettings,
-  queue,
-  setQueue,
+  isQueue,
+  setIsQueue,
 }: SongBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
@@ -74,8 +71,8 @@ function SongBox({
           <button
             className="text-white cursor-default"
             onMouseDown={() => {
-              if (queue.length < 1) {
-                setQueue(songList);
+              if (!isQueue) {
+                setIsQueue(true);
                 console.log("Playing from drop music");
               }
               if (!audioSettings?.audioCtx || !audioSettings?.source) return;

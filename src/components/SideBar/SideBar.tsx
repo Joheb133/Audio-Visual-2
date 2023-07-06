@@ -41,6 +41,7 @@ export default function SideBar({
             audioSettings={audioSettings}
             queue={queue}
             setQueue={setQueue}
+            selectedComponent={selectedCompoenent}
           />
         );
     }

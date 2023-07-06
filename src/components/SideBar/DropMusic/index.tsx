@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AudioUploader from "./AudioUploader";
 import SongList from "./SongList";
 import { audioList } from "./audioList";
@@ -11,6 +11,7 @@ interface DropMusicProp {
   audioSettings: AudioSettingsProp | null;
   queue: audioDataType[];
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  selectedComponent: string;
 }
 
 export default function DropMusic({
@@ -19,8 +20,16 @@ export default function DropMusic({
   audioSettings,
   queue,
   setQueue,
+  selectedComponent,
 }: DropMusicProp) {
   const [songList, setSongList] = useState<audioDataType[]>(audioList);
+  const [isQueue, setIsQueue] = useState(false);
+
+  useEffect(() => {
+    if (queue !== songList && isQueue && selectedComponent === "dropMusic") {
+      setQueue(songList);
+    }
+  }, [songList, isQueue]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,8 +43,8 @@ export default function DropMusic({
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         audioSettings={audioSettings}
-        queue={queue}
-        setQueue={setQueue}
+        isQueue={isQueue}
+        setIsQueue={setIsQueue}
       />
     </div>
   );

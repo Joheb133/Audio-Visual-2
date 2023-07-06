@@ -21,11 +21,11 @@ export const audioList: audioDataType[] = [
     },
     {
         audioData: {
-            path: "music/FKJ - Just Piano (In partnership with Calm).mp3"
+            path: "music/ark patrol (𝘴𝘭𝘰𝘸𝘦𝘥 𝘥𝘰𝘸𝘯 + 𝘳𝘦𝘷𝘦𝘳𝘣 + 3𝘋).mp3"
         },
         metaData: {
-            title: "FKJ - Just Piano (In partnership with Calm).mp3",
-            duration: 1197
+            title: "ark patrol - Let Go (𝘴𝘭𝘰𝘸𝘦𝘥 𝘥𝘰𝘸𝘯 + 𝘳𝘦𝘷𝘦𝘳𝘣 + 3𝘋).mp3",
+            duration: 285
         }
     }
 ]

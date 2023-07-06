@@ -67,7 +67,7 @@ function SongBox({
   queueIndex,
   setQueueIndex,
 }: SongBoxProp) {
-  const [isHover, setIsHover] = useState(false);
+  const [isHover, setIsHover] = useState(true);
 
   return (
     <div
@@ -81,15 +81,27 @@ function SongBox({
           <button
             className="text-white cursor-default"
             onMouseDown={() => {
+              //set queue
               if (!isQueue) {
                 setIsQueue(true);
                 console.log("Playing from drop music");
               }
+
               if (!audioSettings?.audioCtx || !audioSettings?.source) return;
-              setIsPlaying(!isPlaying);
+
+              if (index === queueIndex) {
+                setIsPlaying(!isPlaying);
+              } else {
+                setQueueIndex(index);
+                setIsPlaying(true);
+              }
             }}
           >
-            {isPlaying ? <FaPause size="12" /> : <FaPlay size="12" />}
+            {isPlaying && index === queueIndex ? (
+              <FaPause size="12" />
+            ) : (
+              <FaPlay size="12" />
+            )}
           </button>
         ) : (
           <span className="text-neutral-400">{index + 1}</span>

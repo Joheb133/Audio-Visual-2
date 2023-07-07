@@ -12,7 +12,6 @@ interface PlayingBarProps {
   setAudioSettings: React.Dispatch<
     React.SetStateAction<AudioSettingsProp | null>
   >;
-  songInfo: any;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   queue: audioDataType[];
@@ -23,7 +22,6 @@ interface PlayingBarProps {
 export default function PlayingBar({
   audioSettings,
   setAudioSettings,
-  songInfo,
   isPlaying,
   setIsPlaying,
   queue,
@@ -163,7 +161,7 @@ export default function PlayingBar({
   return (
     <div className="now-playing-bar flex items-center justify-center h-20 bg-neutral-950">
       <div className="flex text-white w-full">
-        <SongInfo songInfo={songInfo} />
+        <SongInfo metaData={queue[queueIndex]?.metaData} />
         <SongControls
           {...{
             isPlaying,

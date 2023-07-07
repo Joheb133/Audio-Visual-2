@@ -1,8 +1,9 @@
 // music info
 import { useEffect, useRef } from "react";
+import { audioDataType } from "../../types";
 
 interface SongInfoProp {
-  songInfo: any;
+  metaData?: audioDataType["metaData"];
 }
 
 interface ElementWithAnimation {
@@ -10,7 +11,8 @@ interface ElementWithAnimation {
   animation: Animation | null;
 }
 
-export default function SongInfo({ songInfo }: SongInfoProp) {
+export default function SongInfo({ metaData }: SongInfoProp) {
+  // Refs storing html & animation referance
   const titleRef = useRef<ElementWithAnimation>({
     element: null,
     animation: null,
@@ -20,12 +22,7 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
     animation: null,
   });
 
-  let { title, channel, videoUrl, img }: any = {};
-
-  if (songInfo) {
-    ({ title, channel, videoUrl, img } = songInfo.video);
-  }
-
+  // Handle animations
   function cancelAnimation(animation: Animation | null) {
     if (animation) {
       animation.cancel();
@@ -64,8 +61,9 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
     }
   }
 
+  // Update song info
   useEffect(() => {
-    if (!songInfo) return;
+    if (!metaData) return;
 
     const titleElement = titleRef.current.element;
     const channelElement = channelRef.current.element;
@@ -80,14 +78,14 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [songInfo]);
+  }, [metaData]);
 
   return (
     <div className="flex-grow min-w-[200px] w-1/3 gradient-mask">
       <div className="flex justify-start">
         <img
           className="rounded-md w-14 h-14 object-cover"
-          src={img ? img.url : "placeholder.png"}
+          src={metaData?.imgUrl ? metaData.imgUrl : "placeholder.png"}
           alt="placeholder"
         />
         <div className="flex flex-col justify-center mx-2 overflow-hidden">
@@ -96,8 +94,11 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
             className="text-sm whitespace-nowrap"
           >
             <span className="inline-block">
-              <a href={videoUrl ? videoUrl : ""} target="_blank">
-                {title ? title : "Song Title"}
+              <a
+                href={metaData?.videoUrl ? metaData.videoUrl : ""}
+                target="_blank"
+              >
+                {metaData?.title ? metaData.title : "Song Title"}
               </a>
             </span>
           </span>
@@ -106,7 +107,7 @@ export default function SongInfo({ songInfo }: SongInfoProp) {
             className="text-xs opacity-75 whitespace-nowrap"
           >
             <span className="inline-block">
-              {channel ? channel : "Channel"}
+              {metaData?.channelUrl ? metaData.channelUrl : "Channel"}
             </span>
           </span>
         </div>

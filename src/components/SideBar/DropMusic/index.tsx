@@ -37,7 +37,7 @@ export default function DropMusic({
 
   return (
     <div className="flex flex-col gap-4">
-      <span className="sidebar-component-title">Drop Music</span>
+      <span className="sidebar-component-title">Drop Music File</span>
       <AudioUploader setSongList={setSongList} />
       <span className="text-neutral-500 font-medium text-base">
         Local Music

@@ -10,7 +10,7 @@ export class CRBExperiment {
 
         this.ctx = ctx;
         this.analyser = analyser;
-        this.analyser.fftSize = 256;
+        this.analyser.fftSize = 512;
         this.width = width;
         this.height = height;
     }

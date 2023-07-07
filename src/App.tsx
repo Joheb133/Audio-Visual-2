@@ -58,7 +58,6 @@ export default function App() {
         <PlayingBar
           audioSettings={audioSettings}
           setAudioSettings={setAudioSettings}
-          songInfo={songInfoRef.current}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           queue={queue}

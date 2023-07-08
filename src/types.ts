@@ -7,7 +7,7 @@ export type audioDataType = {
         title: string,
         duration: number,
         imgUrl?: string,
-        channelUrl?: string,
+        channel?: string,
         videoUrl?: string
     }
 }

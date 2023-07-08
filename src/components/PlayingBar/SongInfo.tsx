@@ -94,12 +94,17 @@ export default function SongInfo({ metaData }: SongInfoProp) {
             className="text-sm whitespace-nowrap"
           >
             <span className="inline-block">
-              <a
-                href={metaData?.videoUrl ? metaData.videoUrl : ""}
-                target="_blank"
-              >
-                {metaData?.title ? metaData.title : "Song Title"}
-              </a>
+              {metaData?.title ? (
+                metaData?.videoUrl ? (
+                  <a href={metaData.videoUrl} target="_blank">
+                    {metaData.title}
+                  </a>
+                ) : (
+                  <span>{metaData.title}</span>
+                )
+              ) : (
+                <span>Title</span>
+              )}
             </span>
           </span>
           <span
@@ -107,7 +112,7 @@ export default function SongInfo({ metaData }: SongInfoProp) {
             className="text-xs opacity-75 whitespace-nowrap"
           >
             <span className="inline-block">
-              {metaData?.channelUrl ? metaData.channelUrl : "Channel"}
+              {metaData?.channel ? metaData.channel : ""}
             </span>
           </span>
         </div>

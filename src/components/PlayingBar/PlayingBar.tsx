@@ -4,7 +4,6 @@ import SongControls from "./SongControls";
 import SongInfo from "./SongInfo";
 import AudioControls from "./AudioControls";
 import { AudioSettingsProp } from "../../App";
-import audioList from "../../audioList";
 import { audioDataType } from "../../types";
 
 interface PlayingBarProps {
@@ -44,10 +43,8 @@ export default function PlayingBar({
 
     if (audioData) {
       setAudioBuffer(audioData);
-      console.log("path");
     } else if (buffer) {
       setAudioBuffer(buffer);
-      console.log("buffer");
     } else {
       console.log("No source");
     }
@@ -96,7 +93,7 @@ export default function PlayingBar({
 
   //handle song ended
   function handleAudioEnded() {
-    const list = audioList;
+    const list = queue;
     const currentIndex = queueIndex;
 
     if (currentIndex < list.length) {

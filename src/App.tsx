@@ -19,7 +19,6 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [queue, setQueue] = useState<audioDataType[]>([]);
   const [queueIndex, setQueueIndex] = useState(0);
-  const songInfoRef = useRef(null);
 
   //listen for user gesture
   useEffect(() => {
@@ -44,7 +43,6 @@ export default function App() {
       <div className="flex flex-col min-h-screen min-w-[700px] px-2 pt-2 bg-neutral-950">
         <div className="flex flex-row flex-grow">
           <SideBar
-            songInfoRef={songInfoRef}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}

@@ -1,42 +1,26 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import audioList from "../../../audioList";
+import useFetch from "../../../hooks/useFetch";
+import { audioDataType } from "../../../types";
 
 interface SearchBarProp {
-  songInfoRef: React.MutableRefObject<any>;
+  setSearchList: React.Dispatch<
+    React.SetStateAction<audioDataType[] | undefined>
+  >;
 }
 
-export default function SearchBar({ songInfoRef }: SearchBarProp) {
+export default function SearchBar({ setSearchList }: SearchBarProp) {
   const searchBarRef = useRef<HTMLInputElement>(null);
+  const [searchReq, setSearchReq] = useState<string>();
+  const { isPending, data } = useFetch(
+    searchReq ? `api/search?v=${searchReq}` : undefined
+  );
 
-  async function getAudioInfo(input: string) {
-    try {
-      const res = await fetch(`/api/info?v=${input}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch info");
-      }
-      return await res.json();
-    } catch (err) {
-      return console.log(err);
-    }
-  }
+  useEffect(() => {
+    if (isPending || !data) return;
 
-  function getAudio(input: string) {
-    audioList.unshift(`/api/audio?v=${input}`);
-  }
-
-  function searchID() {
-    const searchBar = searchBarRef.current;
-    const input = searchBar?.value;
-    if (!input) return;
-
-    getAudio(input);
-    getAudioInfo(input).then((res) => {
-      // setSongInfo(res);
-      songInfoRef.current = res;
-    });
-    searchBar.value = "";
-  }
+    setSearchList(data);
+  }, [isPending, data]);
 
   return (
     <div className="gap-2 w-full flex text-white">
@@ -45,7 +29,10 @@ export default function SearchBar({ songInfoRef }: SearchBarProp) {
         type="text"
         className="w-full h-6 bg-neutral-700 py-4 px-2 rounded-md outline-none text-xs"
       />
-      <button className="opacity-70 hover:opacity-100" onClick={searchID}>
+      <button
+        className="opacity-70 hover:opacity-100"
+        onClick={() => setSearchReq(searchBarRef.current?.value)}
+      >
         <AiOutlineSearch size="24" />
       </button>
     </div>

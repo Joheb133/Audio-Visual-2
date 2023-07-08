@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import CustomRangeBar from "./CustomRangeBar";
 import SongControlsButtons from "./SongControlsButtons";
 import { AudioSettingsProp } from "../../App";
+import formatSeconds from "../../helpers/formatSeconds";
 
 //playback/progress song controls
 
@@ -61,16 +62,6 @@ export default function SongControls({
       isSeekingRef.current = false;
     }
   }, [isSeeking]);
-
-  //format seconds to 0:00
-  function formatSeconds(seconds: number) {
-    const mins = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-
-    const formatedTime = s < 10 ? `${mins}:0${s}` : `${mins}:${s}`;
-
-    return formatedTime;
-  }
 
   return (
     <div className="flex flex-col items-center justify-center min-w-[300px] max-w-[620px] w-2/5">

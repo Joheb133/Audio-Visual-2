@@ -1,48 +1,6 @@
 import { useState } from "react";
-import { audioDataType } from "../../../types";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { AudioSettingsProp } from "../../../App";
-
-interface SongListProp {
-  songList: audioDataType[];
-  isPlaying: boolean;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
-  audioSettings: AudioSettingsProp | null;
-  isQueue: boolean;
-  setIsQueue: React.Dispatch<React.SetStateAction<boolean>>;
-  queueIndex: number;
-  setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export default function SongList({
-  songList,
-  isPlaying,
-  setIsPlaying,
-  audioSettings,
-  isQueue,
-  setIsQueue,
-  queueIndex,
-  setQueueIndex,
-}: SongListProp) {
-  return (
-    <div className="h-full">
-      {songList.map((song, index) => (
-        <SongBox
-          key={index}
-          index={index}
-          title={song.metaData.title}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          audioSettings={audioSettings}
-          isQueue={isQueue}
-          setIsQueue={setIsQueue}
-          queueIndex={queueIndex}
-          setQueueIndex={setQueueIndex}
-        />
-      ))}
-    </div>
-  );
-}
 
 interface SongBoxProp {
   index: number;
@@ -56,7 +14,7 @@ interface SongBoxProp {
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function SongBox({
+export default function SongBox({
   index,
   title,
   isPlaying,

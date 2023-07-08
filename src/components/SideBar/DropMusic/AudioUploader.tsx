@@ -35,8 +35,8 @@ export default function AudioUploader({
       if (arrayBuffer instanceof ArrayBuffer) {
         audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
           // Handle long audio file
-          if (buffer.duration > 480) {
-            console.log("Audio duration exceeds 8 minute limit");
+          if (buffer.duration > 390) {
+            console.log("Audio duration exceeds 6m30s limit");
             return;
           }
 

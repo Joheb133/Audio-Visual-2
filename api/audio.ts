@@ -1,4 +1,4 @@
-import ytdl from 'ytdl-core'
+import ytdl from 'ytdl-core';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function audio(req: VercelRequest, res: VercelResponse) {

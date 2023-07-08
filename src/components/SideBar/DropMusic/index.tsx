@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import AudioUploader from "./AudioUploader";
-import SongList from "./SongList";
 import { audioList } from "./audioList";
 import { AudioSettingsProp } from "../../../App";
 import { audioDataType } from "../../../types";
+import SongBox from "./SongBox";
 
 interface DropMusicProp {
   isPlaying: boolean;
@@ -42,16 +42,22 @@ export default function DropMusic({
       <span className="text-neutral-500 font-medium text-base">
         Local Music
       </span>
-      <SongList
-        songList={songList}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        audioSettings={audioSettings}
-        isQueue={isQueue}
-        setIsQueue={setIsQueue}
-        queueIndex={queueIndex}
-        setQueueIndex={setQueueIndex}
-      />
+      <div className="h-full">
+        {songList.map((song, index) => (
+          <SongBox
+            key={index}
+            index={index}
+            title={song.metaData.title}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            audioSettings={audioSettings}
+            isQueue={isQueue}
+            setIsQueue={setIsQueue}
+            queueIndex={queueIndex}
+            setQueueIndex={setQueueIndex}
+          />
+        ))}
+      </div>
     </div>
   );
 }

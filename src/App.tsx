@@ -1,5 +1,5 @@
 import "./index.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Visualiser from "./components/Visualiser/Visualiser";
 import SideBar from "./components/SideBar/SideBar";
 import PlayingBar from "./components/PlayingBar/PlayingBar";

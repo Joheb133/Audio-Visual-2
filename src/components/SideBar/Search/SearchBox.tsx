@@ -56,9 +56,9 @@ export default function SearchBox({
           />
           {isHover &&
             (isPlaying ? (
-              <FaPause size="13" className="abs-center text-neutral-300" />
+              <FaPause size="13" className="abs-center text-white" />
             ) : (
-              <FaPlay size="13" className="abs-center text-neutral-300" />
+              <FaPlay size="13" className="abs-center text-white" />
             ))}
         </button>
       </div>

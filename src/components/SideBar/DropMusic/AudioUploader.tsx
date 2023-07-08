@@ -50,6 +50,7 @@ export default function AudioUploader({
               duration: buffer.duration,
             },
           };
+
           setSongList((prevSongList) => [...prevSongList.slice(0, 3), newSong]);
         });
       } else {

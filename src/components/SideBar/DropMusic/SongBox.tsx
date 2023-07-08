@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { AudioSettingsProp } from "../../../App";
+import formatSeconds from "../../../helpers/formatSeconds";
 
 interface SongBoxProp {
   index: number;
   title: string;
+  duration: number;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
@@ -17,6 +19,7 @@ interface SongBoxProp {
 export default function SongBox({
   index,
   title,
+  duration,
   isPlaying,
   setIsPlaying,
   audioSettings,
@@ -57,9 +60,9 @@ export default function SongBox({
             }}
           >
             {isPlaying && index === queueIndex ? (
-              <FaPause size="12" />
+              <FaPause size="13" />
             ) : (
-              <FaPlay size="12" />
+              <FaPlay size="13" />
             )}
           </button>
         ) : (
@@ -68,11 +71,14 @@ export default function SongBox({
       </div>
       <div>
         <span
-          className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block 
+          className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-sm
         ${index === queueIndex && isQueue ? "text-purple-500" : "text-white"}`}
         >
           {title}
         </span>
+      </div>
+      <div className="text-neutral-400 text-sm ml-auto">
+        {formatSeconds(duration)}
       </div>
     </div>
   );

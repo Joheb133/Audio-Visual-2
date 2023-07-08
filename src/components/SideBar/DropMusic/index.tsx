@@ -48,6 +48,7 @@ export default function DropMusic({
             key={index}
             index={index}
             title={song.metaData.title}
+            duration={song.metaData.duration}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}

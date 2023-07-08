@@ -32,7 +32,7 @@ export default function SearchBox({
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <div className="w-10">
+      <div className="w-10 h-10">
         <button
           className="relative cursor-auto"
           onClick={() => {
@@ -50,7 +50,7 @@ export default function SearchBox({
           <img
             src={audioData.metaData.imgUrl}
             alt="thumbnail"
-            className={`w-10 h-10 object-cover ${
+            className={`w-10 h-10 object-cover blur-[0.45px] ${
               isHover ? `filter brightness-75` : ""
             }`}
           />

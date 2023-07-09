@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { audioDataType } from "../../../types";
+import { audioList } from "./audioList";
 
 export default function AudioUploader({
   setSongList,
@@ -50,6 +51,9 @@ export default function AudioUploader({
               duration: buffer.duration,
             },
           };
+
+          audioList.splice(3, 1, newSong);
+          console.log(audioList);
 
           setSongList((prevSongList) => [...prevSongList.slice(0, 3), newSong]);
         });

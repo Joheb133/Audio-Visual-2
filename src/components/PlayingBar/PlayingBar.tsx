@@ -96,7 +96,7 @@ export default function PlayingBar({
     const list = queue;
     const currentIndex = queueIndex;
 
-    if (currentIndex < list.length) {
+    if (currentIndex < list.length - 1) {
       //play next song
       setQueueIndex((currentIndex) => currentIndex + 1);
     } else {

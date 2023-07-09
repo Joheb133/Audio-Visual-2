@@ -59,7 +59,7 @@ export default function SearchBox({
           <img
             src={audioData.metaData.imgUrl}
             alt="thumbnail"
-            className={`w-10 h-10 object-cover blur-[0.45px] ${
+            className={`w-10 h-10 object-cover blur-[0.5px] ${
               isHover ? `filter brightness-75` : ""
             }`}
           />

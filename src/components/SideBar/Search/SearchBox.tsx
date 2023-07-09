@@ -5,6 +5,7 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { AudioSettingsProp } from "../../../App";
 
 interface SearchBoxProp {
+  index: number;
   audioData: audioDataType;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +13,12 @@ interface SearchBoxProp {
   queue: audioDataType[];
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  currentIndex?: number;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 export default function SearchBox({
+  index,
   audioData,
   isPlaying,
   setIsPlaying,
@@ -22,6 +26,8 @@ export default function SearchBox({
   queue,
   setQueue,
   setQueueIndex,
+  currentIndex,
+  setCurrentIndex,
 }: SearchBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
@@ -40,11 +46,14 @@ export default function SearchBox({
             if (JSON.stringify(queue) !== JSON.stringify([audioData])) {
               setQueue([audioData]);
               setQueueIndex(0);
+              setCurrentIndex(index);
             }
 
             if (!audioSettings?.audioCtx || !audioSettings?.source) return;
 
-            setIsPlaying(!isPlaying);
+            if (currentIndex === index) {
+              setIsPlaying(!isPlaying);
+            }
           }}
         >
           <img
@@ -55,7 +64,7 @@ export default function SearchBox({
             }`}
           />
           {isHover &&
-            (isPlaying ? (
+            (isPlaying && currentIndex === index ? (
               <FaPause size="13" className="abs-center text-white" />
             ) : (
               <FaPlay size="13" className="abs-center text-white" />

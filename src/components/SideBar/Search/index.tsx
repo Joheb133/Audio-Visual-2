@@ -47,6 +47,7 @@ export default function Search({
           return (
             <SearchBox
               key={index}
+              index={index}
               audioData={value}
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
@@ -54,6 +55,8 @@ export default function Search({
               queue={queue}
               setQueue={setQueue}
               setQueueIndex={setQueueIndex}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
             />
           );
         })}

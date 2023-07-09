@@ -32,7 +32,7 @@ export default function Search({
   const [currentIndex, setCurrentIndex] = useState<number>();
 
   useEffect(() => {
-    if (searchList) {
+    if (searchList.length > 1) {
       searchListRef.current = searchList;
     }
   }, [searchList]);

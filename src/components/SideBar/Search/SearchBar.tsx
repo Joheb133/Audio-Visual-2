@@ -4,9 +4,7 @@ import useFetch from "../../../hooks/useFetch";
 import { audioDataType } from "../../../types";
 
 interface SearchBarProp {
-  setSearchList: React.Dispatch<
-    React.SetStateAction<audioDataType[] | undefined>
-  >;
+  setSearchList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }
 
 export default function SearchBar({ setSearchList }: SearchBarProp) {

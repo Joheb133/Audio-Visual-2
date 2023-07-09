@@ -5,15 +5,16 @@ import { audioDataType } from "../../../types";
 import { AudioSettingsProp } from "../../../App";
 
 interface SearchProp {
-  searchListRef: React.MutableRefObject<audioDataType[] | undefined>;
+  searchListRef: React.MutableRefObject<audioDataType[]>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
   queue: audioDataType[];
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
-  selectedComponent: string;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  libraryList: audioDataType[];
+  setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }
 
 export default function Search({
@@ -24,8 +25,10 @@ export default function Search({
   queue,
   setQueue,
   setQueueIndex,
+  libraryList,
+  setLibraryList,
 }: SearchProp) {
-  const [searchList, setSearchList] = useState<audioDataType[]>();
+  const [searchList, setSearchList] = useState<audioDataType[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>();
 
   useEffect(() => {
@@ -57,6 +60,8 @@ export default function Search({
               setQueueIndex={setQueueIndex}
               currentIndex={currentIndex}
               setCurrentIndex={setCurrentIndex}
+              libraryList={libraryList}
+              setLibraryList={setLibraryList}
             />
           );
         })}

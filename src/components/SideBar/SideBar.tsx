@@ -1,6 +1,6 @@
 import Search from "./Search";
 import DropMusic from "./DropMusic";
-import Library from "./Library/Library";
+import Library from "./Library";
 import { VscLibrary } from "react-icons/vsc";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
@@ -69,7 +69,6 @@ export default function SideBar({
             audioSettings={audioSettings}
             queue={queue}
             setQueue={setQueue}
-            selectedComponent={selectedCompoenent}
             queueIndex={queueIndex}
             setQueueIndex={setQueueIndex}
           />

@@ -2,29 +2,28 @@ import { useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { AudioSettingsProp } from "../../../App";
 import formatSeconds from "../../../helpers/formatSeconds";
+import { audioDataType } from "../../../types";
 
 interface SongBoxProp {
   index: number;
-  title: string;
-  duration: number;
+  audioList: audioDataType[];
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
-  isQueue: boolean;
-  setIsQueue: React.Dispatch<React.SetStateAction<boolean>>;
+  queue: audioDataType[];
+  setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SongBox({
   index,
-  title,
-  duration,
+  audioList,
   isPlaying,
   setIsPlaying,
   audioSettings,
-  isQueue,
-  setIsQueue,
+  queue,
+  setQueue,
   queueIndex,
   setQueueIndex,
 }: SongBoxProp) {
@@ -43,8 +42,8 @@ export default function SongBox({
             className="text-white cursor-default"
             onMouseDown={() => {
               //set queue
-              if (!isQueue) {
-                setIsQueue(true);
+              if (queue !== audioList) {
+                setQueue(audioList);
                 setQueueIndex(index);
                 console.log("Playing from drop music");
               }
@@ -72,13 +71,17 @@ export default function SongBox({
       <div>
         <span
           className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-sm
-        ${index === queueIndex && isQueue ? "text-purple-500" : "text-white"}`}
+        ${
+          index === queueIndex && queue === audioList
+            ? "text-purple-500"
+            : "text-white"
+        }`}
         >
-          {title}
+          {audioList[index].metaData.title}
         </span>
       </div>
       <div className="text-neutral-400 text-sm ml-auto">
-        {formatSeconds(duration)}
+        {formatSeconds(audioList[index].metaData.duration)}
       </div>
     </div>
   );

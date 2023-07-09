@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AudioUploader from "./AudioUploader";
 import { audioList } from "./audioList";
 import { AudioSettingsProp } from "../../../App";
@@ -11,7 +11,6 @@ interface DropMusicProp {
   audioSettings: AudioSettingsProp | null;
   queue: audioDataType[];
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
-  selectedComponent: string;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -22,18 +21,10 @@ export default function DropMusic({
   audioSettings,
   queue,
   setQueue,
-  selectedComponent,
   queueIndex,
   setQueueIndex,
 }: DropMusicProp) {
   const [songList, setSongList] = useState<audioDataType[]>(audioList);
-  const [isQueue, setIsQueue] = useState(false);
-
-  useEffect(() => {
-    if (queue !== songList && isQueue && selectedComponent === "dropMusic") {
-      setQueue(songList);
-    }
-  }, [songList, isQueue]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -43,17 +34,16 @@ export default function DropMusic({
         Local Music
       </span>
       <div className="h-full">
-        {songList.map((song, index) => (
+        {songList.map((_, index) => (
           <SongBox
             key={index}
             index={index}
-            title={song.metaData.title}
-            duration={song.metaData.duration}
+            audioList={audioList}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}
-            isQueue={isQueue}
-            setIsQueue={setIsQueue}
+            queue={queue}
+            setQueue={setQueue}
             queueIndex={queueIndex}
             setQueueIndex={setQueueIndex}
           />

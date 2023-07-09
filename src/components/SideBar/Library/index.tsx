@@ -4,6 +4,7 @@ import LibraryBox from "./LibraryBox";
 
 interface LibraryProp {
   libraryList: audioDataType[] | undefined;
+  setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
@@ -15,6 +16,7 @@ interface LibraryProp {
 
 export default function Library({
   libraryList,
+  setLibraryList,
   isPlaying,
   setIsPlaying,
   audioSettings,
@@ -32,7 +34,8 @@ export default function Library({
             <LibraryBox
               key={index}
               index={index}
-              audioData={libraryList}
+              libraryList={libraryList}
+              setLibraryList={setLibraryList}
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
               audioSettings={audioSettings}

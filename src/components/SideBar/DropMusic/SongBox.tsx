@@ -29,6 +29,8 @@ export default function SongBox({
 }: SongBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
+  const isQueue = queue === audioList;
+
   return (
     <div
       className="flex gap-2 items-center px-2 w-full h-12 bg-neutral-900 
@@ -42,7 +44,7 @@ export default function SongBox({
             className="text-white cursor-default"
             onMouseDown={() => {
               //set queue
-              if (queue !== audioList) {
+              if (!isQueue) {
                 setQueue(audioList);
                 setQueueIndex(index);
                 console.log("Playing from drop music");
@@ -58,7 +60,7 @@ export default function SongBox({
               }
             }}
           >
-            {isPlaying && index === queueIndex ? (
+            {isQueue && isPlaying && index === queueIndex ? (
               <FaPause size="13" />
             ) : (
               <FaPlay size="13" />
@@ -71,11 +73,7 @@ export default function SongBox({
       <div>
         <span
           className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-sm
-        ${
-          index === queueIndex && queue === audioList
-            ? "text-purple-500"
-            : "text-white"
-        }`}
+        ${index === queueIndex && isQueue ? "text-purple-500" : "text-white"}`}
         >
           {audioList[index].metaData.title}
         </span>

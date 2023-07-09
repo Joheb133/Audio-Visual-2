@@ -37,6 +37,7 @@ export default function SideBar({
         return (
           <Library
             libraryList={libraryList}
+            setLibraryList={setLibraryList}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}

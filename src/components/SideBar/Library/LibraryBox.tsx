@@ -2,12 +2,13 @@ import { useState } from "react";
 import { audioDataType } from "../../../types";
 import formatSeconds from "../../../helpers/formatSeconds";
 import { FaPause, FaPlay } from "react-icons/fa";
-// import { HiPlus } from "react-icons/hi";
+import { HiXMark } from "react-icons/hi2";
 import { AudioSettingsProp } from "../../../App";
 
 interface LibraryBoxProp {
   index: number;
-  audioData: audioDataType[];
+  libraryList: audioDataType[];
+  setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
@@ -19,7 +20,8 @@ interface LibraryBoxProp {
 
 export default function LibraryBox({
   index,
-  audioData,
+  libraryList,
+  setLibraryList,
   isPlaying,
   setIsPlaying,
   audioSettings,
@@ -42,8 +44,8 @@ export default function LibraryBox({
           className="relative cursor-default"
           onClick={() => {
             //set queue
-            if (queue !== audioData) {
-              setQueue(audioData);
+            if (queue !== libraryList) {
+              setQueue(libraryList);
               setQueueIndex(index);
             }
 
@@ -58,7 +60,7 @@ export default function LibraryBox({
           }}
         >
           <img
-            src={audioData[index].metaData.imgUrl}
+            src={libraryList[index].metaData.imgUrl}
             alt="thumbnail"
             className={`w-10 h-10 object-cover object-center blur-[0.45px] ${
               isHover ? `filter brightness-75` : ""
@@ -74,34 +76,31 @@ export default function LibraryBox({
       </div>
       <div className="flex flex-col gap-1 text-white">
         <span className="overflow-hidden text-ellipsis whitespace-nowrap w-56 block text-sm">
-          <a href={audioData[index].metaData.videoUrl} target="_blank">
-            {audioData[index].metaData.title}
+          <a href={libraryList[index].metaData.videoUrl} target="_blank">
+            {libraryList[index].metaData.title}
           </a>
         </span>
         <span className="text-xs overflow-hidden text-ellipsis whitespace-nowrap w-56 block text-neutral-400">
-          {audioData[index].metaData.channel}
+          {libraryList[index].metaData.channel}
         </span>
       </div>
-      {/* <div>
+      <div>
         <button
-          onClick={() =>
-            setLibrary((prevValue) => {
-              if (!Array.isArray(prevValue)) {
-                return [audioData];
-              }
-              return [...prevValue, audioData];
-            })
-          }
+          onClick={() => {
+            const updatedLibraryList = [...libraryList];
+            updatedLibraryList.splice(index, 1);
+            setLibraryList(updatedLibraryList);
+          }}
         >
-          <HiPlus
+          <HiXMark
             className={`text-white ${
               isHover ? "opacity-50" : "opacity-0"
             } hover:opacity-100`}
           />
         </button>
-      </div> */}
+      </div>
       <div className="ml-auto text-neutral-400 text-sm">
-        <span>{formatSeconds(audioData[index].metaData.duration)}</span>
+        <span>{formatSeconds(libraryList[index].metaData.duration)}</span>
       </div>
     </div>
   );

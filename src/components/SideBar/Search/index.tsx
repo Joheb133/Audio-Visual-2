@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import SearchBox from "./SearchBox";
 import { audioDataType } from "../../../types";
 import { AudioSettingsProp } from "../../../App";
 
 interface SearchProp {
+  searchListRef: React.MutableRefObject<audioDataType[] | undefined>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   audioSettings: AudioSettingsProp | null;
@@ -16,6 +17,7 @@ interface SearchProp {
 }
 
 export default function Search({
+  searchListRef,
   isPlaying,
   setIsPlaying,
   audioSettings,
@@ -23,12 +25,23 @@ export default function Search({
   setQueue,
   setQueueIndex,
 }: SearchProp) {
-  const [searchList, setSeachList] = useState<audioDataType[]>();
+  const [searchList, setSearchList] = useState<audioDataType[]>();
+  const [currentIndex, setCurrentIndex] = useState<number>();
+
+  useEffect(() => {
+    if (searchList) {
+      searchListRef.current = searchList;
+    }
+  }, [searchList]);
+
+  useEffect(() => {
+    setSearchList(searchListRef.current);
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">
       <span className="sidebar-component-title">Search</span>
-      <SearchBar setSearchList={setSeachList} />
+      <SearchBar setSearchList={setSearchList} />
       <div>
         {searchList?.map((value, index) => {
           return (

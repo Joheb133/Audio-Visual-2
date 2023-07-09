@@ -4,7 +4,7 @@ import Library from "./Library";
 import { VscLibrary } from "react-icons/vsc";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AudioSettingsProp } from "../../App";
 import { audioDataType } from "../../types";
 
@@ -28,6 +28,7 @@ export default function SideBar({
   setQueueIndex,
 }: SideBarProp) {
   const [selectedCompoenent, setselectedCompoenent] = useState("search");
+  const searchListRef = useRef<audioDataType[]>();
 
   function renderComponent(componentKey: string) {
     switch (componentKey) {
@@ -36,6 +37,7 @@ export default function SideBar({
       case "search":
         return (
           <Search
+            searchListRef={searchListRef}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             audioSettings={audioSettings}

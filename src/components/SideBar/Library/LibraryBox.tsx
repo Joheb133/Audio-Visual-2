@@ -2,7 +2,7 @@ import { useState } from "react";
 import { audioDataType } from "../../../types";
 import formatSeconds from "../../../helpers/formatSeconds";
 import { FaPause, FaPlay } from "react-icons/fa";
-import { HiXMark } from "react-icons/hi2";
+import { HiX } from "react-icons/hi";
 import { AudioSettingsProp } from "../../../App";
 
 interface LibraryBoxProp {
@@ -84,7 +84,7 @@ export default function LibraryBox({
           {libraryList[index].metaData.channel}
         </span>
       </div>
-      <div>
+      <div className="flex">
         <button
           onClick={() => {
             const updatedLibraryList = [...libraryList];
@@ -92,7 +92,7 @@ export default function LibraryBox({
             setLibraryList(updatedLibraryList);
           }}
         >
-          <HiXMark
+          <HiX
             className={`text-white ${
               isHover ? "opacity-50" : "opacity-0"
             } hover:opacity-100`}

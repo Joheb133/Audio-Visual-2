@@ -85,7 +85,7 @@ export default function SearchBox({
           {audioData.metaData.channel}
         </span>
       </div>
-      <div>
+      <div className="flex">
         <button
           onClick={() =>
             setLibraryList((prevValue) => [...prevValue, audioData])

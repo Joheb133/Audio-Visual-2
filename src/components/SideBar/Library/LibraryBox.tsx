@@ -90,7 +90,11 @@ export default function LibraryBox({
             setLibraryList(libraryList.filter((_, i) => i !== index));
           }}
         >
-          <HiX className={`text-white opacity-50 hover:opacity-100`} />
+          <HiX
+            className={`text-white ${
+              isHover ? "opacity-50" : "opacity-0"
+            } hover:opacity-100`}
+          />
         </button>
       </div>
       <div className="ml-auto text-neutral-400 text-sm">

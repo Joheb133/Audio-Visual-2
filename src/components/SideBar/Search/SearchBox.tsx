@@ -90,10 +90,16 @@ export default function SearchBox({
         </span>
       </div>
       <div className="flex">
-        {libraryList.includes(audioData) ? (
+        {libraryList.some(
+          (song) => song.audioData.path === audioData.audioData.path
+        ) ? (
           <button
             onClick={() =>
-              setLibraryList(libraryList.filter((song) => song !== audioData))
+              setLibraryList(
+                libraryList.filter(
+                  (song) => song.audioData.path !== audioData.audioData.path
+                )
+              )
             }
           >
             <HiX className={`text-white opacity-50 hover:opacity-100`} />

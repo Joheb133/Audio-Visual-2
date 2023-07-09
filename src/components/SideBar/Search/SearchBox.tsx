@@ -2,7 +2,7 @@ import { useState } from "react";
 import { audioDataType } from "../../../types";
 import formatSeconds from "../../../helpers/formatSeconds";
 import { FaPause, FaPlay } from "react-icons/fa";
-import { HiPlus } from "react-icons/hi";
+import { HiPlus, HiX } from "react-icons/hi";
 import { AudioSettingsProp } from "../../../App";
 
 interface SearchBoxProp {
@@ -20,6 +20,9 @@ interface SearchBoxProp {
   setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
 }
 
+// Don't usually right notes but, this component has some code to play music
+// and code to add a song to the Library component
+
 export default function SearchBox({
   index,
   audioData,
@@ -31,6 +34,7 @@ export default function SearchBox({
   setQueueIndex,
   currentIndex,
   setCurrentIndex,
+  libraryList,
   setLibraryList,
 }: SearchBoxProp) {
   const [isHover, setIsHover] = useState(false);
@@ -86,17 +90,23 @@ export default function SearchBox({
         </span>
       </div>
       <div className="flex">
-        <button
-          onClick={() =>
-            setLibraryList((prevValue) => [...prevValue, audioData])
-          }
-        >
-          <HiPlus
-            className={`text-white ${
-              isHover ? "opacity-50" : "opacity-0"
-            } hover:opacity-100`}
-          />
-        </button>
+        {libraryList.includes(audioData) ? (
+          <button
+            onClick={() =>
+              setLibraryList(libraryList.filter((song) => song !== audioData))
+            }
+          >
+            <HiX className={`text-white opacity-50 hover:opacity-100`} />
+          </button>
+        ) : (
+          <button onClick={() => setLibraryList([...libraryList, audioData])}>
+            <HiPlus
+              className={`text-white ${
+                isHover ? "opacity-50" : "opacity-0"
+              } hover:opacity-100`}
+            />
+          </button>
+        )}
       </div>
       <div className="ml-auto text-neutral-400 text-sm">
         <span>{formatSeconds(audioData.metaData.duration)}</span>

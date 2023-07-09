@@ -29,6 +29,7 @@ export default function PlayingBar({
 }: PlayingBarProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer>();
+  const [metaData, setMetaData] = useState<audioDataType["metaData"]>();
 
   const songOffsetRef = useRef(0);
   const songDurationRef = useRef(0);
@@ -54,6 +55,7 @@ export default function PlayingBar({
 
   useEffect(() => {
     initSong(0);
+    setMetaData(queue[queueIndex].metaData);
   }, [audioBuffer]);
 
   //code to play audio using bufferSourceNode
@@ -158,7 +160,7 @@ export default function PlayingBar({
   return (
     <div className="now-playing-bar flex items-center justify-center h-20 bg-neutral-950">
       <div className="flex text-white w-full">
-        <SongInfo metaData={queue[queueIndex]?.metaData} />
+        <SongInfo metaData={metaData} />
         <SongControls
           {...{
             isPlaying,

@@ -20,16 +20,27 @@ export default function SearchBar({ setSearchList }: SearchBarProp) {
     setSearchList(data);
   }, [isPending, data]);
 
+  function handleSearch(input: string) {
+    input.trim();
+    setSearchReq(input);
+  }
+
   return (
     <div className="gap-2 w-full flex text-white">
       <input
         ref={searchBarRef}
         type="text"
         className="w-full h-6 bg-neutral-700 py-4 px-2 rounded-md outline-none text-xs"
+        onKeyDown={(e) => {
+          if (e.key === "Enter")
+            searchBarRef.current && handleSearch(searchBarRef.current.value);
+        }}
       />
       <button
         className="opacity-70 hover:opacity-100"
-        onClick={() => setSearchReq(searchBarRef.current?.value)}
+        onClick={() =>
+          searchBarRef.current && handleSearch(searchBarRef.current.value)
+        }
       >
         <AiOutlineSearch size="24" />
       </button>

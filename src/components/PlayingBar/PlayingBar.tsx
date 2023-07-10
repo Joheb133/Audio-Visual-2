@@ -33,6 +33,7 @@ export default function PlayingBar({
 
   const songOffsetRef = useRef(0);
   const songDurationRef = useRef(0);
+  const songPlayingRef = useRef(true);
   const currentTimeRef = useRef(0);
   const startTime = useRef(0);
   const timeIntervalRef = useRef<any>(null);
@@ -70,8 +71,6 @@ export default function PlayingBar({
     source.connect(gainNode);
     source.connect(analyser);
 
-    console.log(audioBuffer.duration);
-
     //clean old AudioBufferSourceNode
     if (oldSource) {
       oldSource.stop();
@@ -91,15 +90,17 @@ export default function PlayingBar({
       ...(prevSettings as AudioSettingsProp),
       source: source,
     }));
+
+    songPlayingRef.current = true;
   };
 
   //handle song ended
   function handleAudioEnded() {
-    console.log("song ended");
+    songPlayingRef.current = false;
     const list = queue;
     const currentIndex = queueIndex;
 
-    if (currentIndex < list.length - 1) {
+    if (currentIndex < list.length) {
       //play next song
       setQueueIndex((currentIndex) => currentIndex + 1);
     } else {
@@ -114,7 +115,6 @@ export default function PlayingBar({
     if (!audioSettings?.audioCtx) return;
     //update time elapsed
     let timeInterval = timeIntervalRef.current;
-    let songEnded = false;
     const startInterval = () => {
       timeInterval = setInterval(() => {
         let preciseCurrentTime =
@@ -135,9 +135,11 @@ export default function PlayingBar({
         }
 
         //Has song ended?
-        if (preciseCurrentTime >= songDurationRef.current && !songEnded) {
+        if (
+          preciseCurrentTime >= songDurationRef.current &&
+          songPlayingRef.current
+        ) {
           handleAudioEnded();
-          songEnded = true;
         }
       }, 50);
     };

@@ -53,7 +53,7 @@ export default function Search({
       <div className="h-full">
         {isSearching ? (
           <div className="flex h-full justify-center items-center">
-            <Loading fill="#0a0a0a" />
+            <Loading size={8} fill="#0a0a0a" />
           </div>
         ) : (
           searchList?.map((value, index) => {

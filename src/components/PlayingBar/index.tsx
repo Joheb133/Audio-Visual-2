@@ -16,6 +16,10 @@ interface PlayingBarProps {
   queue: audioDataType[];
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  metaData?: audioDataType["metaData"];
+  setMetaData: React.Dispatch<
+    React.SetStateAction<audioDataType["metaData"] | undefined>
+  >;
 }
 
 export default function PlayingBar({
@@ -26,10 +30,11 @@ export default function PlayingBar({
   queue,
   queueIndex,
   setQueueIndex,
+  metaData,
+  setMetaData,
 }: PlayingBarProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer>();
-  const [metaData, setMetaData] = useState<audioDataType["metaData"]>();
 
   const songOffsetRef = useRef(0);
   const songDurationRef = useRef(0);

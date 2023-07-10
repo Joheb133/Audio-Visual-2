@@ -3,7 +3,7 @@ import { audioDataType } from "../../../types";
 import LibraryBox from "./LibraryBox";
 
 interface LibraryProp {
-  libraryList: audioDataType[] | undefined;
+  libraryList: audioDataType[];
   setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;

@@ -13,6 +13,7 @@ interface DropMusicProp {
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  metaData?: audioDataType["metaData"];
 }
 
 export default function DropMusic({
@@ -23,6 +24,7 @@ export default function DropMusic({
   setQueue,
   queueIndex,
   setQueueIndex,
+  metaData,
 }: DropMusicProp) {
   const [songList, setSongList] = useState<audioDataType[]>(audioList);
 
@@ -46,6 +48,7 @@ export default function DropMusic({
             setQueue={setQueue}
             queueIndex={queueIndex}
             setQueueIndex={setQueueIndex}
+            metaData={metaData}
           />
         ))}
       </div>

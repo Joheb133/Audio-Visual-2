@@ -16,6 +16,7 @@ interface SideBarProp {
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  metaData?: audioDataType["metaData"];
 }
 
 export default function SideBar({
@@ -26,6 +27,7 @@ export default function SideBar({
   setQueue,
   queueIndex,
   setQueueIndex,
+  metaData,
 }: SideBarProp) {
   const [selectedCompoenent, setselectedCompoenent] = useState("search");
   const [libraryList, setLibraryList] = useState<audioDataType[]>([]);
@@ -72,6 +74,7 @@ export default function SideBar({
             setQueue={setQueue}
             queueIndex={queueIndex}
             setQueueIndex={setQueueIndex}
+            metaData={metaData}
           />
         );
     }

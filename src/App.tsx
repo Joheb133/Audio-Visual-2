@@ -1,8 +1,8 @@
 import "./index.css";
 import { useEffect, useState } from "react";
 import Visualiser from "./components/Visualiser/Visualiser";
-import SideBar from "./components/SideBar/SideBar";
-import PlayingBar from "./components/PlayingBar/PlayingBar";
+import SideBar from "./components/SideBar";
+import PlayingBar from "./components/PlayingBar";
 import { audioDataType } from "./types";
 
 export interface AudioSettingsProp {
@@ -19,6 +19,7 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [queue, setQueue] = useState<audioDataType[]>([]);
   const [queueIndex, setQueueIndex] = useState(0);
+  const [metaData, setMetaData] = useState<audioDataType["metaData"]>();
 
   //listen for user gesture
   useEffect(() => {
@@ -50,6 +51,7 @@ export default function App() {
             setQueue={setQueue}
             queueIndex={queueIndex}
             setQueueIndex={setQueueIndex}
+            metaData={metaData}
           />
           <Visualiser analyser={audioSettings?.analyser} />
         </div>
@@ -61,6 +63,8 @@ export default function App() {
           queue={queue}
           queueIndex={queueIndex}
           setQueueIndex={setQueueIndex}
+          metaData={metaData}
+          setMetaData={setMetaData}
         />
       </div>
     </>

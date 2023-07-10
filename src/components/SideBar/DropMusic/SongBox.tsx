@@ -14,6 +14,7 @@ interface SongBoxProp {
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  metaData?: audioDataType["metaData"];
 }
 
 export default function SongBox({
@@ -26,10 +27,12 @@ export default function SongBox({
   setQueue,
   queueIndex,
   setQueueIndex,
+  metaData,
 }: SongBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
   const isQueue = queue === audioList;
+  const element = audioList[index];
 
   return (
     <div
@@ -47,7 +50,6 @@ export default function SongBox({
               if (!isQueue) {
                 setQueue(audioList);
                 setQueueIndex(index);
-                console.log("Playing from drop music");
               }
 
               if (!audioSettings?.audioCtx || !audioSettings?.source) return;
@@ -60,7 +62,7 @@ export default function SongBox({
               }
             }}
           >
-            {isQueue && isPlaying && index === queueIndex ? (
+            {isPlaying && isQueue && element.metaData === metaData ? (
               <FaPause size="13" />
             ) : (
               <FaPlay size="13" />
@@ -73,13 +75,17 @@ export default function SongBox({
       <div>
         <span
           className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-sm
-        ${index === queueIndex && isQueue ? "text-purple-500" : "text-white"}`}
+        ${
+          isQueue && element.metaData === metaData
+            ? "text-purple-500"
+            : "text-white"
+        }`}
         >
-          {audioList[index].metaData.title}
+          {element.metaData.title}
         </span>
       </div>
       <div className="text-neutral-400 text-sm ml-auto">
-        {formatSeconds(audioList[index].metaData.duration)}
+        {formatSeconds(element.metaData.duration)}
       </div>
     </div>
   );

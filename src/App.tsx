@@ -1,8 +1,9 @@
 import "./index.css";
 import { useEffect, useState } from "react";
 import Visualiser from "./components/Visualiser/Visualiser";
-import SideBar from "./components/SideBar/SideBar";
-import PlayingBar from "./components/PlayingBar/PlayingBar";
+import SideBar from "./components/SideBar";
+import PlayingBar from "./components/PlayingBar";
+import { audioDataType } from "./types";
 
 export interface AudioSettingsProp {
   audioCtx: AudioContext;
@@ -15,13 +16,14 @@ export default function App() {
   const [audioSettings, setAudioSettings] = useState<AudioSettingsProp | null>(
     null
   );
-  const [isUserGesture, setIsUserGesture] = useState(false);
-  const [songInfo, setSongInfo] = useState<any>();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [queue, setQueue] = useState<audioDataType[]>([]);
+  const [queueIndex, setQueueIndex] = useState(0);
+  const [metaData, setMetaData] = useState<audioDataType["metaData"]>();
 
   //listen for user gesture
   useEffect(() => {
     const handlePointerEvent = () => {
-      setIsUserGesture(true);
       //init web audio API stuff
       const audioCtx = new AudioContext();
       audioCtx.suspend();
@@ -41,14 +43,28 @@ export default function App() {
     <>
       <div className="flex flex-col min-h-screen min-w-[700px] px-2 pt-2 bg-neutral-950">
         <div className="flex flex-row flex-grow">
-          <SideBar setSongInfo={setSongInfo} />
+          <SideBar
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            audioSettings={audioSettings}
+            queue={queue}
+            setQueue={setQueue}
+            queueIndex={queueIndex}
+            setQueueIndex={setQueueIndex}
+            metaData={metaData}
+          />
           <Visualiser analyser={audioSettings?.analyser} />
         </div>
         <PlayingBar
           audioSettings={audioSettings}
           setAudioSettings={setAudioSettings}
-          isUserGesture={isUserGesture}
-          songInfo={songInfo}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          queue={queue}
+          queueIndex={queueIndex}
+          setQueueIndex={setQueueIndex}
+          metaData={metaData}
+          setMetaData={setMetaData}
         />
       </div>
     </>

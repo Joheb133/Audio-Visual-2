@@ -14,7 +14,7 @@ export default async function info(req: VercelRequest, res: VercelResponse) {
             channel: videoDetails.ownerChannelName,
             videoUrl: videoDetails.video_url,
             length: videoDetails.lengthSeconds,
-            img: videoDetails.thumbnails[0]
+            img: videoDetails.thumbnails
         }
 
         res.status(200).json({ video })

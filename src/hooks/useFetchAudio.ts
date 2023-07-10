@@ -1,14 +1,24 @@
 import { useState, useEffect } from "react"
 
-export default function useFetchAudio(url: string, shouldFetch: boolean) {
-    const [audioData, setAudioData] = useState<any | null>(null);
+interface FetchAudioResult {
+    audioData?: AudioBuffer;
+    error: any;
+    isPending: boolean;
+}
+
+export default function useFetchAudio(url: string | undefined): FetchAudioResult {
+    const [audioData, setAudioData] = useState<AudioBuffer | undefined>();
     const [error, setError] = useState(null);
-    const [isPending, setIsPending] = useState(true);
+    const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
-        if (!shouldFetch) return
+        if (!url) {
+            setAudioData(undefined)
+            return
+        }
         const audioCtx = new AudioContext()
         const abortCtrl = new AbortController();
+        setIsPending(true)
 
         fetch(url, { signal: abortCtrl.signal })
             .then(res => {
@@ -19,7 +29,8 @@ export default function useFetchAudio(url: string, shouldFetch: boolean) {
                 if (error.message !== 'The user aborted a request.') throw error
             })
             .then(audioBuffer => {
-                setAudioData(audioBuffer)
+                const buffer = audioBuffer as AudioBuffer
+                setAudioData(buffer)
                 setIsPending(false)
                 setError(null)
             })
@@ -36,7 +47,11 @@ export default function useFetchAudio(url: string, shouldFetch: boolean) {
             abortCtrl.abort()
             audioCtx.close()
         }
-    }, [url, shouldFetch])
+    }, [url])
 
-    return { audioData, error, isPending }
+    return {
+        audioData,
+        error,
+        isPending
+    }
 }

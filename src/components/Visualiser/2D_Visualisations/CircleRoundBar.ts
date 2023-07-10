@@ -30,7 +30,7 @@ export class CircleRoundBar {
         const maxRadius = width < height ? width : height //get smallest dimension
 
         //bass
-        const bassBins = dataArray.slice(0, 2)
+        const bassBins = dataArray.slice(0, dataArray.length / 4)
         const bassAmp = bassBins.reduce((sum, value) => sum + value, 0) / bassBins.length
 
         const centerX = width / 2;
@@ -50,10 +50,10 @@ export class CircleRoundBar {
             ctx.rotate(rotation);
 
             ctx.beginPath();
-            ctx.roundRect(-barWidth / 2, bassAmp / 10, barWidth / 2, (element / 2) + (barWidth / 2), [barWidth]);
+            ctx.roundRect(-barWidth / 2, bassAmp / 5, barWidth / 2, (element / 2) + (barWidth / 2), [barWidth]);
             ctx.closePath()
-            //ctx.fillStyle = `hsl(${10 * i}, 100%, 70%)`
-            ctx.fillStyle = `hsl(271, 80%, ${i % 2 === 0 ? 50 : 60}%)`
+            ctx.fillStyle = `hsl(${2 * i}, 100%, 70%)`
+            // ctx.fillStyle = `hsl(271, 80%, ${i % 2 === 0 ? 50 : 60}%)`
             ctx.fill();
             ctx.restore();
         }

@@ -1,21 +1,28 @@
 import { useState } from "react";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import { BsFillSkipStartFill, BsFillSkipEndFill } from "react-icons/bs";
+import { AudioSettingsProp } from "../../App";
 
 interface SongControlsButtonsProps {
   isPlaying: boolean;
-  isAudioContext: AudioContext | undefined;
-  isSource: AudioBufferSourceNode | undefined;
+  audioSettings: AudioSettingsProp | null;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  queueIndex: number;
+  maxQueueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  songTime: number;
+  initSong: (number: number) => void;
 }
 
 export default function SongControlsButtons({
   isPlaying,
-  isAudioContext,
-  isSource,
+  audioSettings,
   setIsPlaying,
+  queueIndex,
+  maxQueueIndex,
   setQueueIndex,
+  songTime,
+  initSong,
 }: SongControlsButtonsProps) {
   const [isClickedPrev, setIsClickedPrev] = useState(false);
   const [isClickedPlayPause, setIsClickedPlayPause] = useState(false);
@@ -31,8 +38,12 @@ export default function SongControlsButtons({
         onMouseDown={() => setIsClickedPrev(true)}
         onMouseUp={() => {
           setIsClickedPrev(false);
-          if (!isAudioContext || !isSource) return;
-          setQueueIndex((currentIndex) => currentIndex - 1);
+          if (!audioSettings?.audioCtx || !audioSettings.source) return;
+          if (songTime > 3 || queueIndex === 0) {
+            initSong(0);
+          } else if (queueIndex > 0) {
+            setQueueIndex((currentIndex) => currentIndex - 1);
+          }
         }}
         onMouseLeave={() => setIsClickedPrev(false)}
       >
@@ -47,7 +58,7 @@ export default function SongControlsButtons({
         onMouseDown={() => setIsClickedPlayPause(true)}
         onMouseUp={() => {
           setIsClickedPlayPause(false);
-          if (!isAudioContext || !isSource) return;
+          if (!audioSettings?.audioCtx || !audioSettings.source) return;
           setIsPlaying(!isPlaying);
         }}
         onMouseLeave={() => setIsClickedPlayPause(false)}
@@ -63,8 +74,10 @@ export default function SongControlsButtons({
         onMouseDown={() => setIsClickedNext(true)}
         onMouseUp={() => {
           setIsClickedNext(false);
-          if (!isAudioContext || !isSource) return;
-          setQueueIndex((currentIndex) => currentIndex + 1);
+          if (!audioSettings?.audioCtx || !audioSettings.source) return;
+          if (queueIndex < maxQueueIndex) {
+            setQueueIndex((currentIndex) => currentIndex + 1);
+          }
         }}
         onMouseLeave={() => setIsClickedNext(false)}
       >

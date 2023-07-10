@@ -102,7 +102,7 @@ export default function SideBar({
           />
         </button>
       </div>
-      <div className="w-[380px] p-4 grow bg-neutral-900 rounded-md">
+      <div className="w-[400px] p-4 grow bg-neutral-900 rounded-md">
         {renderComponent(selectedCompoenent)}
       </div>
     </div>

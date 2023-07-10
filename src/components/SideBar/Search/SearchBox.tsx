@@ -80,7 +80,7 @@ export default function SearchBox({
         </button>
       </div>
       <div className="flex flex-col gap-1 text-white">
-        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-56 block text-sm">
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-60 block text-sm">
           <a href={audioData.metaData.videoUrl} target="_blank">
             {audioData.metaData.title}
           </a>
@@ -89,33 +89,35 @@ export default function SearchBox({
           {audioData.metaData.channel}
         </span>
       </div>
-      <div className="flex">
-        {libraryList.some(
-          (song) => song.audioData.path === audioData.audioData.path
-        ) ? (
-          <button
-            onClick={() =>
-              setLibraryList(
-                libraryList.filter(
-                  (song) => song.audioData.path !== audioData.audioData.path
+      <div className="flex gap-2 ml-auto">
+        <div>
+          {libraryList.some(
+            (song) => song.audioData.path === audioData.audioData.path
+          ) ? (
+            <button
+              onClick={() =>
+                setLibraryList(
+                  libraryList.filter(
+                    (song) => song.audioData.path !== audioData.audioData.path
+                  )
                 )
-              )
-            }
-          >
-            <HiX className={`text-white opacity-50 hover:opacity-100`} />
-          </button>
-        ) : (
-          <button onClick={() => setLibraryList([...libraryList, audioData])}>
-            <HiPlus
-              className={`text-white ${
-                isHover ? "opacity-50" : "opacity-0"
-              } hover:opacity-100`}
-            />
-          </button>
-        )}
-      </div>
-      <div className="ml-auto text-neutral-400 text-sm">
-        <span>{formatSeconds(audioData.metaData.duration)}</span>
+              }
+            >
+              <HiX className={`text-white opacity-50 hover:opacity-100`} />
+            </button>
+          ) : (
+            <button onClick={() => setLibraryList([...libraryList, audioData])}>
+              <HiPlus
+                className={`text-white ${
+                  isHover ? "opacity-50" : "opacity-0"
+                } hover:opacity-100`}
+              />
+            </button>
+          )}
+        </div>
+        <div className="text-neutral-400 text-sm">
+          <span>{formatSeconds(audioData.metaData.duration)}</span>
+        </div>
       </div>
     </div>
   );

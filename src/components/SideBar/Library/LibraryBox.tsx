@@ -39,6 +39,9 @@ export default function LibraryBox({
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
+      <div className="w-8 text-center">
+        <span className="text-sm text-neutral-400">{index + 1}</span>
+      </div>
       <div className="w-10 h-10">
         <button
           className="relative cursor-default"
@@ -75,30 +78,32 @@ export default function LibraryBox({
         </button>
       </div>
       <div className="flex flex-col gap-1 text-white">
-        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-56 block text-sm">
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-52 block text-sm">
           <a href={libraryList[index].metaData.videoUrl} target="_blank">
             {libraryList[index].metaData.title}
           </a>
         </span>
-        <span className="text-xs overflow-hidden text-ellipsis whitespace-nowrap w-56 block text-neutral-400">
+        <span className="text-xs overflow-hidden text-ellipsis whitespace-nowrap w-52 block text-neutral-400">
           {libraryList[index].metaData.channel}
         </span>
       </div>
-      <div className="flex">
-        <button
-          onClick={() => {
-            setLibraryList(libraryList.filter((_, i) => i !== index));
-          }}
-        >
-          <HiX
-            className={`text-white ${
-              isHover ? "opacity-50" : "opacity-0"
-            } hover:opacity-100`}
-          />
-        </button>
-      </div>
-      <div className="ml-auto text-neutral-400 text-sm">
-        <span>{formatSeconds(libraryList[index].metaData.duration)}</span>
+      <div className="flex gap-1 ml-auto">
+        <div>
+          <button
+            onClick={() => {
+              setLibraryList(libraryList.filter((_, i) => i !== index));
+            }}
+          >
+            <HiX
+              className={`text-white ${
+                isHover ? "opacity-50" : "opacity-0"
+              } hover:opacity-100`}
+            />
+          </button>
+        </div>
+        <div className="ml-auto text-neutral-400 text-sm">
+          <span>{formatSeconds(libraryList[index].metaData.duration)}</span>
+        </div>
       </div>
     </div>
   );

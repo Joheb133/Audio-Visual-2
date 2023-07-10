@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import SearchBox from "./SearchBox";
 import { audioDataType } from "../../../types";
 import { AudioSettingsProp } from "../../../App";
+import Loading from "../../../svgs/Loading";
 
 interface SearchProp {
   searchListRef: React.MutableRefObject<audioDataType[]>;
@@ -30,6 +31,7 @@ export default function Search({
 }: SearchProp) {
   const [searchList, setSearchList] = useState<audioDataType[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>();
+  const [isSearching, setIsSearching] = useState(true);
 
   useEffect(() => {
     if (searchList.length > 1) {
@@ -42,29 +44,38 @@ export default function Search({
   }, []);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col gap-4">
       <span className="sidebar-component-title">Search</span>
-      <SearchBar setSearchList={setSearchList} />
-      <div>
-        {searchList?.map((value, index) => {
-          return (
-            <SearchBox
-              key={index}
-              index={index}
-              audioData={value}
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-              audioSettings={audioSettings}
-              queue={queue}
-              setQueue={setQueue}
-              setQueueIndex={setQueueIndex}
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
-              libraryList={libraryList}
-              setLibraryList={setLibraryList}
-            />
-          );
-        })}
+      <SearchBar
+        setSearchList={setSearchList}
+        setIsSearching={setIsSearching}
+      />
+      <div className="h-full">
+        {isSearching ? (
+          <div className="flex h-full justify-center items-center">
+            <Loading fill="#0a0a0a" />
+          </div>
+        ) : (
+          searchList?.map((value, index) => {
+            return (
+              <SearchBox
+                key={index}
+                index={index}
+                audioData={value}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                audioSettings={audioSettings}
+                queue={queue}
+                setQueue={setQueue}
+                setQueueIndex={setQueueIndex}
+                currentIndex={currentIndex}
+                setCurrentIndex={setCurrentIndex}
+                libraryList={libraryList}
+                setLibraryList={setLibraryList}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

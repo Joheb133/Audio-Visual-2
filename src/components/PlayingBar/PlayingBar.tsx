@@ -55,7 +55,8 @@ export default function PlayingBar({
 
   useEffect(() => {
     initSong(0);
-    setMetaData(queue[queueIndex].metaData);
+    setMetaData(queue[queueIndex]?.metaData);
+    songDurationRef.current = queue[queueIndex]?.metaData.duration;
   }, [audioBuffer]);
 
   //code to play audio using bufferSourceNode
@@ -63,9 +64,6 @@ export default function PlayingBar({
     if (!audioBuffer || !audioSettings) return;
 
     const { audioCtx, gainNode, analyser, source: oldSource } = audioSettings;
-
-    //store song duration
-    songDurationRef.current = audioBuffer.duration;
 
     //setup new AudioBufferSourceNode
     const source = audioCtx.createBufferSource();
@@ -95,6 +93,7 @@ export default function PlayingBar({
 
   //handle song ended
   function handleAudioEnded() {
+    console.log("song ended");
     const list = queue;
     const currentIndex = queueIndex;
 
@@ -127,7 +126,7 @@ export default function PlayingBar({
         //Has atleast 1s elapsed
         if (
           roundedCurrentTime !== currentTimeRef.current &&
-          preciseCurrentTime <= songDurationRef.current
+          preciseCurrentTime < songDurationRef.current
         ) {
           currentTimeRef.current = roundedCurrentTime;
           setCurrentTime(currentTimeRef.current);
@@ -169,7 +168,7 @@ export default function PlayingBar({
             maxQueueIndex: queue.length - 1,
             setQueueIndex,
             audioSettings,
-            songDuration: songDurationRef.current,
+            songDuration: metaData ? metaData.duration : 0,
             songTime: currentTime,
             initSong,
           }}

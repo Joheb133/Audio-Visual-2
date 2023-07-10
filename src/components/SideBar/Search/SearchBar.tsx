@@ -5,9 +5,13 @@ import { audioDataType } from "../../../types";
 
 interface SearchBarProp {
   setSearchList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function SearchBar({ setSearchList }: SearchBarProp) {
+export default function SearchBar({
+  setSearchList,
+  setIsSearching,
+}: SearchBarProp) {
   const searchBarRef = useRef<HTMLInputElement>(null);
   const [searchReq, setSearchReq] = useState<string>();
   const { isPending, data } = useFetch(
@@ -15,10 +19,15 @@ export default function SearchBar({ setSearchList }: SearchBarProp) {
   );
 
   useEffect(() => {
-    if (isPending || !data) return;
+    if (isPending) {
+      setIsSearching(true);
+      return;
+    } else if (!isPending) {
+      setIsSearching(false);
+    }
 
     setSearchList(data);
-  }, [isPending, data]);
+  }, [isPending]);
 
   function handleSearch(input: string) {
     input.trim();

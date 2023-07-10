@@ -70,6 +70,8 @@ export default function PlayingBar({
     source.connect(gainNode);
     source.connect(analyser);
 
+    console.log(audioBuffer.duration);
+
     //clean old AudioBufferSourceNode
     if (oldSource) {
       oldSource.stop();
@@ -126,7 +128,7 @@ export default function PlayingBar({
         //Has atleast 1s elapsed
         if (
           roundedCurrentTime !== currentTimeRef.current &&
-          preciseCurrentTime < songDurationRef.current
+          roundedCurrentTime <= songDurationRef.current
         ) {
           currentTimeRef.current = roundedCurrentTime;
           setCurrentTime(currentTimeRef.current);

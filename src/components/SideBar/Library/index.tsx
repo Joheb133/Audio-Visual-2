@@ -12,6 +12,7 @@ interface LibraryProp {
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  metaData?: audioDataType["metaData"];
 }
 
 export default function Library({
@@ -24,6 +25,7 @@ export default function Library({
   setQueue,
   queueIndex,
   setQueueIndex,
+  metaData,
 }: LibraryProp) {
   return (
     <div className="flex flex-col gap-4">
@@ -43,6 +45,7 @@ export default function Library({
               setQueue={setQueue}
               queueIndex={queueIndex}
               setQueueIndex={setQueueIndex}
+              metaData={metaData}
             />
           );
         })}

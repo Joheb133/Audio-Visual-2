@@ -47,6 +47,7 @@ export default function SideBar({
             setQueue={setQueue}
             queueIndex={queueIndex}
             setQueueIndex={setQueueIndex}
+            metaData={metaData}
           />
         );
       case "search":
@@ -62,6 +63,7 @@ export default function SideBar({
             setQueueIndex={setQueueIndex}
             libraryList={libraryList}
             setLibraryList={setLibraryList}
+            metaData={metaData}
           />
         );
       case "dropMusic":

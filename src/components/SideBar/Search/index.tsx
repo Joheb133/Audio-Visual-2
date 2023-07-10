@@ -16,6 +16,7 @@ interface SearchProp {
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
   libraryList: audioDataType[];
   setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  metaData?: audioDataType["metaData"];
 }
 
 export default function Search({
@@ -28,6 +29,7 @@ export default function Search({
   setQueueIndex,
   libraryList,
   setLibraryList,
+  metaData,
 }: SearchProp) {
   const [searchList, setSearchList] = useState<audioDataType[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>();
@@ -72,6 +74,7 @@ export default function Search({
                 setCurrentIndex={setCurrentIndex}
                 libraryList={libraryList}
                 setLibraryList={setLibraryList}
+                metaData={metaData}
               />
             );
           })

@@ -18,6 +18,7 @@ interface SearchBoxProp {
   setCurrentIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
   libraryList: audioDataType[];
   setLibraryList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
+  metaData?: audioDataType["metaData"];
 }
 
 // Don't usually right notes but, this component has some code to play music
@@ -36,6 +37,7 @@ export default function SearchBox({
   setCurrentIndex,
   libraryList,
   setLibraryList,
+  metaData,
 }: SearchBoxProp) {
   const [isHover, setIsHover] = useState(false);
 
@@ -72,7 +74,7 @@ export default function SearchBox({
             }`}
           />
           {isHover &&
-            (isPlaying && currentIndex === index ? (
+            (isPlaying && audioData.metaData === metaData ? (
               <FaPause size="13" className="abs-center text-white" />
             ) : (
               <FaPlay size="13" className="abs-center text-white" />
@@ -80,7 +82,11 @@ export default function SearchBox({
         </button>
       </div>
       <div className="flex flex-col gap-1 text-white">
-        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-60 block text-sm">
+        <span
+          className={`overflow-hidden text-ellipsis whitespace-nowrap w-60 block text-sm ${
+            audioData.metaData === metaData ? "text-purple-500" : "text-white"
+          }`}
+        >
           <a href={audioData.metaData.videoUrl} target="_blank">
             {audioData.metaData.title}
           </a>

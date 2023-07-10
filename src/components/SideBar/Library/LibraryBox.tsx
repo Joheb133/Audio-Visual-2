@@ -16,6 +16,7 @@ interface LibraryBoxProp {
   setQueue: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   queueIndex: number;
   setQueueIndex: React.Dispatch<React.SetStateAction<number>>;
+  metaData?: audioDataType["metaData"];
 }
 
 export default function LibraryBox({
@@ -29,8 +30,10 @@ export default function LibraryBox({
   setQueue,
   queueIndex,
   setQueueIndex,
+  metaData,
 }: LibraryBoxProp) {
   const [isHover, setIsHover] = useState(false);
+  const elementMetaData = libraryList[index].metaData;
 
   return (
     <div
@@ -63,28 +66,36 @@ export default function LibraryBox({
           }}
         >
           <img
-            src={libraryList[index].metaData.imgUrl}
+            src={elementMetaData.imgUrl}
             alt="thumbnail"
             className={`w-10 h-10 object-cover object-center blur-[0.45px] ${
               isHover ? `filter brightness-75` : ""
             }`}
           />
           {isHover &&
-            (isPlaying && index === queueIndex ? (
+            (isPlaying &&
+            elementMetaData === metaData &&
+            index === queueIndex ? (
               <FaPause size="13" className="abs-center text-white" />
             ) : (
               <FaPlay size="13" className="abs-center text-white" />
             ))}
         </button>
       </div>
-      <div className="flex flex-col gap-1 text-white">
-        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-52 block text-sm">
-          <a href={libraryList[index].metaData.videoUrl} target="_blank">
-            {libraryList[index].metaData.title}
+      <div className="flex flex-col gap-1">
+        <span
+          className={`overflow-hidden text-ellipsis whitespace-nowrap w-52 block text-sm ${
+            elementMetaData === metaData && index === queueIndex
+              ? "text-purple-500"
+              : "text-white"
+          }`}
+        >
+          <a href={elementMetaData.videoUrl} target="_blank">
+            {elementMetaData.title}
           </a>
         </span>
         <span className="text-xs overflow-hidden text-ellipsis whitespace-nowrap w-52 block text-neutral-400">
-          {libraryList[index].metaData.channel}
+          {elementMetaData.channel}
         </span>
       </div>
       <div className="flex gap-1 ml-auto">
@@ -102,7 +113,7 @@ export default function LibraryBox({
           </button>
         </div>
         <div className="ml-auto text-neutral-400 text-sm">
-          <span>{formatSeconds(libraryList[index].metaData.duration)}</span>
+          <span>{formatSeconds(elementMetaData.duration)}</span>
         </div>
       </div>
     </div>

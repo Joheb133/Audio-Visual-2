@@ -56,6 +56,7 @@ export default function AudioControls({ volumeControls }: AudioControlsProps) {
             volume === 0 ? setVolume(volumeSave) : setVolume(0);
           }}
           onMouseLeave={() => setIsClicked(false)}
+          style={{ pointerEvents: isDragging ? "none" : "auto" }}
         >
           {icon}
         </button>

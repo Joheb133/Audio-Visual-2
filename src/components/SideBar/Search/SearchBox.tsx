@@ -84,7 +84,7 @@ export default function SearchBox({
       <div className="flex flex-col gap-1 text-white">
         <span
           className={`overflow-hidden text-ellipsis whitespace-nowrap w-60 block text-sm ${
-            audioData.metaData === metaData ? "text-purple-500" : "text-white"
+            audioData.metaData === metaData ? "text-primary" : "text-white"
           }`}
         >
           <a href={audioData.metaData.videoUrl} target="_blank">

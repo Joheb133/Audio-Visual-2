@@ -86,7 +86,7 @@ export default function LibraryBox({
         <span
           className={`overflow-hidden text-ellipsis whitespace-nowrap w-52 block text-sm ${
             elementMetaData === metaData && index === queueIndex
-              ? "text-purple-500"
+              ? "text-primary"
               : "text-white"
           }`}
         >

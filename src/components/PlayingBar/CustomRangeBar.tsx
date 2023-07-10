@@ -66,13 +66,13 @@ export default function CustomRangeBar({
         {/* Grey & purple bar */}
         <div className="absolute top-[50%] translate-y-[-50%] bg-neutral-400 rounded-md h-1 w-full overflow-hidden">
           <div
-            className="bg-purple-600 h-1 rounded-md"
+            className="bg-primary h-1 rounded-md"
             style={{ transform: `translateX(${(-1 + progress) * 100}%)` }}
           />
         </div>
         {/* Circle */}
         <div
-          className={`thumb-indicator absolute top-[50%] left-0 bg-purple-900 rounded-full w-2 h-2 scale-0 translate-x-[-50%]
+          className={`thumb-indicator absolute top-[50%] left-0 bg-primary brightness-50 rounded-full w-2 h-2 scale-0 translate-x-[-50%]
         translate-y-[-50%] group-hover:scale-150 ${
           isDragging ? "scale-150" : ""
         }`}

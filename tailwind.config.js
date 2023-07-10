@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#aa3eff"
+      },
       keyframes: {
         scroll: {
           '0% ,100%': { transform: 'translateX(0)' },

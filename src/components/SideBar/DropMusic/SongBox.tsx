@@ -77,7 +77,7 @@ export default function SongBox({
           className={`overflow-hidden text-ellipsis whitespace-nowrap w-64 block text-sm
         ${
           isQueue && element.metaData === metaData
-            ? "text-purple-500"
+            ? "text-primary"
             : "text-white"
         }`}
         >

@@ -28,27 +28,29 @@ export default function Library({
   metaData,
 }: LibraryProp) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col gap-4">
       <span className="sidebar-component-title">Library</span>
-      <div>
-        {libraryList?.map((_, index) => {
-          return (
-            <LibraryBox
-              key={index}
-              index={index}
-              libraryList={libraryList}
-              setLibraryList={setLibraryList}
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-              audioSettings={audioSettings}
-              queue={queue}
-              setQueue={setQueue}
-              queueIndex={queueIndex}
-              setQueueIndex={setQueueIndex}
-              metaData={metaData}
-            />
-          );
-        })}
+      <div className="h-full relative">
+        <div className="absolute h-full overflow-y-auto custom-scroll pr-1">
+          {libraryList?.map((_, index) => {
+            return (
+              <LibraryBox
+                key={index}
+                index={index}
+                libraryList={libraryList}
+                setLibraryList={setLibraryList}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                audioSettings={audioSettings}
+                queue={queue}
+                setQueue={setQueue}
+                queueIndex={queueIndex}
+                setQueueIndex={setQueueIndex}
+                metaData={metaData}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ export default function Search({
     } else {
       //search results/song list
       return (
-        <div className="absolute h-full overflow-auto searchList-container pr-[6px]">
+        <div className="absolute h-full overflow-y-auto custom-scroll pr-[6px]">
           {searchList?.map((value, index) => {
             return (
               <SearchBox

@@ -21,7 +21,6 @@ export default async function search(req: VercelRequest, res: VercelResponse) {
                     videoUrl: video.url,
                 },
             }))
-            .slice(0, 10); // Limit the number of videos to 10
 
         res.status(200).json(cleanList)
     } catch (error) {

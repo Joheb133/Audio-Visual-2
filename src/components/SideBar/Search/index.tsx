@@ -49,12 +49,14 @@ export default function Search({
   //create rendered component based on search fetch result
   function returnMainComponent() {
     if (isSearching) {
+      //loading animation
       return (
         <div className="flex h-full justify-center items-center">
           <Loading size={8} fill="#0a0a0a" />
         </div>
       );
     } else if (isError) {
+      //error msg
       return (
         <div className="flex h-full justify-center items-center">
           <span className="text-red-600 text-sm">
@@ -63,26 +65,31 @@ export default function Search({
         </div>
       );
     } else {
-      return searchList?.map((value, index) => {
-        return (
-          <SearchBox
-            key={index}
-            index={index}
-            audioData={value}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            audioSettings={audioSettings}
-            queue={queue}
-            setQueue={setQueue}
-            setQueueIndex={setQueueIndex}
-            currentIndex={currentIndex}
-            setCurrentIndex={setCurrentIndex}
-            libraryList={libraryList}
-            setLibraryList={setLibraryList}
-            metaData={metaData}
-          />
-        );
-      });
+      //search results/song list
+      return (
+        <div className="absolute h-full overflow-auto searchList-container pr-[6px]">
+          {searchList?.map((value, index) => {
+            return (
+              <SearchBox
+                key={index}
+                index={index}
+                audioData={value}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                audioSettings={audioSettings}
+                queue={queue}
+                setQueue={setQueue}
+                setQueueIndex={setQueueIndex}
+                currentIndex={currentIndex}
+                setCurrentIndex={setCurrentIndex}
+                libraryList={libraryList}
+                setLibraryList={setLibraryList}
+                metaData={metaData}
+              />
+            );
+          })}
+        </div>
+      );
     }
   }
 
@@ -94,7 +101,7 @@ export default function Search({
         setIsSearching={setIsSearching}
         setIsError={setIsError}
       />
-      <div className="h-full overflow-auto">{returnMainComponent()}</div>
+      <div className="h-full relative">{returnMainComponent()}</div>
     </div>
   );
 }

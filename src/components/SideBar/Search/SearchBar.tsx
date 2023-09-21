@@ -6,28 +6,31 @@ import { audioDataType } from "../../../types";
 interface SearchBarProp {
   setSearchList: React.Dispatch<React.SetStateAction<audioDataType[]>>;
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SearchBar({
   setSearchList,
   setIsSearching,
+  setIsError,
 }: SearchBarProp) {
   const searchBarRef = useRef<HTMLInputElement>(null);
   const [searchReq, setSearchReq] = useState<string>();
-  const { isPending, data } = useFetch(
+  const { isPending, errorInfo, data } = useFetch(
     searchReq ? `api/search?v=${searchReq}` : undefined
   );
 
   useEffect(() => {
     if (isPending) {
       setIsSearching(true);
-      return;
-    } else if (!isPending) {
+    } else if (errorInfo.isError) {
+      setIsError(true);
       setIsSearching(false);
+    } else if (!isPending && !errorInfo.isError) {
+      setIsSearching(false);
+      setSearchList(data);
     }
-
-    setSearchList(data);
-  }, [isPending]);
+  }, [isPending, errorInfo.isError]);
 
   function handleSearch(input: string) {
     input.trim();

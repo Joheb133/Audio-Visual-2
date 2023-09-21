@@ -1,6 +1,6 @@
 import "./index.css";
 import { useEffect, useState } from "react";
-import Visualiser from "./components/Visualiser/Visualiser";
+import Visualiser from "./components/Visualiser";
 import SideBar from "./components/SideBar";
 import PlayingBar from "./components/PlayingBar";
 import { audioDataType } from "./types";

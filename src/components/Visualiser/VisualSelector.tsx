@@ -17,7 +17,7 @@ export default function VisualSelector({
 
   return (
     <div
-      className="w-32 h-16 left-1/2 hover:cursor-pointer rounded-lg border-neutral-950 border-2"
+      className="w-36 h-20 left-1/2 hover:cursor-pointer rounded-lg border-neutral-950 border-2"
       onClick={() => {
         setVisual(name);
       }}

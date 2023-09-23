@@ -34,25 +34,25 @@ export class Bar {
         ctx.clearRect(0, 0, width, height);
 
         const bufferLength = this.analyser.frequencyBinCount;
-        const barWidth = width / bufferLength;
+        const barWidth = (width / bufferLength) * 0.75;
         const dataArray = new Uint8Array(bufferLength);
         this.analyser.getByteFrequencyData(dataArray);
 
         const centerX = width / 2;
         const centerY = height / 2;
 
-        dataArray.forEach((item, index) => {
-            const x = barWidth * index;
-            const y = item / 255 * height / 2;
+        ctx.fillStyle = `hsl(271, 95%, 50%)`;
 
-            if (Math.abs(index % 2) === 1) {
-                ctx.fillRect(centerX - x, centerY - y / 2, barWidth, y + 0.5);//top left
-                ctx.fillRect(centerX + x, centerY - y / 2, barWidth, y + 0.5);//top right
-                ctx.fillStyle = `hsl(271, 95%, 50%)`;
+        dataArray.forEach((item, index) => {
+            const x = (barWidth * index);
+            const y = item;
+
+            if (index % 2 === 1) {
+                ctx.fillRect(centerX - x, centerY - y / 4, barWidth, y);//top left
+                ctx.fillRect(centerX + x, centerY - y / 4, barWidth, y);//top right
             } else if (index % 2 === 0) {
-                ctx.fillRect(centerX + x, centerY + y / 2, barWidth, -y - 0.5);//bottom right
-                ctx.fillRect(centerX - x, centerY + y / 2, barWidth, -y - 0.5);//bottom left
-                ctx.fillStyle = `hsl(271, 95%, 25%)`;
+                ctx.fillRect(centerX + x, centerY + y / 4, barWidth, -y);//bottom right
+                ctx.fillRect(centerX - x, centerY + y / 4, barWidth, -y);//bottom left
             }
         });
     }

@@ -15,6 +15,7 @@ export class CircleRoundBar {
     updateSize(width: number, height: number) {
         this.width = width;
         this.height = height;
+        this.draw()
     }
     draw() {
         const ctx = this.ctx;

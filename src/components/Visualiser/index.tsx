@@ -8,7 +8,7 @@ interface VisualiserProp {
 
 export default function Visualiser({ analyser }: VisualiserProp) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [visual, setVisual] = useState("CircleRoundBar");
+  const [visual, setVisual] = useState("Bar");
 
   useEffect(() => {
     if (!analyser || !canvasRef.current) return;
@@ -22,6 +22,16 @@ export default function Visualiser({ analyser }: VisualiserProp) {
 
     const visualisation = new visualData[visual].code(ctx, analyser);
 
+    //draw
+
+    let animationFrameId: number;
+    function animator() {
+      visualisation.draw();
+      animationFrameId = requestAnimationFrame(animator);
+    }
+
+    animator();
+
     //resize canvas
     const canvasResize = () => {
       canvas.width = canvas.offsetWidth;
@@ -30,15 +40,6 @@ export default function Visualiser({ analyser }: VisualiserProp) {
     };
     canvasResize();
     window.addEventListener("resize", canvasResize);
-
-    //draw
-    let animationFrameId: number;
-
-    const animator = () => {
-      visualisation.draw();
-      animationFrameId = requestAnimationFrame(animator);
-    };
-    animator();
 
     return () => {
       window.removeEventListener("resize", canvasResize);
@@ -76,7 +77,10 @@ export default function Visualiser({ analyser }: VisualiserProp) {
 
   return (
     <div className="visualiser-container bg-neutral-900 relative rounded-md flex-grow ml-2">
-      <canvas ref={canvasRef} className="w-full h-full absolute"></canvas>
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full absolute rounded-md"
+      ></canvas>
       <div className="selector-container">{VisualSelectorList}</div>
     </div>
   );

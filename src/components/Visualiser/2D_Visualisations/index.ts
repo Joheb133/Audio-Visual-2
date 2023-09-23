@@ -1,6 +1,6 @@
 import { Bar } from "./Bar";
 import { CircleRoundBar } from "./CircleRoundBar";
-import { CRBExperiment } from "./CRBExperiment";
+import { Wave } from "./Wave";
 
 export type VisualisationObject = {
     [key: string]: {
@@ -35,11 +35,11 @@ export const visualData: VisualisationObject = {
         },
         gif: "gif/bar.gif",
     },
-    CRBExperiment: {
-        code: CRBExperiment,
+    Wave: {
+        code: Wave,
         img: {
-            default: "img/CRBExperiment.png",
-            large: "img/CRBExperiment.png",
+            default: "img/circle-bar_default.png",
+            large: "img/circle-bar_large.png",
         },
         gif: "gif/bar.gif",
     },

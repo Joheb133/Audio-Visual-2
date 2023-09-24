@@ -15,6 +15,7 @@ export class CircleRoundBar {
     updateSize(width: number, height: number) {
         this.width = width;
         this.height = height;
+        this.draw()
     }
     draw() {
         const ctx = this.ctx;
@@ -52,7 +53,7 @@ export class CircleRoundBar {
             ctx.beginPath();
             ctx.roundRect(-barWidth / 2, bassAmp / 5, barWidth / 2, (element / 2) + (barWidth / 2), [barWidth]);
             ctx.closePath()
-            ctx.fillStyle = `hsl(${2 * i}, 100%, 70%)`
+            ctx.fillStyle = `hsl(${2 * i}, 70%, 70%)`
             // ctx.fillStyle = `hsl(271, 80%, ${i % 2 === 0 ? 50 : 60}%)`
             ctx.fill();
             ctx.restore();

@@ -17,7 +17,7 @@ export default function VisualSelector({
 
   return (
     <div
-      className="w-32 h-16 left-1/2 hover:cursor-pointer rounded-lg border-neutral-950 border-2"
+      className="w-36 h-20 hover:cursor-pointer rounded-lg border-neutral-950 border-2 relative"
       onClick={() => {
         setVisual(name);
       }}
@@ -27,7 +27,7 @@ export default function VisualSelector({
       <img
         src={isHovered ? gifUrl : defaultImgUrl}
         alt=""
-        className="w-full h-full rounded-lg"
+        className="absolute top-0 left-0 object-cover w-full h-full rounded-lg"
       />
     </div>
   );

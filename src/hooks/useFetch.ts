@@ -2,13 +2,13 @@ import { useState, useEffect } from "react"
 
 interface FetchAudioResult {
     data: any;
-    error: any;
+    errorInfo: { isError: boolean, message: any };
     isPending: boolean;
 }
 
 export default function useFetchAudio(url?: string): FetchAudioResult {
     const [data, setdata] = useState<any>();
-    const [error, setError] = useState(null);
+    const [errorInfo, setErrorInfo] = useState({ isError: false, message: null });
     const [isPending, setIsPending] = useState(false);
 
 
@@ -25,14 +25,15 @@ export default function useFetchAudio(url?: string): FetchAudioResult {
             .then(data => {
                 setdata(data)
                 setIsPending(false)
-                setError(null)
+                setErrorInfo({ isError: false, message: null })
             })
             .catch(err => {
-                if (err.name !== 'AbortError') {
+                if (err.name === 'AbortError') {
                     console.log('fetch aborted')
+                    setIsPending(false)
                 } else {
                     setIsPending(false)
-                    setError(err.message)
+                    setErrorInfo({ isError: true, message: err.message })
                 }
             })
 
@@ -43,7 +44,7 @@ export default function useFetchAudio(url?: string): FetchAudioResult {
 
     return {
         data,
-        error,
+        errorInfo,
         isPending
     }
 }

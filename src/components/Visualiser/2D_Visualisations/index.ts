@@ -1,6 +1,5 @@
 import { Bar } from "./Bar";
 import { CircleRoundBar } from "./CircleRoundBar";
-import { CRBExperiment } from "./CRBExperiment";
 
 export type VisualisationObject = {
     [key: string]: {
@@ -10,10 +9,7 @@ export type VisualisationObject = {
             width?: number,
             height?: number
         ) => any;
-        img: {
-            default: string;
-            large: string;
-        };
+        img: string,
         gif: string;
     };
 };
@@ -21,26 +17,12 @@ export type VisualisationObject = {
 export const visualData: VisualisationObject = {
     Bar: {
         code: Bar,
-        img: {
-            default: "img/bar_default.png",
-            large: "img/bar_large.png",
-        },
-        gif: "gif/bar.gif",
+        img: "img/Bar.png",
+        gif: "gif/Bar.gif",
     },
     CircleRoundBar: {
         code: CircleRoundBar,
-        img: {
-            default: "img/circle-bar_default.png",
-            large: "img/circle-bar_large.png",
-        },
-        gif: "gif/bar.gif",
-    },
-    CRBExperiment: {
-        code: CRBExperiment,
-        img: {
-            default: "img/CRBExperiment.png",
-            large: "img/CRBExperiment.png",
-        },
-        gif: "gif/bar.gif",
-    },
+        img: "img/CircleRoundBar.png",
+        gif: "gif/CircleRoundBar.gif",
+    }
 };

@@ -3,7 +3,10 @@ interface LoadingProp {
   size?: number;
 }
 
-export default function Loading({ fill = "black", size = 10 }: LoadingProp) {
+export default function LoadingDots({
+  fill = "black",
+  size = 10,
+}: LoadingProp) {
   return (
     <svg
       fill={fill}

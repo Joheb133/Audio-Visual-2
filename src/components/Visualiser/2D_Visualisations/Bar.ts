@@ -41,7 +41,7 @@ export class Bar {
         const centerX = width / 2;
         const centerY = height / 2;
 
-        ctx.fillStyle = `hsl(271, 95%, 50%)`;
+        ctx.fillStyle = `hsl(271, 65%, 50%)`;
 
         dataArray.forEach((item, index) => {
             const x = (barWidth * index);

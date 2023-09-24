@@ -70,7 +70,7 @@ export default function Visualiser({ analyser }: VisualiserProp) {
       key={key}
       name={key}
       setVisual={setVisual}
-      defaultImgUrl={value.img.default}
+      defaultImgUrl={value.img}
       gifUrl={value.gif}
     />
   ));

@@ -30,6 +30,8 @@ export class Wave {
         this.tick += 0.005;
         const tick = this.tick;
         ctx.clearRect(0, 0, width, height);
+        // ctx.fillStyle = 'black'
+        // ctx.fillRect(0, 0, width, height)
 
         const binLength = this.analyser.frequencyBinCount;
         const dataArray = new Uint8Array(binLength);
@@ -41,14 +43,14 @@ export class Wave {
             const start = { x: 0, y: gap * index };
             ctx.save();
 
-            ctx.translate((Math.sin(index / 5 + tick) * (waveLength / 2)) - width / 5, gap);
+            ctx.translate((Math.sin(index / 5 + tick) * (waveLength / 2)) - width / 5, 0);
             ctx.beginPath();
-            ctx.moveTo(start.x, start.y); //creates bug when scrolling wave
+            ctx.moveTo(start.x, start.y);
 
             // create curved line
             for (let i = 0; i < binLength - 1; i++) {
-                const currentAmp = dataArray[map[i]] * (waveLength / 500); //AKA binY
-                const nextAmp = dataArray[map[i + 1]] * (waveLength / 500);
+                const currentAmp = dataArray[map[i]] * (waveLength / 300); //AKA binY
+                const nextAmp = dataArray[map[i + 1]] * (waveLength / 300);
                 const currentBinX = waveLength * i;
                 const nextBinX = waveLength * (i + 1);
 
@@ -72,16 +74,16 @@ export class Wave {
             ctx.restore();
 
             ctx.stroke();
-            ctx.lineWidth = 2
+            ctx.lineWidth = 3;
             ctx.strokeStyle = color;
             ctx.closePath();
         }
 
         const gapBtwnLines = 15;
-        const numOfLines = Math.round((height / 0.9) / gapBtwnLines);
+        const numOfLines = Math.round((height / 0.95) / gapBtwnLines);
 
         for (let i = 0; i < numOfLines; i++) {
-            createLine(gapBtwnLines, i, `hsl(${(i + tick) * 5}, 40%, 40%)`)
+            createLine(gapBtwnLines, i, `hsl(${(i) * 5}, 40%, 40%)`)
         }
     }
 }

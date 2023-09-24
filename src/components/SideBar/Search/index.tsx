@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 import SearchBox from "./SongBox";
 import { audioDataType } from "../../../types";
 import { AudioSettingsProp } from "../../../App";
-import Loading from "../../../svgs/LoadingDots";
+import Loading from "../../../svgs/Loading";
 
 interface SearchProp {
   searchListRef: React.MutableRefObject<audioDataType[]>;

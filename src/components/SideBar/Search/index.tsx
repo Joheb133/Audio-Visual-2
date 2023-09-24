@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 import SearchBox from "./SongBox";
 import { audioDataType } from "../../../types";
 import { AudioSettingsProp } from "../../../App";
-import Loading from "../../../svgs/Loading";
+import Loading from "../../../svgs/LoadingDots";
 
 interface SearchProp {
   searchListRef: React.MutableRefObject<audioDataType[]>;
@@ -33,7 +33,7 @@ export default function Search({
 }: SearchProp) {
   const [searchList, setSearchList] = useState<audioDataType[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>();
-  const [isSearching, setIsSearching] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
